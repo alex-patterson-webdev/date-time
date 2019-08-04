@@ -1,5 +1,5 @@
 {
-  "name": "alex-patterson-webdev/arp-date-time",
+  "name": "alex-patterson-webdev/date-time",
   "version" : "1.0.0",
   "authors": [
     {
@@ -10,7 +10,7 @@
   "require" : {
     "php" : "^5.6 || ^7.0",
     "container-interop/container-interop" : "^1.1.0",
-    "alex-patterson-webdev/arp-stdlib" : "~1.0"
+    "alex-patterson-webdev/arp-stdlib" : "^1.0.0"
   },
   "suggest": {
     "zendframework/zend-hydrator" : "To allow for the use of the DateTime hydrator strategies.",
@@ -28,5 +28,11 @@
     "psr-4": {
       "ArpTest\\DateTime\\" : "test/"
     }
-  }
+  },
+  "repositories" : [
+    {
+      "type": "vcs",
+      "url": "/home/alexp/www/repositories/alex-patterson-webdev/stdlib"
+    }
+  ]
 }
