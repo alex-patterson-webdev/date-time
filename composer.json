@@ -1,0 +1,32 @@
+{
+  "name": "alex-patterson-webdev/arp-date-time",
+  "version" : "1.0.0",
+  "authors": [
+    {
+      "name": "Alex Patterson",
+      "email": "alex.patterson.webdev@gmail.com"
+    }
+  ],
+  "require" : {
+    "php" : "^5.6 || ^7.0",
+    "container-interop/container-interop" : "^1.1.0",
+    "alex-patterson-webdev/arp-stdlib" : "~1.0"
+  },
+  "suggest": {
+    "zendframework/zend-hydrator" : "To allow for the use of the DateTime hydrator strategies.",
+    "zendframework/zend-view"     : "To allow for the use of the DateTime view helpers."
+  },
+  "require-dev" : {
+    "phpunit/phpunit" : "~5.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Arp\\DateTime\\" : "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ArpTest\\DateTime\\" : "test/"
+    }
+  }
+}
