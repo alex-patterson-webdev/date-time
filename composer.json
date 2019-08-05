@@ -10,7 +10,7 @@
   "require" : {
     "php" : "^5.6 || ^7.0",
     "container-interop/container-interop" : "^1.1.0",
-    "alex-patterson-webdev/stdlib" : "^1.0.0"
+    "alex-patterson-webdev/stdlib" : "dev-feature/1.0.0"
   },
   "suggest": {
     "zendframework/zend-hydrator" : "To allow for the use of the DateTime hydrator strategies.",
@@ -31,8 +31,8 @@
   },
   "repositories" : [
     {
-      "type": "path",
-      "url": "/home/alexp/www/repositories/alex-patterson-webdev/stdlib"
+      "type": "vcs",
+      "url": "/home/alexp/www/git/alex-patterson-webdev/stdlib.git"
     }
   ]
 }
