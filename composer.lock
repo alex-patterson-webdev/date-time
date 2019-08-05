@@ -4,15 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1da06f1ba70cacf50382dfde1fb09829",
+    "content-hash": "e3ba8f6cf96d1ea1e9fe464ce3441eb4",
     "packages": [
         {
             "name": "alex-patterson-webdev/stdlib",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "/home/alexp/www/repositories/alex-patterson-webdev/stdlib",
-                "reference": "1d3f06f84d5f521b6659f847c99cb6f4a60906f8"
+            "version": "dev-feature/1.0.0",
+            "source": {
+                "type": "git",
+                "url": "/home/alexp/www/git/alex-patterson-webdev/stdlib.git",
+                "reference": "4c15e42887eed374cc5b68ecede154d718167877"
             },
             "require": {
                 "container-interop/container-interop": "^1.1",
@@ -39,7 +39,8 @@
                     "name": "Alex Patterson",
                     "email": "alex.patterson.webdev@gmail.com"
                 }
-            ]
+            ],
+            "time": "2019-08-04T14:03:54+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -1684,7 +1685,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "alex-patterson-webdev/stdlib": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
