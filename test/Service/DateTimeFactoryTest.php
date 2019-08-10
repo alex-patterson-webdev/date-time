@@ -88,7 +88,7 @@ class DateTimeFactoryTest extends TestCase
             $spec,
             DateTimeFactory::class
         ));
-        
+
         $factory->createDateTime($spec, $options);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Arp\Factory\Service;
+namespace Arp\DateTime\Factory\Service;
 
 use Arp\DateTime\Service\DateTimeFactory;
 use Arp\DateTime\Service\DateTimeFactoryInterface;
@@ -13,7 +13,7 @@ use Interop\Container\ContainerInterface;
  * CurrentDateTimeProviderFactory
  *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\Factory\Service
+ * @package Arp\DateTime\Factory\Service
  */
 class CurrentDateTimeProviderFactory extends AbstractServiceFactory
 {
