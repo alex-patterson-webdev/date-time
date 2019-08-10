@@ -2,8 +2,12 @@
 
 namespace Arp\DateTime\Service;
 
+use Arp\DateTime\Exception\DateTimeProviderException;
+
 /**
  * CurrentDateTimeProvider
+ *
+ * Service to provide the current date and time.
  *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime\Service
@@ -30,11 +34,25 @@ final class CurrentDateTimeProvider implements DateTimeProviderInterface
     /**
      * getDateTime
      *
+     * Return a date and time instance.
+     *
      * @return \DateTime
+     *
+     * @throws DateTimeProviderException  If the date and time cannot be returned.
      */
-    public function getDateTime()
+    public function getDateTime() : \DateTime
     {
-        return $this->factory->createDateTime();
+        try {
+            return $this->factory->createDateTime();
+        }
+        catch(\Exception $e) {
+
+            throw new DateTimeProviderException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
     }
 
 }

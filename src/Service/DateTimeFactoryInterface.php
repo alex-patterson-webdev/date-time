@@ -2,6 +2,8 @@
 
 namespace Arp\DateTime\Service;
 
+use Arp\DateTime\Exception\DateTimeFactoryException;
+
 /**
  * DateTimeFactoryInterface
  *
@@ -13,23 +15,31 @@ interface DateTimeFactoryInterface
     /**
      * createDateTime
      *
+     * Create a new \DateTime instance using the provided specification.
+     *
      * @param null|string  $spec     The optional date and time specification.
      * @param array        $options  The date and time options.
      *
-     * @return \DateTime|boolean
+     * @return \DateTime
+     *
+     * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createDateTime($spec = null, array $options = []);
+    public function createDateTime($spec = null, array $options = []) : \DateTime;
 
     /**
      * createFromFormat
+     *
+     * Create a new \DateTime instance using the provided format.
      *
      * @param string $spec    The date and time specification.
      * @param string $format  The date and time format.
      * @param array  $options The date and time options.
      *
-     * @return \DateTime|boolean
+     * @return \DateTime
+     *
+     * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createFromFormat($spec, $format, array $options = []);
+    public function createFromFormat($spec, $format, array $options = []) : \DateTime;
 
     /**
      * createDateTimeZone
@@ -40,6 +50,8 @@ interface DateTimeFactoryInterface
      * @param array  $options  The optional creation options.
      *
      * @return \DateTimeZone
+     *
+     * @throws DateTimeFactoryException If the \DateTimeZone cannot be created.
      */
-    public function createDateTimeZone($spec, array $options = []);
+    public function createDateTimeZone($spec, array $options = []) : \DateTimeZone;
 }

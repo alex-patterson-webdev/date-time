@@ -2,6 +2,8 @@
 
 namespace Arp\DateTime\Service;
 
+use Arp\DateTime\Exception\DateTimeProviderException;
+
 /**
  * DateTimeProviderInterface
  *
@@ -13,8 +15,12 @@ interface DateTimeProviderInterface
     /**
      * getDateTime
      *
+     * Return a date and time instance.
+     *
      * @return \DateTime
+     *
+     * @throws DateTimeProviderException  If the date and time cannot be returned.
      */
-    public function getDateTime();
+    public function getDateTime() : \DateTime;
 
 }

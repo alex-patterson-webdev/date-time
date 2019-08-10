@@ -8,8 +8,9 @@
     }
   ],
   "require" : {
-    "php" : "^5.6 || ^7.0",
+    "php" : "^7.2",
     "container-interop/container-interop" : "^1.1.0",
+    "zendframework/zend-servicemanager" : "^3.4",
     "alex-patterson-webdev/stdlib" : "dev-feature/1.0.0"
   },
   "suggest": {
@@ -17,7 +18,7 @@
     "zendframework/zend-view"     : "To allow for the use of the DateTime view helpers."
   },
   "require-dev" : {
-    "phpunit/phpunit" : "~5.7"
+    "phpunit/phpunit" : "^8"
   },
   "autoload": {
     "psr-4": {
