@@ -35,7 +35,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
 
             throw new DateTimeFactoryException(sprintf(
                 'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-                $spec,
+                is_string($spec) ? $spec : gettype($spec),
                 static::class
             ));
         }

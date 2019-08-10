@@ -2,6 +2,7 @@
 
 namespace ArpTest\DateTime\Service;
 
+use Arp\DateTime\Exception\DateTimeFactoryException;
 use Arp\DateTime\Service\DateTimeFactory;
 use Arp\DateTime\Service\DateTimeFactoryInterface;
 use PHPUnit\Framework\TestCase;
@@ -63,6 +64,32 @@ class DateTimeFactoryTest extends TestCase
             ],
 
         ];
+    }
+
+
+    /**
+     * testCreateDateTimeWillThrowDateTimeFactoryException
+     *
+     * Ensure that if the DateTime cannot be create a new DateTimeFactoryException will be thrown.
+     *
+     * @test
+     */
+    public function testCreateDateTimeWillThrowDateTimeFactoryException()
+    {
+        $factory = new DateTimeFactory();
+
+        $spec    = 'foo'; // invalid argument
+        $options = [];
+
+
+        $this->expectException(DateTimeFactoryException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
+            $spec,
+            DateTimeFactory::class
+        ));
+        
+        $factory->createDateTime($spec, $options);
     }
 
 
