@@ -24,7 +24,7 @@ interface DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createDateTime($spec = null, array $options = []) : \DateTime;
+    public function createDateTime(string $spec = null, array $options = []) : \DateTime;
 
     /**
      * createFromFormat
@@ -39,7 +39,7 @@ interface DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createFromFormat($spec, $format, array $options = []) : \DateTime;
+    public function createFromFormat(string $spec, string $format, array $options = []) : \DateTime;
 
     /**
      * createDateTimeZone
@@ -53,5 +53,5 @@ interface DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException If the \DateTimeZone cannot be created.
      */
-    public function createDateTimeZone($spec, array $options = []) : \DateTimeZone;
+    public function createDateTimeZone(string $spec, array $options = []) : \DateTimeZone;
 }

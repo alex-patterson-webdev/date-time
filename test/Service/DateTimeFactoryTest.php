@@ -213,5 +213,104 @@ class DateTimeFactoryTest extends TestCase
         ];
     }
 
+    /**
+     * testCreateDateTimeZone
+     *
+     * Ensure a \DateTimeZone instance is returned according to the provided $spec and $options.
+     *
+     * @param string $spec
+     * @param array  $options
+     *
+     * @dataProvider getCreateDateTimeZoneData
+     * @test
+     */
+    public function testCreateDateTimeZone(string $spec, array $options = [])
+    {
+        $factory = new DateTimeFactory;
+
+        $dateTimeZone = $factory->createDateTimeZone($spec, $options);
+
+        $this->assertInstanceOf(\DateTimeZone::class, $dateTimeZone);
+        $this->assertSame($spec, $dateTimeZone->getName());
+    }
+
+    /**
+     * getCreateDateTimeZoneData
+     *
+     * @see https://www.php.net/manual/en/timezones.europe.php
+     *
+     * @return array
+     */
+    public function getCreateDateTimeZoneData()
+    {
+        return [
+            [
+                'Europe/London',
+            ],
+            [
+                'Europe/Amsterdam',
+            ],
+            [
+                'Europe/Rome',
+            ],
+            [
+                'Atlantic/Bermuda',
+            ],
+            [
+                'Atlantic/Azores',
+            ],
+            [
+                'Antarctica/DumontDUrville',
+            ],
+        ];
+    }
+
+    /**
+     * testCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalid
+     *
+     * Ensure that if providing an invalid $spec argument to createDateTimeZone() a new DateTimeFactoryException is thrown.
+     *
+     * @param string $spec  The invalid timezone specification.
+     *
+     * @throws DateTimeFactoryException
+     *
+     * @dataProvider getCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalidData
+     * @test
+     */
+    public function testCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalid(string $spec)
+    {
+        $factory = new DateTimeFactory;
+
+        $this->expectException(DateTimeFactoryException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Failed to create a valid \DateTimeZone instance using \'%s\' in \'%s\'.',
+            $spec,
+            DateTimeFactory::class
+        ));
+
+        $factory->createDateTimeZone($spec);
+    }
+
+    /**
+     * getCreateFromFormatWillThrowDateTimeFactoryExceptionData
+     *
+     * @return array
+     */
+    public function getCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalidData()
+    {
+        return [
+            [
+                'skjdvbnksd',
+            ],
+            [
+                '2345234',
+            ],
+            [
+                'Europe/MyEmpire',
+            ],
+        ];
+    }
+
+
 
 }

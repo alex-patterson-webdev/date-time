@@ -24,7 +24,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createDateTime($spec = null, array $options = []) : \DateTime
+    public function createDateTime(string $spec = null, array $options = []) : \DateTime
     {
         $timeZone = isset($options['time_zone']) ? $options['time_zone'] : null;
 
@@ -54,7 +54,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createFromFormat($spec, $format, array $options = []) : \DateTime
+    public function createFromFormat(string $spec, string $format, array $options = []) : \DateTime
     {
         $timeZone = isset($options['time_zone']) ? $options['time_zone'] : null;
 
@@ -88,7 +88,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException If the \DateTimeZone cannot be created.
      */
-    public function createDateTimeZone($spec, array $options = []) : \DateTimeZone
+    public function createDateTimeZone(string $spec, array $options = []) : \DateTimeZone
     {
         try {
             return new \DateTimeZone($spec);
@@ -96,7 +96,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
         catch (\Exception $e) {
 
             throw new DateTimeFactoryException(sprintf(
-                'Failed to create a valid \DateTimeZone( instance using format \'%s\' in \'%s\'.',
+                'Failed to create a valid \DateTimeZone instance using \'%s\' in \'%s\'.',
                 $spec,
                 static::class
             ));
