@@ -35,7 +35,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
 
             throw new DateTimeFactoryException(sprintf(
                 'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-                is_string($spec) ? $spec : gettype($spec),
+                $spec,
                 static::class
             ));
         }
@@ -67,8 +67,8 @@ class DateTimeFactory implements DateTimeFactoryInterface
         if (empty($dateTime) || (! $dateTime instanceof \DateTime)) {
 
             throw new DateTimeFactoryException(sprintf(
-                'Failed to create a valid \DateTime instance using format \'%s\' in \'%s\'.',
-                $format,
+                'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
+                $spec,
                 static::class
             ));
         }

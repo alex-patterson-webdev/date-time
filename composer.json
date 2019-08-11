@@ -18,6 +18,8 @@
     "zendframework/zend-view"     : "To allow for the use of the DateTime view helpers."
   },
   "require-dev" : {
+    "zendframework/zend-hydrator" : "^3",
+    "zendframework/zend-view" : "^2.11",
     "phpunit/phpunit" : "^8"
   },
   "autoload": {

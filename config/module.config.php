@@ -4,8 +4,8 @@ namespace Arp\DateTime;
 
 use Arp\DateTime\Service\DateTimeFactory;
 use Arp\DateTime\Service\CurrentDateTimeProvider;
-use Arp\DateTime\View\Helper\DateTime;
-use Arp\Factory\Service\CurrentDateTimeProviderFactory;
+use Arp\DateTime\View\Helper\DateTime as DateTimeViewHelper;
+use Arp\DateTime\Factory\Service\CurrentDateTimeProviderFactory;
 use Zend\Hydrator\Strategy\DateTimeFormatterStrategy;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -21,10 +21,10 @@ return [
 
     'view_helpers' => [
         'aliases' => [
-            'dateTime' => DateTime::class,
+            'dateTime' => DateTimeViewHelper::class,
         ],
         'factories' => [
-            DateTime::class => InvokableFactory::class,
+            DateTimeViewHelper::class => InvokableFactory::class,
         ],
     ],
 ];

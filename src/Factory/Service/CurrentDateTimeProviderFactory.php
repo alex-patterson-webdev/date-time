@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Arp\DateTime\Factory\Service;
 
 use Arp\DateTime\Service\DateTimeFactory;

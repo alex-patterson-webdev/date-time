@@ -111,8 +111,8 @@ class DateTimeFactoryTest extends TestCase
 
         $this->expectException(DateTimeFactoryException::class);
         $this->expectExceptionMessage(sprintf(
-            'Failed to create a valid \DateTime instance using format \'%s\' in \'%s\'.',
-            $format,
+            'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
+            $spec,
             DateTimeFactory::class
         ));
 
@@ -287,6 +287,7 @@ class DateTimeFactoryTest extends TestCase
             $spec,
             DateTimeFactory::class
         ));
+
 
         $factory->createDateTimeZone($spec);
     }
