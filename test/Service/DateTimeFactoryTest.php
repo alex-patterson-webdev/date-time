@@ -105,19 +105,19 @@ class DateTimeFactoryTest extends TestCase
      * @dataProvider getCreateFromFormatWillThrowDateTimeFactoryExceptionData
      * @test
      */
-//    public function testCreateFromFormatWillThrowDateTimeFactoryException(string $spec, string $format, array $options = [])
-//    {
-////        $factory = new DateTimeFactory;
-////
-////        $this->expectException(DateTimeFactory::class);
-////        $this->expectExceptionMessage(sprintf(
-////            'Failed to create a valid \DateTime instance using format \'%s\' in \'%s\'.',
-////            $format,
-////            static::class
-////        ));
-////
-////        $factory->createFromFormat($spec, $format, $options);
-//    }
+    public function testCreateFromFormatWillThrowDateTimeFactoryException(string $spec, string $format, array $options = [])
+    {
+        $factory = new DateTimeFactory;
+
+        $this->expectException(DateTimeFactoryException::class);
+        $this->expectExceptionMessage(sprintf(
+            'Failed to create a valid \DateTime instance using format \'%s\' in \'%s\'.',
+            $format,
+            DateTimeFactory::class
+        ));
+
+        $factory->createFromFormat($spec, $format, $options);
+    }
 
     /**
      * getCreateFromFormatWillThrowDateTimeFactoryExceptionData
@@ -128,7 +128,8 @@ class DateTimeFactoryTest extends TestCase
     {
         return [
             [
-                'test'
+                'test',
+                'Y-m-d'
             ]
         ];
     }
