@@ -58,21 +58,22 @@ class DateTimeFactory implements DateTimeFactoryInterface
     {
         $timeZone = isset($options['time_zone']) ? $options['time_zone'] : null;
 
-        if (! empty($timeZone) && is_string($timeZone)) {
+        if (! empty($timeZone)) {
             $timeZone = $this->createDateTimeZone($timeZone);
         }
 
-        try {
-            return \DateTime::createFromFormat($format, $spec, $timeZone);
-        }
-        catch (\Exception $e) {
+        $dateTime = \DateTime::createFromFormat($format, $spec, $timeZone);
+
+        if (empty($dateTime) || (! $dateTime instanceof \DateTime)) {
 
             throw new DateTimeFactoryException(sprintf(
                 'Failed to create a valid \DateTime instance using format \'%s\' in \'%s\'.',
-                $spec,
+                $format,
                 static::class
             ));
         }
+
+        return $dateTime;
     }
 
     /**

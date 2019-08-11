@@ -5,6 +5,7 @@ namespace ArpTest\DateTime\Service;
 use Arp\DateTime\Exception\DateTimeFactoryException;
 use Arp\DateTime\Service\DateTimeFactory;
 use Arp\DateTime\Service\DateTimeFactoryInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -40,7 +41,7 @@ class DateTimeFactoryTest extends TestCase
      * @dataProvider getCreateDateTimeData
      * @test
      */
-    public function testCreateDateTime($spec, array $options = [])
+    public function testCreateDateTime(string $spec, array $options = [])
     {
         $factory = new DateTimeFactory();
 
@@ -55,7 +56,7 @@ class DateTimeFactoryTest extends TestCase
      *
      * @return array
      */
-    public function getCreateDateTimeData()
+    public function getCreateDateTimeData() : array
     {
         return [
 
@@ -90,6 +91,125 @@ class DateTimeFactoryTest extends TestCase
         ));
 
         $factory->createDateTime($spec, $options);
+    }
+
+    /**
+     * testCreateFromFormatWillThrowDateTimeFactoryException
+     *
+     * Ensure that a createFromFormat() will throw a DateTimeFactoryException if a \DateTime instance cannot be created.
+     *
+     * @param string $spec
+     * @param string $format
+     * @param array  $options
+     *
+     * @dataProvider getCreateFromFormatWillThrowDateTimeFactoryExceptionData
+     * @test
+     */
+//    public function testCreateFromFormatWillThrowDateTimeFactoryException(string $spec, string $format, array $options = [])
+//    {
+////        $factory = new DateTimeFactory;
+////
+////        $this->expectException(DateTimeFactory::class);
+////        $this->expectExceptionMessage(sprintf(
+////            'Failed to create a valid \DateTime instance using format \'%s\' in \'%s\'.',
+////            $format,
+////            static::class
+////        ));
+////
+////        $factory->createFromFormat($spec, $format, $options);
+//    }
+
+    /**
+     * getCreateFromFormatWillThrowDateTimeFactoryExceptionData
+     *
+     * @return array
+     */
+    public function getCreateFromFormatWillThrowDateTimeFactoryExceptionData()
+    {
+        return [
+            [
+                'test'
+            ]
+        ];
+    }
+
+
+    /**
+     * createFromFormat
+     *
+     * Ensure that a \DateTime instance can be created from the provided format.
+     *
+     * @param string $spec
+     * @param string $format
+     * @param array  $options
+     *
+     * @dataProvider getCreateFromFormatData
+     * @test
+     */
+    public function createFromFormat(string $spec, string $format, array $options = [])
+    {
+        /** @var DateTimeFactory|MockObject $factory */
+        $factory = $this->getMockBuilder(DateTimeFactory::class)
+            ->onlyMethods(['createDateTimeZone'])
+            ->getMock();
+
+        if (! empty($options['time_zone'])) {
+            $dateTimeZone = new \DateTimeZone($options['time_zone']);
+
+            $factory->expects($this->once())
+                ->method('createDateTimeZone')
+                ->with($options['time_zone'])
+                ->willReturn($dateTimeZone);
+        }
+
+        $dateTime = $factory->createFromFormat($spec, $format, $options);
+
+        $this->assertInstanceOf(\DateTime::class, $dateTime);
+        $this->assertSame($spec, $dateTime->format($format));
+
+        if (isset($dateTimeZone)) {
+            $this->assertSame($options['time_zone'], $dateTimeZone->getName());
+        }
+    }
+
+    /**
+     * getCreateDateTimeData
+     *
+     * @see https://www.php.net/manual/en/timezones.europe.php
+     *
+     * @return array
+     */
+    public function getCreateFromFormatData()
+    {
+        return [
+
+            [
+                '2019-04-01',
+                'Y-m-d',
+            ],
+
+            [
+                '1976/01/14',
+                'Y/m/d',
+            ],
+
+            [
+                '2019-08-14 17:34:55',
+                'Y-m-d H:i:s',
+                [
+                    'time_zone' => 'UTC',
+                ]
+            ],
+
+            [
+                '2010-10-26 11:19:32',
+                'Y-m-d H:i:s',
+                [
+                    'time_zone' => 'Europe/London',
+                ]
+            ],
+
+        ];
     }
 
 
