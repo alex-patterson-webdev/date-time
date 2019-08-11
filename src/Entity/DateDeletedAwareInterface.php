@@ -13,21 +13,28 @@ interface DateDeletedAwareInterface
     /**
      * hasDateDeleted
      *
+     * Check if the deleted date has been set.
+     *
      * @return boolean
      */
-    public function hasDateDeleted();
+    public function hasDateDeleted() : bool ;
 
     /**
      * getDateDeleted
      *
+     * Return the deleted date.
+     *
      * @return \DateTime|null
      */
-    public function getDateDeleted();
+    public function getDateDeleted() : ?\DateTime ;
 
     /**
      * setDateDeleted
      *
+     * Set the deleted date.
+     *
      * @param \DateTime|null $dateTime
      */
     public function setDateDeleted(\DateTime $dateTime = null);
+
 }

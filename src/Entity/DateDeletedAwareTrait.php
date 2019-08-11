@@ -20,9 +20,11 @@ class DateDeletedAwareTrait
     /**
      * hasDateDeleted
      *
+     * Check if the deleted date has been set.
+     *
      * @return boolean
      */
-    public function hasDateDeleted()
+    public function hasDateDeleted() : bool
     {
         return isset($this->dateDeleted);
     }
@@ -30,9 +32,11 @@ class DateDeletedAwareTrait
     /**
      * getDateDeleted
      *
+     * Return the deleted date.
+     *
      * @return \DateTime|null
      */
-    public function getDateDeleted()
+    public function getDateDeleted() : ?\DateTime
     {
         return $this->dateDeleted;
     }
@@ -40,10 +44,12 @@ class DateDeletedAwareTrait
     /**
      * setDateDeleted
      *
-     * @param \DateTime|null $dateDeleted
+     * Set the deleted date.
+     *
+     * @param \DateTime|null $dateTime
      */
-    public function setDateDeleted(\DateTime $dateDeleted = null)
+    public function setDateDeleted(\DateTime $dateTime = null)
     {
-        $this->dateDeleted = $dateDeleted;
+        $this->dateDeleted = $dateTime;
     }
 }
