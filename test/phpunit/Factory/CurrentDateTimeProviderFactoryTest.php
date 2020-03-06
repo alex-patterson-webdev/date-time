@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace ArpTest\DateTime\Factory\Service;
+namespace ArpTest\DateTime\Factory;
 
-use Arp\DateTime\Factory\Service\CurrentDateTimeProviderFactory;
-use Arp\DateTime\Service\DateTimeProviderInterface;
+use Arp\DateTime\Factory\CurrentDateTimeProviderFactory;
+use Arp\DateTime\DateTimeProviderInterface;
 use Arp\Factory\FactoryInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package ArpTest\DateTime\Factory\Service
+ * @package ArpTest\DateTime\Factory
  */
 final class CurrentDateTimeProviderFactoryTest extends TestCase
 {

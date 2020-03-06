@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Arp\DateTime\Service;
+namespace Arp\DateTime;
 
 use Arp\DateTime\Exception\DateTimeFactoryException;
 
 /**
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\DateTime\Service
+ * @package Arp\DateTime
  */
 class DateTimeFactory implements DateTimeFactoryInterface
 {
@@ -22,6 +22,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function createDateTime(string $spec = null, array $options = []) : \DateTime
     {
+        $spec = $spec ?? 'now';
         $timeZone = $options['time_zone'] ?? null;
 
         try {
