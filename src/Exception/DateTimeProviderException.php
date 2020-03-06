@@ -3,8 +3,7 @@
 namespace Arp\DateTime\Exception;
 
 /**
- * DateTimeProviderException
- *
+ * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime\Exception
  */
 class DateTimeProviderException extends DateTimeException

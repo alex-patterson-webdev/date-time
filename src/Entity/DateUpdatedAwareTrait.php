@@ -3,23 +3,17 @@
 namespace Arp\DateTime\Entity;
 
 /**
- * DateUpdatedAwareTrait
- *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime\Entity
  */
 trait DateUpdatedAwareTrait
 {
     /**
-     * $dateUpdated
-     *
      * @var \DateTime|null
      */
     protected $dateUpdated;
 
     /**
-     * hasDateUpdated
-     *
      * Check if the updated date has been set.
      *
      * @return boolean
@@ -30,8 +24,6 @@ trait DateUpdatedAwareTrait
     }
 
     /**
-     * getDateUpdated
-     *
      * Return the updated date.
      *
      * @return \DateTime|null
@@ -42,13 +34,11 @@ trait DateUpdatedAwareTrait
     }
 
     /**
-     * setDateUpdated
-     *
      * Set the updated date.
      *
      * @param \DateTime|null $dateTime
      */
-    public function setDateUpdated(\DateTime $dateTime = null)
+    public function setDateUpdated(?\DateTime $dateTime) : void
     {
         $this->dateUpdated = $dateTime;
     }

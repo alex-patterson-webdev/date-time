@@ -1,14 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arp\DateTime\Service;
 
 use Arp\DateTime\Exception\DateTimeProviderException;
 
 /**
- * CurrentDateTimeProvider
- *
  * Service to provide the current date and time.
  *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
@@ -17,15 +13,11 @@ use Arp\DateTime\Exception\DateTimeProviderException;
 final class CurrentDateTimeProvider implements DateTimeProviderInterface
 {
     /**
-     * $factory
-     *
      * @var DateTimeFactoryInterface
      */
-    protected $factory;
+    private $factory;
 
     /**
-     * __construct
-     *
      * @param DateTimeFactoryInterface $factory
      */
     public function __construct(DateTimeFactoryInterface $factory)
@@ -34,8 +26,6 @@ final class CurrentDateTimeProvider implements DateTimeProviderInterface
     }
 
     /**
-     * getDateTime
-     *
      * Return a date and time instance.
      *
      * @return \DateTime
@@ -46,9 +36,7 @@ final class CurrentDateTimeProvider implements DateTimeProviderInterface
     {
         try {
             return $this->factory->createDateTime();
-        }
-        catch(\Exception $e) {
-
+        } catch (\Throwable $e) {
             throw new DateTimeProviderException(
                 $e->getMessage(),
                 $e->getCode(),
@@ -56,5 +44,4 @@ final class CurrentDateTimeProvider implements DateTimeProviderInterface
             );
         }
     }
-
 }

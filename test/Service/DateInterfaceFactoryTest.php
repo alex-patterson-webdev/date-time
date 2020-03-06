@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ArpTest\DateTime\Service;
 
@@ -8,21 +8,15 @@ use Arp\DateTime\Service\DateIntervalFactoryInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * DateInterfaceFactoryTest
- *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package ArpTest\DateTime\Service
  */
 class DateInterfaceFactoryTest extends TestCase
 {
     /**
-     * testImplementsDateIntervalFactoryInterface
-     *
      * Ensure that the DateIntervalFactory implements the DateIntervalFactoryInterface.
-     *
-     * @test
      */
-    public function testImplementsDateIntervalFactoryInterface()
+    public function testImplementsDateIntervalFactoryInterface() : void
     {
         $factory = new DateIntervalFactory;
 
@@ -30,22 +24,17 @@ class DateInterfaceFactoryTest extends TestCase
     }
 
     /**
-     * testCreateDateInterval
-     *
      * Ensure that the DateInterval is created in accordance with the provided $spec.
      *
      * @param string $spec The \DateInterval specification.
      *
      * @dataProvider getCreateDateIntervalData
-     * @test
      */
-    public function testCreateDateInterval(string $spec)
+    public function testCreateDateInterval(string $spec) : void
     {
         $factory = new DateIntervalFactory;
 
         $dateInterval = $factory->createDateInterval($spec);
-
-        $this->assertInstanceOf(\DateInterval::class, $dateInterval);
 
         $test = new \DateInterval($spec);
 
@@ -58,13 +47,11 @@ class DateInterfaceFactoryTest extends TestCase
     }
 
     /**
-     * getCreateDateIntervalData
-     *
      * @see https://www.php.net/manual/en/class.dateinterval.php
      *
      * @return array
      */
-    public function getCreateDateIntervalData()
+    public function getCreateDateIntervalData() : array
     {
         return [
             ['P100D'],
@@ -75,16 +62,13 @@ class DateInterfaceFactoryTest extends TestCase
     }
 
     /**
-     * testCreateDateIntervalWillThrowDateIntervalFactoryException
-     *
      * Ensure that createDateInterval() will throw a DateIntervalFactoryException if the provided $spec is invalid.
      *
      * @param string $spec
      *
      * @dataProvider getCreateDateIntervalWillThrowDateIntervalFactoryExceptionData
-     * @test
      */
-    public function testCreateDateIntervalWillThrowDateIntervalFactoryException(string $spec)
+    public function testCreateDateIntervalWillThrowDateIntervalFactoryException(string $spec) : void
     {
         $factory = new DateIntervalFactory;
 
@@ -99,16 +83,13 @@ class DateInterfaceFactoryTest extends TestCase
     }
 
     /**
-     * getCreateDateIntervalWillThrowDateIntervalFactoryExceptionData
-     *
      * @return array
      */
-    public function getCreateDateIntervalWillThrowDateIntervalFactoryExceptionData()
+    public function getCreateDateIntervalWillThrowDateIntervalFactoryExceptionData() : array
     {
         return [
             ['test'],
             ['invalid']
         ];
     }
-
 }

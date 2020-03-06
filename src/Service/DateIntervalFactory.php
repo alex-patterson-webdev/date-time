@@ -1,14 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arp\DateTime\Service;
 
 use Arp\DateTime\Exception\DateIntervalFactoryException;
 
 /**
- * DateIntervalFactory
- *
  * Factory class used as a service to create \DateInterval instances.
  *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
@@ -17,11 +13,9 @@ use Arp\DateTime\Exception\DateIntervalFactoryException;
 class DateIntervalFactory implements DateIntervalFactoryInterface
 {
     /**
-     * createDateInterval
-     *
      * Create a new DateInterval instance using the provided $spec.
      *
-     * @param string $spec  The specification of the interval.
+     * @param string $spec The specification of the interval.
      *
      * @return \DateInterval
      *
@@ -31,9 +25,7 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
     {
         try {
             return new \DateInterval($spec);
-        }
-        catch (\Exception $e) {
-
+        } catch (\Throwable $e) {
             throw new DateIntervalFactoryException(sprintf(
                 'Failed to create a valid \DateInterval instance using specification \'%s\' in \'%s\'.',
                 $spec,
@@ -41,5 +33,4 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
             ));
         }
     }
-
 }
