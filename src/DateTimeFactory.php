@@ -22,6 +22,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function createDateTime(string $spec = null, array $options = []) : \DateTime
     {
+        $spec = $spec ?? 'now';
         $timeZone = $options['time_zone'] ?? null;
 
         try {
