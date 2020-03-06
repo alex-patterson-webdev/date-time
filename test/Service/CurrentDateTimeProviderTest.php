@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ArpTest\DateTime\Service;
 
@@ -11,23 +11,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * CurrentDateTimeProviderTest
- *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package ArpTest\DateTime\Service
  */
 class CurrentDateTimeProviderTest extends TestCase
 {
     /**
-     * factory
-     *
      * @var DateTimeFactoryInterface|MockObject
      */
     protected $factory;
 
     /**
-     * setUp
-     *
      * Set up the test case dependencies.
      *
      * @return void
@@ -38,13 +32,9 @@ class CurrentDateTimeProviderTest extends TestCase
     }
 
     /**
-     * testImplementsDateTimeProviderInterface
-     *
      * Ensure that the provider implements DateTimeProviderInterface.
-     *
-     * @test
      */
-    public function testImplementsDateTimeProviderInterface()
+    public function testImplementsDateTimeProviderInterface() : void
     {
         $provider = new CurrentDateTimeProvider($this->factory);
 
@@ -52,13 +42,9 @@ class CurrentDateTimeProviderTest extends TestCase
     }
 
     /**
-     * testGetDateTimeWillReturnDateTimeInstance
-     *
-     * Ensure that a new \DateTime instance is returned when calling
-     *
-     * @test
+     * Ensure that a new \DateTime instance is returned when calling.
      */
-    public function testGetDateTimeWillReturnDateTimeInstance()
+    public function testGetDateTimeWillReturnDateTimeInstance() : void
     {
         $provider = new CurrentDateTimeProvider($this->factory);
 
@@ -72,14 +58,10 @@ class CurrentDateTimeProviderTest extends TestCase
     }
 
     /**
-     * testGetDateTimeWillThrowDateTimeProviderException
-     *
      * Ensure that calls to getDateTime that cannot create a new date time instance will throw
      * a DateTimeProviderException.
-     *
-     * @test
      */
-    public function testGetDateTimeWillThrowDateTimeProviderException()
+    public function testGetDateTimeWillThrowDateTimeProviderException() : void
     {
         $provider = new CurrentDateTimeProvider($this->factory);
 
@@ -96,5 +78,4 @@ class CurrentDateTimeProviderTest extends TestCase
 
         $provider->getDateTime();
     }
-
 }

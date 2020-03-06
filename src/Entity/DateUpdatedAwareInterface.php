@@ -3,16 +3,12 @@
 namespace Arp\DateTime\Entity;
 
 /**
- * DateUpdatedAwareInterface
- *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime\Entity
  */
 interface DateUpdatedAwareInterface
 {
     /**
-     * hasDateUpdated
-     *
      * Check if the updated date has been set.
      *
      * @return boolean
@@ -20,8 +16,6 @@ interface DateUpdatedAwareInterface
     public function hasDateUpdated() : bool;
 
     /**
-     * getDateUpdated
-     *
      * Return the updated date.
      *
      * @return \DateTime|null
@@ -29,12 +23,9 @@ interface DateUpdatedAwareInterface
     public function getDateUpdated() : ?\DateTime;
 
     /**
-     * setDateUpdated
-     *
      * Set the updated date.
      *
      * @param \DateTime|null $dateTime
      */
-    public function setDateUpdated(\DateTime $dateTime = null);
-
+    public function setDateUpdated(?\DateTime $dateTime) : void;
 }

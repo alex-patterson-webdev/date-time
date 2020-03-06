@@ -3,9 +3,10 @@
 namespace Arp\DateTime\Exception;
 
 /**
- * DateTimeException
- *
+ * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime\Exception
  */
 class DateTimeException extends \Exception
-{}
+{
+
+}

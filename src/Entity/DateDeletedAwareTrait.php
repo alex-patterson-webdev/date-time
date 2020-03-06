@@ -3,23 +3,17 @@
 namespace Arp\DateTime\Entity;
 
 /**
- * DateDeletedAwareTrait
- *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime\Entity
  */
 class DateDeletedAwareTrait
 {
     /**
-     * $dateDeleted
-     *
      * @var \DateTime|null
      */
     protected $dateDeleted;
 
     /**
-     * hasDateDeleted
-     *
      * Check if the deleted date has been set.
      *
      * @return boolean
@@ -30,8 +24,6 @@ class DateDeletedAwareTrait
     }
 
     /**
-     * getDateDeleted
-     *
      * Return the deleted date.
      *
      * @return \DateTime|null
@@ -42,13 +34,11 @@ class DateDeletedAwareTrait
     }
 
     /**
-     * setDateDeleted
-     *
      * Set the deleted date.
      *
      * @param \DateTime|null $dateTime
      */
-    public function setDateDeleted(\DateTime $dateTime = null)
+    public function setDateDeleted(?\DateTime $dateTime) : void
     {
         $this->dateDeleted = $dateTime;
     }

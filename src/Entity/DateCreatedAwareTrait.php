@@ -3,23 +3,17 @@
 namespace Arp\DateTime\Entity;
 
 /**
- * DateCreatedAwareTrait
- *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime\Entity
  */
 trait DateCreatedAwareTrait
 {
     /**
-     * $dateCreated
-     *
      * @var \DateTime|null
      */
     protected $dateCreated;
 
     /**
-     * hasDateCreated
-     *
      * Check if the created date has been defined.
      *
      * @return boolean
@@ -30,25 +24,21 @@ trait DateCreatedAwareTrait
     }
 
     /**
-     * getDateCreated
-     *
      * Return the created date.
      *
      * @return \DateTime|null
      */
-    public function getDateCreated() :?\DateTime
+    public function getDateCreated() : ?\DateTime
     {
         return $this->dateCreated;
     }
 
     /**
-     * setDateCreated
-     *
      * Set the created date.
      *
      * @param \DateTime|null $dateCreated
      */
-    public function setDateCreated(\DateTime $dateCreated = null)
+    public function setDateCreated(?\DateTime $dateCreated) : void
     {
         $this->dateCreated = $dateCreated;
     }

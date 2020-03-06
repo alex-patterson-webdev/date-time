@@ -1,44 +1,41 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Arp\DateTime\Factory\Service;
 
-use Arp\DateTime\Service\DateTimeFactory;
-use Arp\DateTime\Service\DateTimeFactoryInterface;
 use Arp\DateTime\Service\CurrentDateTimeProvider;
-use Arp\Stdlib\Exception\ServiceNotCreatedException;
-use Arp\Stdlib\Factory\AbstractServiceFactory;
-use Interop\Container\ContainerInterface;
+use Arp\DateTime\Service\DateTimeFactory;
+use Arp\DateTime\Service\DateTimeProviderInterface;
+use Arp\Factory\Exception\FactoryException;
+use Arp\Factory\FactoryInterface;
 
 /**
- * CurrentDateTimeProviderFactory
- *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime\Factory\Service
  */
-class CurrentDateTimeProviderFactory extends AbstractServiceFactory
+class CurrentDateTimeProviderFactory implements FactoryInterface
 {
     /**
-     * create
+     * Create a new DateTimeProviderInterface instance from the provided $config.
      *
-     * @param ContainerInterface $container     The dependency injection container.
-     * @param string             $requestedName The name of the service requested to the container.
-     * @param array              $config        The optional factory configuration options.
-     * @param string|null        $className     The name of the class that is being created.
+     * @param array $config
      *
-     * @return CurrentDateTimeProvider
+     * @return DateTimeProviderInterface
      *
-     * @throws ServiceNotCreatedException  If the service cannot be created.
+     * @throws FactoryException If the date time provider cannot be created.
      */
-    public function create(ContainerInterface $container, $requestedName, array $config = [], $className = null)
+    public function create(array $config = []) : DateTimeProviderInterface
     {
-        $factory = isset($config['factory']) ? $config['factory'] : DateTimeFactory::class;
+        $factory = $config['factory'] ?? DateTimeFactory::class;
 
-        /** @var DateTimeFactoryInterface $factory */
-        $factory = $container->get($factory);
+        if (!is_a($factory, DateTimeFactory::class, true)) {
+            throw new FactoryException(sprintf(
+                'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
+                DateTimeFactory::class,
+                is_string($factory) ? $factory : gettype($factory),
+                static::class
+            ));
+        }
 
-        return new CurrentDateTimeProvider($factory);
+        return new CurrentDateTimeProvider(new $factory);
     }
-
 }
