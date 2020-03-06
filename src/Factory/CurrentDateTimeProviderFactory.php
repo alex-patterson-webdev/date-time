@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace Arp\DateTime\Factory\Service;
+namespace Arp\DateTime\Factory;
 
-use Arp\DateTime\Service\CurrentDateTimeProvider;
-use Arp\DateTime\Service\DateTimeFactory;
-use Arp\DateTime\Service\DateTimeProviderInterface;
+use Arp\DateTime\CurrentDateTimeProvider;
+use Arp\DateTime\DateTimeFactory;
+use Arp\DateTime\DateTimeProviderInterface;
 use Arp\Factory\Exception\FactoryException;
 use Arp\Factory\FactoryInterface;
 
 /**
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\DateTime\Factory\Service
+ * @package Arp\DateTime\Factory
  */
 class CurrentDateTimeProviderFactory implements FactoryInterface
 {

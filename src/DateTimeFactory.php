@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Arp\DateTime\Service;
+namespace Arp\DateTime;
 
 use Arp\DateTime\Exception\DateTimeFactoryException;
 
 /**
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\DateTime\Service
+ * @package Arp\DateTime
  */
 class DateTimeFactory implements DateTimeFactoryInterface
 {

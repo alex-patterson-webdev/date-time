@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Arp\DateTime\Service;
+namespace Arp\DateTime;
 
 use Arp\DateTime\Exception\DateTimeProviderException;
 
@@ -8,7 +8,7 @@ use Arp\DateTime\Exception\DateTimeProviderException;
  * Service to provide the current date and time.
  *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\DateTime\Service
+ * @package Arp\DateTime
  */
 final class CurrentDateTimeProvider implements DateTimeProviderInterface
 {

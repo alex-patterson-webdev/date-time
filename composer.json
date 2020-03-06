@@ -21,7 +21,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "ArpTest\\DateTime\\" : "test/"
+      "ArpTest\\DateTime\\" : "test/phpunit/"
     }
   }
 }

@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace ArpTest\DateTime\Service;
+namespace ArpTest\DateTime;
 
 use Arp\DateTime\Exception\DateIntervalFactoryException;
-use Arp\DateTime\Service\DateIntervalFactory;
-use Arp\DateTime\Service\DateIntervalFactoryInterface;
+use Arp\DateTime\DateIntervalFactory;
+use Arp\DateTime\DateIntervalFactoryInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package ArpTest\DateTime\Service
+ * @package ArpTest\DateTime
  */
 class DateInterfaceFactoryTest extends TestCase
 {

@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace ArpTest\DateTime\Service;
+namespace ArpTest\DateTime;
 
 use Arp\DateTime\Exception\DateTimeFactoryException;
 use Arp\DateTime\Exception\DateTimeProviderException;
-use Arp\DateTime\Service\CurrentDateTimeProvider;
-use Arp\DateTime\Service\DateTimeFactoryInterface;
-use Arp\DateTime\Service\DateTimeProviderInterface;
+use Arp\DateTime\CurrentDateTimeProvider;
+use Arp\DateTime\DateTimeFactoryInterface;
+use Arp\DateTime\DateTimeProviderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package ArpTest\DateTime\Service
+ * @package ArpTest\DateTime
  */
 class CurrentDateTimeProviderTest extends TestCase
 {

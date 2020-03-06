@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Arp\DateTime\Service;
+namespace Arp\DateTime;
 
 use Arp\DateTime\Exception\DateIntervalFactoryException;
 
@@ -8,7 +8,7 @@ use Arp\DateTime\Exception\DateIntervalFactoryException;
  * Factory class used as a service to create \DateInterval instances.
  *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\DateTime\Service
+ * @package Arp\DateTime
  */
 class DateIntervalFactory implements DateIntervalFactoryInterface
 {
