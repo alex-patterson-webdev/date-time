@@ -16,9 +16,9 @@ trait DateCreatedAwareTrait
     /**
      * Check if the created date has been defined.
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasDateCreated() : bool
+    public function hasDateCreated(): bool
     {
         return isset($this->dateCreated);
     }
@@ -28,7 +28,7 @@ trait DateCreatedAwareTrait
      *
      * @return \DateTime|null
      */
-    public function getDateCreated() : ?\DateTime
+    public function getDateCreated(): ?\DateTime
     {
         return $this->dateCreated;
     }
@@ -38,7 +38,7 @@ trait DateCreatedAwareTrait
      *
      * @param \DateTime|null $dateCreated
      */
-    public function setDateCreated(?\DateTime $dateCreated) : void
+    public function setDateCreated(?\DateTime $dateCreated): void
     {
         $this->dateCreated = $dateCreated;
     }

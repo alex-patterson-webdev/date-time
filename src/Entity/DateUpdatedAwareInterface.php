@@ -11,21 +11,21 @@ interface DateUpdatedAwareInterface
     /**
      * Check if the updated date has been set.
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasDateUpdated() : bool;
+    public function hasDateUpdated(): bool;
 
     /**
      * Return the updated date.
      *
      * @return \DateTime|null
      */
-    public function getDateUpdated() : ?\DateTime;
+    public function getDateUpdated(): ?\DateTime;
 
     /**
      * Set the updated date.
      *
      * @param \DateTime|null $dateTime
      */
-    public function setDateUpdated(?\DateTime $dateTime) : void;
+    public function setDateUpdated(?\DateTime $dateTime): void;
 }

@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ArpTest\DateTime\Factory;
 
-use Arp\DateTime\Factory\CurrentDateTimeProviderFactory;
 use Arp\DateTime\DateTimeProviderInterface;
+use Arp\DateTime\Factory\CurrentDateTimeProviderFactory;
 use Arp\Factory\FactoryInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -16,9 +18,9 @@ final class CurrentDateTimeProviderFactoryTest extends TestCase
     /**
      * Ensure that the CurrentDateTimeProviderFactory implements the FactoryInterface.
      */
-    public function testImplementsFactoryInterface() : void
+    public function testImplementsFactoryInterface(): void
     {
-        $factory = new CurrentDateTimeProviderFactory;
+        $factory = new CurrentDateTimeProviderFactory();
 
         $this->assertInstanceOf(FactoryInterface::class, $factory);
     }
@@ -26,11 +28,11 @@ final class CurrentDateTimeProviderFactoryTest extends TestCase
     /**
      * Ensure that create() will return a configured CurrentDateTimeProvider instance.
      *
-     * @param array $config  The optional test configuration.
+     * @param array $config The optional test configuration.
      */
-    public function testCreateWillReturnADateTimeProvider(array $config = []) : void
+    public function testCreateWillReturnADateTimeProvider(array $config = []): void
     {
-        $factory = new CurrentDateTimeProviderFactory;
+        $factory = new CurrentDateTimeProviderFactory();
 
         $provider = $factory->create($config);
 

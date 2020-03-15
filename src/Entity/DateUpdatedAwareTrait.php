@@ -16,9 +16,9 @@ trait DateUpdatedAwareTrait
     /**
      * Check if the updated date has been set.
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasDateUpdated() : bool
+    public function hasDateUpdated(): bool
     {
         return isset($this->dateUpdated);
     }
@@ -28,7 +28,7 @@ trait DateUpdatedAwareTrait
      *
      * @return \DateTime|null
      */
-    public function getDateUpdated() : ?\DateTime
+    public function getDateUpdated(): ?\DateTime
     {
         return $this->dateUpdated;
     }
@@ -38,7 +38,7 @@ trait DateUpdatedAwareTrait
      *
      * @param \DateTime|null $dateTime
      */
-    public function setDateUpdated(?\DateTime $dateTime) : void
+    public function setDateUpdated(?\DateTime $dateTime): void
     {
         $this->dateUpdated = $dateTime;
     }

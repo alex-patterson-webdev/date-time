@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime;
 
@@ -17,5 +19,5 @@ interface DateTimeProviderInterface
      *
      * @throws DateTimeProviderException  If the date and time cannot be returned.
      */
-    public function getDateTime() : \DateTime;
+    public function getDateTime(): \DateTime;
 }

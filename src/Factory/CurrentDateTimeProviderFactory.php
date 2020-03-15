@@ -23,19 +23,21 @@ class CurrentDateTimeProviderFactory implements FactoryInterface
      *
      * @throws FactoryException If the date time provider cannot be created.
      */
-    public function create(array $config = []) : DateTimeProviderInterface
+    public function create(array $config = []): DateTimeProviderInterface
     {
         $factory = $config['factory'] ?? DateTimeFactory::class;
 
-        if (!is_a($factory, DateTimeFactory::class, true)) {
-            throw new FactoryException(sprintf(
-                'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
-                DateTimeFactory::class,
-                is_string($factory) ? $factory : gettype($factory),
-                static::class
-            ));
+        if (! is_a($factory, DateTimeFactory::class, true)) {
+            throw new FactoryException(
+                sprintf(
+                    'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
+                    DateTimeFactory::class,
+                    is_string($factory) ? $factory : gettype($factory),
+                    static::class
+                )
+            );
         }
 
-        return new CurrentDateTimeProvider(new $factory);
+        return new CurrentDateTimeProvider(new $factory());
     }
 }
