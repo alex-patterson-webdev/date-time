@@ -2,9 +2,9 @@
 
 namespace ArpTest\DateTime;
 
-use Arp\DateTime\Exception\DateTimeFactoryException;
 use Arp\DateTime\DateTimeFactory;
 use Arp\DateTime\DateTimeFactoryInterface;
+use Arp\DateTime\Exception\DateTimeFactoryException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +17,7 @@ class DateTimeFactoryTest extends TestCase
     /**
      * Ensure that the factory implements DateTimeFactoryInterface.
      */
-    public function testImplementsDateTimeTimeFactoryInterface() : void
+    public function testImplementsDateTimeTimeFactoryInterface(): void
     {
         $factory = new DateTimeFactory();
 
@@ -27,12 +27,12 @@ class DateTimeFactoryTest extends TestCase
     /**
      * Ensure that calls to createDateTime() will return the valid configured \DateTime instance.
      *
-     * @param string $spec       The date and time specification.
-     * @param array  $options    Optional date time creation options.
+     * @param string $spec    The date and time specification.
+     * @param array  $options Optional date time creation options.
      *
      * @dataProvider getCreateDateTimeData
      */
-    public function testCreateDateTime(string $spec, array $options = []) : void
+    public function testCreateDateTime(string $spec, array $options = []): void
     {
         $factory = new DateTimeFactory();
 
@@ -44,7 +44,7 @@ class DateTimeFactoryTest extends TestCase
     /**
      * @return array
      */
-    public function getCreateDateTimeData() : array
+    public function getCreateDateTimeData(): array
     {
         return [
 
@@ -58,20 +58,22 @@ class DateTimeFactoryTest extends TestCase
     /**
      * Ensure that if the DateTime cannot be create a new DateTimeFactoryException will be thrown.
      */
-    public function testCreateDateTimeWillThrowDateTimeFactoryException() : void
+    public function testCreateDateTimeWillThrowDateTimeFactoryException(): void
     {
         $factory = new DateTimeFactory();
 
-        $spec    = 'foo'; // invalid argument
+        $spec = 'foo'; // invalid argument
         $options = [];
 
 
         $this->expectException(DateTimeFactoryException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-            $spec,
-            DateTimeFactory::class
-        ));
+        $this->expectExceptionMessage(
+            sprintf(
+                'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
+                $spec,
+                DateTimeFactory::class
+            )
+        );
 
         $factory->createDateTime($spec, $options);
     }
@@ -89,15 +91,17 @@ class DateTimeFactoryTest extends TestCase
         string $spec,
         string $format,
         array $options = []
-    ) : void {
-        $factory = new DateTimeFactory;
+    ): void {
+        $factory = new DateTimeFactory();
 
         $this->expectException(DateTimeFactoryException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-            $spec,
-            DateTimeFactory::class
-        ));
+        $this->expectExceptionMessage(
+            sprintf(
+                'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
+                $spec,
+                DateTimeFactory::class
+            )
+        );
 
         $factory->createFromFormat($spec, $format, $options);
     }
@@ -105,13 +109,13 @@ class DateTimeFactoryTest extends TestCase
     /**
      * @return array
      */
-    public function getCreateFromFormatWillThrowDateTimeFactoryExceptionData() : array
+    public function getCreateFromFormatWillThrowDateTimeFactoryExceptionData(): array
     {
         return [
             [
                 'test',
-                'Y-m-d'
-            ]
+                'Y-m-d',
+            ],
         ];
     }
 
@@ -124,20 +128,20 @@ class DateTimeFactoryTest extends TestCase
      *
      * @dataProvider getCreateFromFormatData
      */
-    public function createFromFormat(string $spec, string $format, array $options = []) : void
+    public function createFromFormat(string $spec, string $format, array $options = []): void
     {
         /** @var DateTimeFactory|MockObject $factory */
         $factory = $this->getMockBuilder(DateTimeFactory::class)
-            ->onlyMethods(['createDateTimeZone'])
-            ->getMock();
+                        ->onlyMethods(['createDateTimeZone'])
+                        ->getMock();
 
         if (! empty($options['time_zone'])) {
             $dateTimeZone = new \DateTimeZone($options['time_zone']);
 
             $factory->expects($this->once())
-                ->method('createDateTimeZone')
-                ->with($options['time_zone'])
-                ->willReturn($dateTimeZone);
+                    ->method('createDateTimeZone')
+                    ->with($options['time_zone'])
+                    ->willReturn($dateTimeZone);
         }
 
         $dateTime = $factory->createFromFormat($spec, $format, $options);
@@ -154,7 +158,7 @@ class DateTimeFactoryTest extends TestCase
      *
      * @return array
      */
-    public function getCreateFromFormatData() : array
+    public function getCreateFromFormatData(): array
     {
         return [
 
@@ -173,7 +177,7 @@ class DateTimeFactoryTest extends TestCase
                 'Y-m-d H:i:s',
                 [
                     'time_zone' => 'UTC',
-                ]
+                ],
             ],
 
             [
@@ -181,7 +185,7 @@ class DateTimeFactoryTest extends TestCase
                 'Y-m-d H:i:s',
                 [
                     'time_zone' => 'Europe/London',
-                ]
+                ],
             ],
 
         ];
@@ -195,9 +199,9 @@ class DateTimeFactoryTest extends TestCase
      *
      * @dataProvider getCreateDateTimeZoneData
      */
-    public function testCreateDateTimeZone(string $spec, array $options = []) : void
+    public function testCreateDateTimeZone(string $spec, array $options = []): void
     {
-        $factory = new DateTimeFactory;
+        $factory = new DateTimeFactory();
 
         $dateTimeZone = $factory->createDateTimeZone($spec, $options);
 
@@ -209,7 +213,7 @@ class DateTimeFactoryTest extends TestCase
      *
      * @return array
      */
-    public function getCreateDateTimeZoneData() : array
+    public function getCreateDateTimeZoneData(): array
     {
         return [
             [
@@ -243,16 +247,18 @@ class DateTimeFactoryTest extends TestCase
      *
      * @dataProvider getCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalidData
      */
-    public function testCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalid(string $spec) : void
+    public function testCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalid(string $spec): void
     {
-        $factory = new DateTimeFactory;
+        $factory = new DateTimeFactory();
 
         $this->expectException(DateTimeFactoryException::class);
-        $this->expectExceptionMessage(sprintf(
-            'Failed to create a valid \DateTimeZone instance using \'%s\' in \'%s\'.',
-            $spec,
-            DateTimeFactory::class
-        ));
+        $this->expectExceptionMessage(
+            sprintf(
+                'Failed to create a valid \DateTimeZone instance using \'%s\' in \'%s\'.',
+                $spec,
+                DateTimeFactory::class
+            )
+        );
 
 
         $factory->createDateTimeZone($spec);
@@ -261,7 +267,7 @@ class DateTimeFactoryTest extends TestCase
     /**
      * @return array
      */
-    public function getCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalidData() : array
+    public function getCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalidData(): array
     {
         return [
             [

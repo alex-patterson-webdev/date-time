@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime\Entity;
 
@@ -13,16 +15,16 @@ interface DateCreatedAwareInterface
     /**
      * Check if the created date has been defined.
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasDateCreated() : bool;
+    public function hasDateCreated(): bool;
 
     /**
      * Return the created date.
      *
      * @return \DateTime|null
      */
-    public function getDateCreated() : ?\DateTime;
+    public function getDateCreated(): ?\DateTime;
 
     /**
      * Set the created date.

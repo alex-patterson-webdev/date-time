@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime;
 
@@ -20,7 +22,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException If the \DateTime instance cannot be created.
      */
-    public function createDateTime(string $spec = null, array $options = []) : \DateTime
+    public function createDateTime(string $spec = null, array $options = []): \DateTime
     {
         $spec = $spec ?? 'now';
         $timeZone = $options['time_zone'] ?? null;
@@ -28,11 +30,13 @@ class DateTimeFactory implements DateTimeFactoryInterface
         try {
             return new \DateTime($spec, $this->resolveDateTimeZone($timeZone));
         } catch (\Throwable $e) {
-            throw new DateTimeFactoryException(sprintf(
-                'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-                $spec,
-                static::class
-            ));
+            throw new DateTimeFactoryException(
+                sprintf(
+                    'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
+                    $spec,
+                    static::class
+                )
+            );
         }
     }
 
@@ -45,11 +49,11 @@ class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException
      */
-    private function resolveDateTimeZone($timeZone) : ?\DateTimeZone
+    private function resolveDateTimeZone($timeZone): ?\DateTimeZone
     {
-        if (is_string($timeZone) && !empty($timeZone)) {
+        if (is_string($timeZone) && ! empty($timeZone)) {
             $timeZone = $this->createDateTimeZone($timeZone);
-        } elseif (empty($timeZone) || (!$timeZone instanceof \DateTimeZone)) {
+        } elseif (empty($timeZone) || (! $timeZone instanceof \DateTimeZone)) {
             $timeZone = null;
         }
 
@@ -66,16 +70,18 @@ class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException If the \DateTimeZone cannot be created.
      */
-    public function createDateTimeZone(string $spec, array $options = []) : \DateTimeZone
+    public function createDateTimeZone(string $spec, array $options = []): \DateTimeZone
     {
         try {
             return new \DateTimeZone($spec);
         } catch (\Throwable $e) {
-            throw new DateTimeFactoryException(sprintf(
-                'Failed to create a valid \DateTimeZone instance using \'%s\' in \'%s\'.',
-                $spec,
-                static::class
-            ));
+            throw new DateTimeFactoryException(
+                sprintf(
+                    'Failed to create a valid \DateTimeZone instance using \'%s\' in \'%s\'.',
+                    $spec,
+                    static::class
+                )
+            );
         }
     }
 
@@ -90,18 +96,20 @@ class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createFromFormat(string $spec, string $format, array $options = []) : \DateTime
+    public function createFromFormat(string $spec, string $format, array $options = []): \DateTime
     {
         $timeZone = $options['time_zone'] ?? null;
 
         $dateTime = \DateTime::createFromFormat($format, $spec, $this->resolveDateTimeZone($timeZone));
 
-        if (empty($dateTime) || (!$dateTime instanceof \DateTime)) {
-            throw new DateTimeFactoryException(sprintf(
-                'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-                $spec,
-                static::class
-            ));
+        if (empty($dateTime) || (! $dateTime instanceof \DateTime)) {
+            throw new DateTimeFactoryException(
+                sprintf(
+                    'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
+                    $spec,
+                    static::class
+                )
+            );
         }
 
         return $dateTime;

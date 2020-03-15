@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime;
 
@@ -20,7 +22,7 @@ interface DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createDateTime(string $spec = null, array $options = []) : \DateTime;
+    public function createDateTime(string $spec = null, array $options = []): \DateTime;
 
     /**
      * Create a new \DateTime instance using the provided format.
@@ -33,7 +35,7 @@ interface DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createFromFormat(string $spec, string $format, array $options = []) : \DateTime;
+    public function createFromFormat(string $spec, string $format, array $options = []): \DateTime;
 
     /**
      * Create a new \DateTimeZone instance using the provided specification.
@@ -45,5 +47,5 @@ interface DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException If the \DateTimeZone cannot be created.
      */
-    public function createDateTimeZone(string $spec, array $options = []) : \DateTimeZone;
+    public function createDateTimeZone(string $spec, array $options = []): \DateTimeZone;
 }

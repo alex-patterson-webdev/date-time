@@ -2,11 +2,11 @@
 
 namespace ArpTest\DateTime;
 
-use Arp\DateTime\Exception\DateTimeFactoryException;
-use Arp\DateTime\Exception\DateTimeProviderException;
 use Arp\DateTime\CurrentDateTimeProvider;
 use Arp\DateTime\DateTimeFactoryInterface;
 use Arp\DateTime\DateTimeProviderInterface;
+use Arp\DateTime\Exception\DateTimeFactoryException;
+use Arp\DateTime\Exception\DateTimeProviderException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +26,7 @@ class CurrentDateTimeProviderTest extends TestCase
      *
      * @return void
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->factory = $this->getMockForAbstractClass(DateTimeFactoryInterface::class);
     }
@@ -34,7 +34,7 @@ class CurrentDateTimeProviderTest extends TestCase
     /**
      * Ensure that the provider implements DateTimeProviderInterface.
      */
-    public function testImplementsDateTimeProviderInterface() : void
+    public function testImplementsDateTimeProviderInterface(): void
     {
         $provider = new CurrentDateTimeProvider($this->factory);
 
@@ -44,15 +44,15 @@ class CurrentDateTimeProviderTest extends TestCase
     /**
      * Ensure that a new \DateTime instance is returned when calling.
      */
-    public function testGetDateTimeWillReturnDateTimeInstance() : void
+    public function testGetDateTimeWillReturnDateTimeInstance(): void
     {
         $provider = new CurrentDateTimeProvider($this->factory);
 
-        $dateTime = new \DateTime;
+        $dateTime = new \DateTime();
 
         $this->factory->expects($this->once())
-            ->method('createDateTime')
-            ->willReturn($dateTime);
+                      ->method('createDateTime')
+                      ->willReturn($dateTime);
 
         $this->assertSame($dateTime, $provider->getDateTime());
     }
@@ -61,7 +61,7 @@ class CurrentDateTimeProviderTest extends TestCase
      * Ensure that calls to getDateTime that cannot create a new date time instance will throw
      * a DateTimeProviderException.
      */
-    public function testGetDateTimeWillThrowDateTimeProviderException() : void
+    public function testGetDateTimeWillThrowDateTimeProviderException(): void
     {
         $provider = new CurrentDateTimeProvider($this->factory);
 
@@ -69,8 +69,8 @@ class CurrentDateTimeProviderTest extends TestCase
         $exception = new DateTimeFactoryException($exceptionMessage);
 
         $this->factory->expects($this->once())
-            ->method('createDateTime')
-            ->willThrowException($exception);
+                      ->method('createDateTime')
+                      ->willThrowException($exception);
 
         $this->expectException(DateTimeProviderException::class);
         $this->expectExceptionMessage($exceptionMessage);

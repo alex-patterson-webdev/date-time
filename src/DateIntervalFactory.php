@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime;
 
@@ -21,16 +23,18 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
      *
      * @throws DateIntervalFactoryException  If the date interval cannot be created.
      */
-    public function createDateInterval(string $spec) : \DateInterval
+    public function createDateInterval(string $spec): \DateInterval
     {
         try {
             return new \DateInterval($spec);
         } catch (\Throwable $e) {
-            throw new DateIntervalFactoryException(sprintf(
-                'Failed to create a valid \DateInterval instance using specification \'%s\' in \'%s\'.',
-                $spec,
-                static::class
-            ));
+            throw new DateIntervalFactoryException(
+                sprintf(
+                    'Failed to create a valid \DateInterval instance using specification \'%s\' in \'%s\'.',
+                    $spec,
+                    static::class
+                )
+            );
         }
     }
 }

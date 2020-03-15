@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime;
 
@@ -32,7 +34,7 @@ final class CurrentDateTimeProvider implements DateTimeProviderInterface
      *
      * @throws DateTimeProviderException  If the date and time cannot be returned.
      */
-    public function getDateTime() : \DateTime
+    public function getDateTime(): \DateTime
     {
         try {
             return $this->factory->createDateTime();

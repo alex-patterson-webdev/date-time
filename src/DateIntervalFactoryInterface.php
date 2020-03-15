@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime;
 
@@ -19,5 +21,5 @@ interface DateIntervalFactoryInterface
      *
      * @throws DateIntervalFactoryException  If the date interval cannot be created.
      */
-    public function createDateInterval(string $spec) : \DateInterval;
+    public function createDateInterval(string $spec): \DateInterval;
 }
