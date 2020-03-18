@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace ArpTest\DateTime\Factory;
 
+use Arp\DateTime\DateTimeFactory;
 use Arp\DateTime\DateTimeProviderInterface;
 use Arp\DateTime\Factory\CurrentDateTimeProviderFactory;
+use Arp\Factory\Exception\FactoryException;
 use Arp\Factory\FactoryInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -23,6 +25,46 @@ final class CurrentDateTimeProviderFactoryTest extends TestCase
         $factory = new CurrentDateTimeProviderFactory();
 
         $this->assertInstanceOf(FactoryInterface::class, $factory);
+    }
+
+    /**
+     * Assert that the create() method will throw a FactoryException if the provided 'factory' options is invalid.
+     *
+     * @param mixed $dateTimeFactory
+     *
+     * @dataProvider getCreateWillThrowFactoryExceptionIfProvidedDateTimeArgumentIsNotOfTypeDateTimeFactoryData
+     *
+     * @covers \Arp\DateTime\Factory\CurrentDateTimeProviderFactory::create
+     */
+    public function testCreateWillThrowFactoryExceptionIfProvidedDateTimeArgumentIsNotOfTypeDateTimeFactory(
+        $dateTimeFactory
+    ): void {
+        $factory = new CurrentDateTimeProviderFactory();
+
+        $config = [
+            'factory' => $dateTimeFactory,
+        ];
+
+        $this->expectException(FactoryException::class);
+        $this->expectExceptionMessage(sprintf(
+            'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
+            DateTimeFactory::class,
+            is_string($dateTimeFactory) ? $dateTimeFactory : gettype($dateTimeFactory),
+            CurrentDateTimeProviderFactory::class
+        ));
+
+        $factory->create($config);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCreateWillThrowFactoryExceptionIfProvidedDateTimeArgumentIsNotOfTypeDateTimeFactoryData(): array
+    {
+        return [
+            [\stdClass::class],
+            [new \stdClass()],
+        ];
     }
 
     /**
