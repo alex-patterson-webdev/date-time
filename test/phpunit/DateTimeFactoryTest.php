@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ArpTest\DateTime;
 
@@ -27,18 +29,20 @@ class DateTimeFactoryTest extends TestCase
     /**
      * Ensure that calls to createDateTime() will return the valid configured \DateTime instance.
      *
-     * @param string $spec    The date and time specification.
-     * @param array  $options Optional date time creation options.
+     * @param string      $time     The date and time
+     * @param string|null $timeZone The date and time timezone
      *
      * @dataProvider getCreateDateTimeData
+     *
+     * @covers       \Arp\DateTime\DateTimeFactory::createDateTime
      */
-    public function testCreateDateTime(string $spec, array $options = []): void
+    public function testCreateDateTime(string $time, $timeZone = null): void
     {
         $factory = new DateTimeFactory();
 
-        $dateTime = $factory->createDateTime($spec, $options);
+        $dateTime = $factory->createDateTime($time, $timeZone);
 
-        $this->assertSame($spec, $dateTime->format('Y-m-d H:i:s'));
+        $this->assertSame($time, $dateTime->format('Y-m-d H:i:s'));
     }
 
     /**
@@ -47,63 +51,64 @@ class DateTimeFactoryTest extends TestCase
     public function getCreateDateTimeData(): array
     {
         return [
-
             [
                 '2019-05-14 12:33:00',
             ],
-
         ];
     }
 
     /**
      * Ensure that if the DateTime cannot be create a new DateTimeFactoryException will be thrown.
+     *
+     * @covers \Arp\DateTime\DateTimeFactory::createDateTime
      */
     public function testCreateDateTimeWillThrowDateTimeFactoryException(): void
     {
         $factory = new DateTimeFactory();
 
-        $spec = 'foo'; // invalid argument
-        $options = [];
-
+        $time = 'foo'; // invalid argument
 
         $this->expectException(DateTimeFactoryException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-                $spec,
+                'Failed to create a valid \DateTime instance using time \'%s\' in \'%s\'.',
+                $time,
                 DateTimeFactory::class
             )
         );
 
-        $factory->createDateTime($spec, $options);
+        $factory->createDateTime($time);
     }
 
     /**
      * Ensure that a createFromFormat() will throw a DateTimeFactoryException if a \DateTime instance cannot be created.
      *
-     * @param string $spec
-     * @param string $format
-     * @param array  $options
+     * @param string                    $format
+     * @param string                    $time
+     * @param string|\DateTimeZone|null $timeZone
      *
      * @dataProvider getCreateFromFormatWillThrowDateTimeFactoryExceptionData
+     *
+     * @covers       \Arp\DateTime\DateTimeFactory::createFromFormat
      */
     public function testCreateFromFormatWillThrowDateTimeFactoryException(
-        string $spec,
         string $format,
-        array $options = []
+        string $time,
+        $timeZone = null
     ): void {
         $factory = new DateTimeFactory();
 
         $this->expectException(DateTimeFactoryException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-                $spec,
+                'Failed to create a valid \DateTime instance using format \'%s\' for time \'%s\' in \'%s\'.',
+                $format,
+                $time,
                 DateTimeFactory::class
             )
         );
 
-        $factory->createFromFormat($spec, $format, $options);
+        $factory->createFromFormat($format, $time, $timeZone);
     }
 
     /**
@@ -113,8 +118,8 @@ class DateTimeFactoryTest extends TestCase
     {
         return [
             [
-                'test',
                 'Y-m-d',
+                'test',
             ],
         ];
     }
@@ -122,34 +127,41 @@ class DateTimeFactoryTest extends TestCase
     /**
      * Ensure that a \DateTime instance can be created from the provided format.
      *
-     * @param string $spec
-     * @param string $format
-     * @param array  $options
+     * @param string                    $format
+     * @param string                    $time
+     * @param string|\DateTimeZone|null $timeZone
      *
      * @dataProvider getCreateFromFormatData
+     *
+     * @covers       \Arp\DateTime\DateTimeFactory::createFromFormat
+     * @covers       \Arp\DateTime\DateTimeFactory::resolveDateTimeZone
      */
-    public function createFromFormat(string $spec, string $format, array $options = []): void
+    public function testCreateFromFormat(string $format, string $time, $timeZone = null): void
     {
         /** @var DateTimeFactory|MockObject $factory */
         $factory = $this->getMockBuilder(DateTimeFactory::class)
                         ->onlyMethods(['createDateTimeZone'])
                         ->getMock();
 
-        if (! empty($options['time_zone'])) {
-            $dateTimeZone = new \DateTimeZone($options['time_zone']);
+        if (! empty($timeZone) && is_string($timeZone)) {
+            $dateTimeZone = new \DateTimeZone($timeZone);
 
             $factory->expects($this->once())
                     ->method('createDateTimeZone')
-                    ->with($options['time_zone'])
+                    ->with($timeZone)
                     ->willReturn($dateTimeZone);
         }
 
-        $dateTime = $factory->createFromFormat($spec, $format, $options);
+        $dateTime = $factory->createFromFormat($format, $time, $timeZone);
 
-        $this->assertSame($spec, $dateTime->format($format));
+        $this->assertSame($time, $dateTime->format($format));
 
-        if (isset($dateTimeZone)) {
-            $this->assertSame($options['time_zone'], $dateTimeZone->getName());
+        if (isset($timeZone)) {
+            if (is_string($timeZone)) {
+                $this->assertSame($timeZone, $dateTime->getTimezone()->getName());
+            } else {
+                $this->assertEquals($timeZone, $dateTime->getTimezone());
+            }
         }
     }
 
@@ -163,29 +175,31 @@ class DateTimeFactoryTest extends TestCase
         return [
 
             [
-                '2019-04-01',
                 'Y-m-d',
+                '2019-04-01',
             ],
 
             [
-                '1976/01/14',
                 'Y/m/d',
+                '1976/01/14',
             ],
 
             [
+                'Y-m-d H:i:s',
                 '2019-08-14 17:34:55',
-                'Y-m-d H:i:s',
-                [
-                    'time_zone' => 'UTC',
-                ],
+                'UTC',
             ],
 
             [
-                '2010-10-26 11:19:32',
                 'Y-m-d H:i:s',
-                [
-                    'time_zone' => 'Europe/London',
-                ],
+                '2010-10-26 11:19:32',
+                'Europe/London',
+            ],
+
+            [
+                'Y-m-d H:i:s',
+                '2020-03-17 16:33:33',
+                new \DateTimeZone('Europe/London'),
             ],
 
         ];
@@ -194,18 +208,17 @@ class DateTimeFactoryTest extends TestCase
     /**
      * Ensure a \DateTimeZone instance is returned according to the provided $spec and $options.
      *
-     * @param string $spec
-     * @param array  $options
+     * @param string $timeZone
      *
      * @dataProvider getCreateDateTimeZoneData
      */
-    public function testCreateDateTimeZone(string $spec, array $options = []): void
+    public function testCreateDateTimeZone($timeZone): void
     {
         $factory = new DateTimeFactory();
 
-        $dateTimeZone = $factory->createDateTimeZone($spec, $options);
+        $dateTimeZone = $factory->createDateTimeZone($timeZone);
 
-        $this->assertSame($spec, $dateTimeZone->getName());
+        $this->assertSame($timeZone, $dateTimeZone->getName());
     }
 
     /**
@@ -241,13 +254,13 @@ class DateTimeFactoryTest extends TestCase
      * Ensure that if providing an invalid $spec argument to createDateTimeZone() a new DateTimeFactoryException
      * is thrown.
      *
-     * @param string $spec The invalid timezone specification.
+     * @param string $timeZone The invalid timezone specification.
      *
      * @throws DateTimeFactoryException
      *
      * @dataProvider getCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalidData
      */
-    public function testCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalid(string $spec): void
+    public function testCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalid(string $timeZone): void
     {
         $factory = new DateTimeFactory();
 
@@ -255,13 +268,13 @@ class DateTimeFactoryTest extends TestCase
         $this->expectExceptionMessage(
             sprintf(
                 'Failed to create a valid \DateTimeZone instance using \'%s\' in \'%s\'.',
-                $spec,
+                $timeZone,
                 DateTimeFactory::class
             )
         );
 
 
-        $factory->createDateTimeZone($spec);
+        $factory->createDateTimeZone($timeZone);
     }
 
     /**

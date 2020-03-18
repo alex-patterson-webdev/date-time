@@ -13,27 +13,24 @@ use Arp\DateTime\Exception\DateTimeFactoryException;
 class DateTimeFactory implements DateTimeFactoryInterface
 {
     /**
-     * Create a new \DateTime instance using the provided specification.
+     * Create a new \DateTime instance using the provided $time.
      *
-     * @param null|string $spec    The optional date and time specification.
-     * @param array       $options The date and time options.
+     * @param null|string               $time     The optional date and time specification
+     * @param \DateTimeZone|string|null $timeZone The date timezone object or string
      *
      * @return \DateTime
      *
-     * @throws DateTimeFactoryException If the \DateTime instance cannot be created.
+     * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createDateTime(string $spec = null, array $options = []): \DateTime
+    public function createDateTime(string $time = 'now', $timeZone = null): \DateTime
     {
-        $spec = $spec ?? 'now';
-        $timeZone = $options['time_zone'] ?? null;
-
         try {
-            return new \DateTime($spec, $this->resolveDateTimeZone($timeZone));
+            return new \DateTime($time, $this->resolveDateTimeZone($timeZone));
         } catch (\Throwable $e) {
             throw new DateTimeFactoryException(
                 sprintf(
-                    'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-                    $spec,
+                    'Failed to create a valid \DateTime instance using time \'%s\' in \'%s\'.',
+                    $time,
                     static::class
                 )
             );
@@ -41,9 +38,62 @@ class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
+     * Create a new \DateTimeZone instance using the provided specification.
+     *
+     * @param string $timeZone The date time zone specification
+     *
+     * @return \DateTimeZone
+     *
+     * @throws DateTimeFactoryException If the \DateTimeZone cannot be created.
+     */
+    public function createDateTimeZone(string $timeZone): \DateTimeZone
+    {
+        try {
+            return new \DateTimeZone($timeZone);
+        } catch (\Throwable $e) {
+            throw new DateTimeFactoryException(
+                sprintf(
+                    'Failed to create a valid \DateTimeZone instance using \'%s\' in \'%s\'.',
+                    $timeZone,
+                    static::class
+                )
+            );
+        }
+    }
+
+    /**
+     * Create a new \DateTime instance using the provided format.
+     *
+     * @param string                    $format   The date and time format
+     * @param string                    $time     The date and time
+     * @param \DateTimeZone|string|null $timeZone The date time zone.
+     *
+     * @return \DateTime
+     *
+     * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
+     */
+    public function createFromFormat(string $format, string $time, $timeZone = null): \DateTime
+    {
+        $dateTime = \DateTime::createFromFormat($format, $time, $this->resolveDateTimeZone($timeZone));
+
+        if (empty($dateTime) || (! $dateTime instanceof \DateTime)) {
+            throw new DateTimeFactoryException(
+                sprintf(
+                    'Failed to create a valid \DateTime instance using format \'%s\' for time \'%s\' in \'%s\'.',
+                    $format,
+                    $time,
+                    static::class
+                )
+            );
+        }
+
+        return $dateTime;
+    }
+
+    /**
      * Resolve a date time zone from the provided $timeZone argument.
      *
-     * @param mixed $timeZone
+     * @param string|\DateTimeZone|null $timeZone
      *
      * @return \DateTimeZone|null
      *
@@ -58,60 +108,5 @@ class DateTimeFactory implements DateTimeFactoryInterface
         }
 
         return $timeZone;
-    }
-
-    /**
-     * Create a new \DateTimeZone instance using the provided specification.
-     *
-     * @param string $spec    The date time zone specification.
-     * @param array  $options The optional creation options.
-     *
-     * @return \DateTimeZone
-     *
-     * @throws DateTimeFactoryException If the \DateTimeZone cannot be created.
-     */
-    public function createDateTimeZone(string $spec, array $options = []): \DateTimeZone
-    {
-        try {
-            return new \DateTimeZone($spec);
-        } catch (\Throwable $e) {
-            throw new DateTimeFactoryException(
-                sprintf(
-                    'Failed to create a valid \DateTimeZone instance using \'%s\' in \'%s\'.',
-                    $spec,
-                    static::class
-                )
-            );
-        }
-    }
-
-    /**
-     * Create a new \DateTime instance using the provided format.
-     *
-     * @param string $spec    The date and time specification.
-     * @param string $format  The date and time format.
-     * @param array  $options The date and time options.
-     *
-     * @return \DateTime
-     *
-     * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
-     */
-    public function createFromFormat(string $spec, string $format, array $options = []): \DateTime
-    {
-        $timeZone = $options['time_zone'] ?? null;
-
-        $dateTime = \DateTime::createFromFormat($format, $spec, $this->resolveDateTimeZone($timeZone));
-
-        if (empty($dateTime) || (! $dateTime instanceof \DateTime)) {
-            throw new DateTimeFactoryException(
-                sprintf(
-                    'Failed to create a valid \DateTime instance using specification \'%s\' in \'%s\'.',
-                    $spec,
-                    static::class
-                )
-            );
-        }
-
-        return $dateTime;
     }
 }
