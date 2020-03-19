@@ -11,3 +11,17 @@ are useful for the creation and manipulation of Date and Time objects in PHP.
 Installation via [composer](https://getcomposer.org).
 
     require alex-patterson-webdev/date-time ^1
+   
+## Components
+
+The module provides the following components
+
+- `DateTimeFactory` Provides an abstraction of the creation of `DateTime` objects.
+- `DateIntervalFactory` Provides an abstract for the creation of `DateInterval` objects.
+- `CurrentDateTimeProvider` service that exposes one `getDateTime() : \DateTime` method that will always return the current date and time.
+
+## Unit Tests
+
+Unit test using PHP Unit 8.
+
+    php vendor/bin/phpunit
