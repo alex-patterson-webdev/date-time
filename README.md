@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.com/alex-patterson-webdev/date-time.svg?branch=master)](https://travis-ci.com/alex-patterson-webdev/date-time)
 [![codecov](https://codecov.io/gh/alex-patterson-webdev/date-time/branch/master/graph/badge.svg)](https://codecov.io/gh/alex-patterson-webdev/date-time)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alex-patterson-webdev/date-time/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alex-patterson-webdev/date-time/?branch=master)
 
 # About
 
