@@ -1,7 +1,7 @@
 {
   "name": "alex-patterson-webdev/date-time",
   "version": "1.0.0",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "authors": [
     {
@@ -29,7 +29,7 @@
     }
   },
   "scripts": {
-    "test": "phpunit --coverage-clover=coverage.xml"
+    "test": "php vendor/bin/phpunit --coverage-clover=coverage.xml"
   },
   "config": {
     "preferred-install": "dist",
