@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ArpTest\DateTime;
 
@@ -33,6 +35,8 @@ class CurrentDateTimeProviderTest extends TestCase
 
     /**
      * Ensure that the provider implements DateTimeProviderInterface.
+     *
+     * @covers \Arp\DateTime\CurrentDateTimeProvider
      */
     public function testImplementsDateTimeProviderInterface(): void
     {
@@ -43,6 +47,8 @@ class CurrentDateTimeProviderTest extends TestCase
 
     /**
      * Ensure that a new \DateTime instance is returned when calling.
+     *
+     * @covers \Arp\DateTime\CurrentDateTimeProvider::getDateTime
      */
     public function testGetDateTimeWillReturnDateTimeInstance(): void
     {
@@ -60,6 +66,8 @@ class CurrentDateTimeProviderTest extends TestCase
     /**
      * Ensure that calls to getDateTime that cannot create a new date time instance will throw
      * a DateTimeProviderException.
+     *
+     * @covers \Arp\DateTime\CurrentDateTimeProvider::getDateTime
      */
     public function testGetDateTimeWillThrowDateTimeProviderException(): void
     {

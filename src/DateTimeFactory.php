@@ -22,7 +22,7 @@ class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException If the \DateTime instance cannot be created.
      */
-    public function createDateTime(string $spec = null, array $options = []): \DateTime
+    public function createDateTime(string $spec = null, array $options = []): \DateTimeInterface
     {
         $spec = $spec ?? 'now';
         $timeZone = $options['time_zone'] ?? null;
@@ -92,11 +92,11 @@ class DateTimeFactory implements DateTimeFactoryInterface
      * @param string $format  The date and time format.
      * @param array  $options The date and time options.
      *
-     * @return \DateTime
+     * @return \DateTimeInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createFromFormat(string $spec, string $format, array $options = []): \DateTime
+    public function createFromFormat(string $spec, string $format, array $options = []): \DateTimeInterface
     {
         $timeZone = $options['time_zone'] ?? null;
 

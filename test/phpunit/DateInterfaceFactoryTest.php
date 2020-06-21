@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ArpTest\DateTime;
 
@@ -15,6 +17,8 @@ class DateInterfaceFactoryTest extends TestCase
 {
     /**
      * Ensure that the DateIntervalFactory implements the DateIntervalFactoryInterface.
+     *
+     * @covers \Arp\DateTime\DateIntervalFactory
      */
     public function testImplementsDateIntervalFactoryInterface(): void
     {
@@ -29,6 +33,8 @@ class DateInterfaceFactoryTest extends TestCase
      * @param string $spec The \DateInterval specification.
      *
      * @dataProvider getCreateDateIntervalData
+     *
+     * @covers \Arp\DateTime\DateIntervalFactory::createDateInterval
      */
     public function testCreateDateInterval(string $spec): void
     {
@@ -67,6 +73,8 @@ class DateInterfaceFactoryTest extends TestCase
      * @param string $spec
      *
      * @dataProvider getCreateDateIntervalWillThrowDateIntervalFactoryExceptionData
+     *
+     * @covers \Arp\DateTime\DateIntervalFactory::createDateInterval
      */
     public function testCreateDateIntervalWillThrowDateIntervalFactoryException(string $spec): void
     {

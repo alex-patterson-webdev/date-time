@@ -22,14 +22,14 @@ interface DateCreatedAwareInterface
     /**
      * Return the created date.
      *
-     * @return \DateTime|null
+     * @return \DateTimeInterface|null
      */
-    public function getDateCreated(): ?\DateTime;
+    public function getDateCreated(): ?\DateTimeInterface;
 
     /**
      * Set the created date.
      *
-     * @param \DateTime|null $dateCreated
+     * @param \DateTimeInterface|null $dateCreated
      */
-    public function setDateCreated(?\DateTime $dateCreated);
+    public function setDateCreated(?\DateTimeInterface $dateCreated);
 }

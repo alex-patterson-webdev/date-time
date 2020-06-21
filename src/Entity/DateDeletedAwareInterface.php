@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime\Entity;
 
@@ -20,12 +22,12 @@ interface DateDeletedAwareInterface
      *
      * @return \DateTime|null
      */
-    public function getDateDeleted(): ?\DateTime;
+    public function getDateDeleted(): ?\DateTimeInterface;
 
     /**
      * Set the deleted date.
      *
-     * @param \DateTime|null $dateTime
+     * @param \DateTimeInterface|null $dateTime
      */
-    public function setDateDeleted(?\DateTime $dateTime): void;
+    public function setDateDeleted(?\DateTimeInterface $dateTime): void;
 }

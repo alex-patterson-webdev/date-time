@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime\Entity;
 
@@ -9,9 +11,9 @@ namespace Arp\DateTime\Entity;
 trait DateCreatedAwareTrait
 {
     /**
-     * @var \DateTime|null
+     * @var \DateTimeInterface|null
      */
-    protected $dateCreated;
+    protected ?\DateTimeInterface $dateCreated;
 
     /**
      * Check if the created date has been defined.
@@ -26,9 +28,9 @@ trait DateCreatedAwareTrait
     /**
      * Return the created date.
      *
-     * @return \DateTime|null
+     * @return \DateTimeInterface|null
      */
-    public function getDateCreated(): ?\DateTime
+    public function getDateCreated(): ?\DateTimeInterface
     {
         return $this->dateCreated;
     }
@@ -36,9 +38,9 @@ trait DateCreatedAwareTrait
     /**
      * Set the created date.
      *
-     * @param \DateTime|null $dateCreated
+     * @param \DateTimeInterface|null $dateCreated
      */
-    public function setDateCreated(?\DateTime $dateCreated): void
+    public function setDateCreated(?\DateTimeInterface $dateCreated): void
     {
         $this->dateCreated = $dateCreated;
     }

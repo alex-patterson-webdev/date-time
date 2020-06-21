@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime\Entity;
 
@@ -9,9 +11,9 @@ namespace Arp\DateTime\Entity;
 class DateDeletedAwareTrait
 {
     /**
-     * @var \DateTime|null
+     * @var \DateTimeInterface|null
      */
-    protected $dateDeleted;
+    protected ?\DateTimeInterface $dateDeleted;
 
     /**
      * Check if the deleted date has been set.
@@ -26,9 +28,9 @@ class DateDeletedAwareTrait
     /**
      * Return the deleted date.
      *
-     * @return \DateTime|null
+     * @return \DateTimeInterface|null
      */
-    public function getDateDeleted(): ?\DateTime
+    public function getDateDeleted(): ?\DateTimeInterface
     {
         return $this->dateDeleted;
     }
@@ -36,9 +38,9 @@ class DateDeletedAwareTrait
     /**
      * Set the deleted date.
      *
-     * @param \DateTime|null $dateTime
+     * @param \DateTimeInterface|null $dateTime
      */
-    public function setDateDeleted(?\DateTime $dateTime): void
+    public function setDateDeleted(?\DateTimeInterface $dateTime): void
     {
         $this->dateDeleted = $dateTime;
     }

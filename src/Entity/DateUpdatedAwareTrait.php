@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Arp\DateTime\Entity;
 
@@ -9,9 +11,9 @@ namespace Arp\DateTime\Entity;
 trait DateUpdatedAwareTrait
 {
     /**
-     * @var \DateTime|null
+     * @var \DateTimeInterface|null
      */
-    protected $dateUpdated;
+    protected ?\DateTimeInterface $dateUpdated;
 
     /**
      * Check if the updated date has been set.
@@ -26,7 +28,7 @@ trait DateUpdatedAwareTrait
     /**
      * Return the updated date.
      *
-     * @return \DateTime|null
+     * @return \DateTimeInterface|null
      */
     public function getDateUpdated(): ?\DateTime
     {
@@ -36,9 +38,9 @@ trait DateUpdatedAwareTrait
     /**
      * Set the updated date.
      *
-     * @param \DateTime|null $dateTime
+     * @param \DateTimeInterface|null $dateTime
      */
-    public function setDateUpdated(?\DateTime $dateTime): void
+    public function setDateUpdated(?\DateTimeInterface $dateTime): void
     {
         $this->dateUpdated = $dateTime;
     }

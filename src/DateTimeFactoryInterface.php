@@ -18,11 +18,11 @@ interface DateTimeFactoryInterface
      * @param null|string $spec    The optional date and time specification.
      * @param array       $options The date and time options.
      *
-     * @return \DateTime
+     * @return \DateTimeInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createDateTime(string $spec = null, array $options = []): \DateTime;
+    public function createDateTime(string $spec = null, array $options = []): \DateTimeInterface;
 
     /**
      * Create a new \DateTime instance using the provided format.
@@ -31,11 +31,11 @@ interface DateTimeFactoryInterface
      * @param string $format  The date and time format.
      * @param array  $options The date and time options.
      *
-     * @return \DateTime
+     * @return \DateTimeInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createFromFormat(string $spec, string $format, array $options = []): \DateTime;
+    public function createFromFormat(string $spec, string $format, array $options = []): \DateTimeInterface;
 
     /**
      * Create a new \DateTimeZone instance using the provided specification.
