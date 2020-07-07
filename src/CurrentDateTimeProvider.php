@@ -17,7 +17,7 @@ final class CurrentDateTimeProvider implements DateTimeProviderInterface
     /**
      * @var DateTimeFactoryInterface
      */
-    private $factory;
+    private DateTimeFactoryInterface $factory;
 
     /**
      * @param DateTimeFactoryInterface $factory
@@ -30,11 +30,11 @@ final class CurrentDateTimeProvider implements DateTimeProviderInterface
     /**
      * Return a date and time instance.
      *
-     * @return \DateTime
+     * @return \DateTimeInterface
      *
      * @throws DateTimeProviderException  If the date and time cannot be returned.
      */
-    public function getDateTime(): \DateTime
+    public function getDateTime(): \DateTimeInterface
     {
         try {
             return $this->factory->createDateTime();

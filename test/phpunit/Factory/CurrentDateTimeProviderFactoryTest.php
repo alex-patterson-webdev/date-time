@@ -19,6 +19,8 @@ final class CurrentDateTimeProviderFactoryTest extends TestCase
 {
     /**
      * Ensure that the CurrentDateTimeProviderFactory implements the FactoryInterface.
+     *
+     * @covers \Arp\DateTime\Factory\CurrentDateTimeProviderFactory
      */
     public function testImplementsFactoryInterface(): void
     {
@@ -28,49 +30,39 @@ final class CurrentDateTimeProviderFactoryTest extends TestCase
     }
 
     /**
-     * Assert that the create() method will throw a FactoryException if the provided 'factory' options is invalid.
-     *
-     * @param mixed $dateTimeFactory
-     *
-     * @dataProvider getCreateWillThrowFactoryExceptionIfProvidedDateTimeArgumentIsNotOfTypeDateTimeFactoryData
+     * Assert that if provided with a 'factory' configuration option to create() a new FactoryException
+     * will be thrown.
      *
      * @covers \Arp\DateTime\Factory\CurrentDateTimeProviderFactory::create
      */
-    public function testCreateWillThrowFactoryExceptionIfProvidedDateTimeArgumentIsNotOfTypeDateTimeFactory(
-        $dateTimeFactory
-    ): void {
+    public function testCreateWillThrowFactoryExceptionIfConfigIsNotAValidDateTimeFactory(): void
+    {
         $factory = new CurrentDateTimeProviderFactory();
 
+        $factoryName = \stdClass::class;
         $config = [
-            'factory' => $dateTimeFactory,
+            'factory' => $factoryName,
         ];
 
         $this->expectException(FactoryException::class);
-        $this->expectExceptionMessage(sprintf(
-            'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
-            DateTimeFactory::class,
-            is_string($dateTimeFactory) ? $dateTimeFactory : gettype($dateTimeFactory),
-            CurrentDateTimeProviderFactory::class
-        ));
+        $this->expectExceptionMessage(
+            sprintf(
+                'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
+                DateTimeFactory::class,
+                is_string($factoryName) ? $factoryName : gettype($factoryName),
+                CurrentDateTimeProviderFactory::class
+            )
+        );
 
         $factory->create($config);
-    }
-
-    /**
-     * @return array
-     */
-    public function getCreateWillThrowFactoryExceptionIfProvidedDateTimeArgumentIsNotOfTypeDateTimeFactoryData(): array
-    {
-        return [
-            [\stdClass::class],
-            [new \stdClass()],
-        ];
     }
 
     /**
      * Ensure that create() will return a configured CurrentDateTimeProvider instance.
      *
      * @param array $config The optional test configuration.
+     *
+     * @covers \Arp\DateTime\Factory\CurrentDateTimeProviderFactory::create
      */
     public function testCreateWillReturnADateTimeProvider(array $config = []): void
     {

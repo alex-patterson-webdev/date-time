@@ -30,12 +30,14 @@ class CurrentDateTimeProviderFactory implements FactoryInterface
         $factory = $config['factory'] ?? DateTimeFactory::class;
 
         if (! is_a($factory, DateTimeFactory::class, true)) {
-            throw new FactoryException(sprintf(
-                'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
-                DateTimeFactory::class,
-                is_string($factory) ? $factory : gettype($factory),
-                static::class
-            ));
+            throw new FactoryException(
+                sprintf(
+                    'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
+                    DateTimeFactory::class,
+                    is_string($factory) ? $factory : gettype($factory),
+                    static::class
+                )
+            );
         }
 
         return new CurrentDateTimeProvider(new $factory());

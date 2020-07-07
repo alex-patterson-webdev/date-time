@@ -28,11 +28,13 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
         try {
             return new \DateInterval($spec);
         } catch (\Throwable $e) {
-            throw new DateIntervalFactoryException(sprintf(
-                'Failed to create a valid \DateInterval instance using specification \'%s\' in \'%s\'.',
-                $spec,
-                static::class
-            ));
+            throw new DateIntervalFactoryException(
+                sprintf(
+                    'Failed to create a valid \DateInterval instance using specification \'%s\' in \'%s\'.',
+                    $spec,
+                    static::class
+                )
+            );
         }
     }
 }

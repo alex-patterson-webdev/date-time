@@ -15,9 +15,9 @@ interface DateTimeProviderInterface
     /**
      * Return a date and time instance.
      *
-     * @return \DateTime
+     * @return \DateTimeInterface
      *
      * @throws DateTimeProviderException  If the date and time cannot be returned.
      */
-    public function getDateTime(): \DateTime;
+    public function getDateTime(): \DateTimeInterface;
 }
