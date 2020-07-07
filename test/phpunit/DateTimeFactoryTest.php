@@ -144,7 +144,7 @@ class DateTimeFactoryTest extends TestCase
      * @covers \Arp\DateTime\DateTimeFactory::createFromFormat
      * @covers \Arp\DateTime\DateTimeFactory::resolveDateTimeZone
      */
-    public function createFromFormat(string $spec, string $format, array $options = []): void
+    public function testCreateFromFormat(string $spec, string $format, array $options = []): void
     {
         /** @var DateTimeFactory|MockObject $factory */
         $factory = $this->getMockBuilder(DateTimeFactory::class)
