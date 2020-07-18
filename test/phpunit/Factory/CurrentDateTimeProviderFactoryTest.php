@@ -49,7 +49,7 @@ final class CurrentDateTimeProviderFactoryTest extends TestCase
             sprintf(
                 'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
                 DateTimeFactory::class,
-                is_string($factoryName) ? $factoryName : gettype($factoryName),
+                $factoryName,
                 CurrentDateTimeProviderFactory::class
             )
         );
