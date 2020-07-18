@@ -15,14 +15,14 @@ Installation via [composer](https://getcomposer.org).
    
 ## Components
 
-The module provides the following components
+The module provides the following components.
 
 - `DateTimeFactory` Provides an abstraction of the creation of `DateTime` objects.
 - `DateIntervalFactory` Provides an abstract for the creation of `DateInterval` objects.
-- `CurrentDateTimeProvider` service that exposes one `getDateTime() : \DateTime` method that will always return the current date and time.
+- `CurrentDateTimeProvider` service class which will always return the current date and time.
 
 ## Unit Tests
 
-Unit test using PHP Unit 8.
+Unit test using PHP Unit.
 
     php vendor/bin/phpunit
