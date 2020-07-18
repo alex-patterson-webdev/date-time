@@ -1,10 +1,10 @@
 <phpunit
-    bootstrap="./vendor/autoload.php"
-    verbose="true"
-    beStrictAboutOutputDuringTests="true"
-    beStrictAboutTestsThatDoNotTestAnything="true"
-    beStrictAboutTodoAnnotatedTests="true"
-    colors="true"
+        bootstrap="./vendor/autoload.php"
+        verbose="true"
+        beStrictAboutOutputDuringTests="true"
+        beStrictAboutTestsThatDoNotTestAnything="true"
+        beStrictAboutTodoAnnotatedTests="true"
+        colors="true"
 >
     <testsuites>
         <testsuite name="DateTime">
@@ -16,4 +16,8 @@
             <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-clover" target="clover.xml"/>
+    </logging>
 </phpunit>
+
