@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package ArpTest\DateTime
  */
-class DateInterfaceFactoryTest extends TestCase
+class DateIntervalFactoryTest extends TestCase
 {
     /**
      * Ensure that the DateIntervalFactory implements the DateIntervalFactoryInterface.
@@ -80,12 +80,14 @@ class DateInterfaceFactoryTest extends TestCase
     {
         $factory = new DateIntervalFactory();
 
+        $exceptionMessage = sprintf('DateInterval::__construct(): Unknown or bad format (%s)', $spec);
+
         $this->expectException(DateIntervalFactoryException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'Failed to create a valid \DateInterval instance using specification \'%s\' in \'%s\'.',
+                'Failed to create a valid \DateInterval instance using \'%s\': %s',
                 $spec,
-                DateIntervalFactory::class
+                $exceptionMessage
             )
         );
 

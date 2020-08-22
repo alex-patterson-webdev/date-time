@@ -29,12 +29,34 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
             return new \DateInterval($spec);
         } catch (\Throwable $e) {
             throw new DateIntervalFactoryException(
-                sprintf(
-                    'Failed to create a valid \DateInterval instance using specification \'%s\' in \'%s\'.',
-                    $spec,
-                    static::class
-                )
+                sprintf('Failed to create a valid \DateInterval instance using \'%s\': %s', $spec, $e->getMessage()),
+                $e->getCode(),
+                $e
             );
         }
+    }
+
+    /**
+     * Perform a diff of two dates and return the \DateInterval
+     *
+     * @param \DateTimeInterface $origin    The origin date
+     * @param \DateTimeInterface $target    The date to compare to
+     * @param bool               $absolute  If the interval is negative, should it be forced to be a positive value?
+     *
+     * @return \DateInterval
+     *
+     * @throws DateIntervalFactoryException If the date diff cannot be performed
+     */
+    public function diff(\DateTimeInterface $origin, \DateTimeInterface $target, bool $absolute = false): \DateInterval
+    {
+        $dateInterval = $origin->diff($target, $absolute);
+
+        if (false === $dateInterval || !$dateInterval instanceof \DateInterval) {
+            throw new DateIntervalFactoryException(
+                'Failed to create valid \DateInterval while performing date diff'
+            );
+        }
+
+        return $dateInterval;
     }
 }

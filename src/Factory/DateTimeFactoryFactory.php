@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arp\DateTime\Factory;
 
+use Arp\DateTime\DateIntervalFactory;
 use Arp\DateTime\DateTimeFactory;
 use Arp\Factory\FactoryInterface;
 
@@ -14,14 +15,14 @@ use Arp\Factory\FactoryInterface;
 final class DateTimeFactoryFactory implements FactoryInterface
 {
     /**
-     * Create a new DateTimeFactory instance
-     *
      * @param array $config
      *
      * @return DateTimeFactory
      */
     public function create(array $config = []): DateTimeFactory
     {
-        return new DateTimeFactory();
+        $intervalFactory = $config['interval_factory'] ?? new DateIntervalFactory();
+
+        return new DateTimeFactory($intervalFactory);
     }
 }
