@@ -57,8 +57,8 @@ final class CurrentDateTimeProviderTest extends TestCase
         $dateTime = new \DateTime();
 
         $this->factory->expects($this->once())
-                      ->method('createDateTime')
-                      ->willReturn($dateTime);
+            ->method('createDateTime')
+            ->willReturn($dateTime);
 
         $this->assertSame($dateTime, $provider->getDateTime());
     }
@@ -77,8 +77,8 @@ final class CurrentDateTimeProviderTest extends TestCase
         $exception = new DateTimeFactoryException($exceptionMessage);
 
         $this->factory->expects($this->once())
-                      ->method('createDateTime')
-                      ->willThrowException($exception);
+            ->method('createDateTime')
+            ->willThrowException($exception);
 
         $this->expectException(DateTimeProviderException::class);
         $this->expectExceptionMessage($exceptionMessage);
