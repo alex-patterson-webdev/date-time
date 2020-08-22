@@ -11,7 +11,7 @@ use Arp\DateTime\Exception\DateTimeFactoryException;
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime
  */
-final class DateTimeFactory implements DateTimeFactoryInterface, DateIntervalFactoryInterface
+final class DateTimeFactory implements DateFactoryInterface
 {
     /**
      * @var DateIntervalFactoryInterface
