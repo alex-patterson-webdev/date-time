@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package ArpTest\DateTime
  */
-class DateIntervalFactoryTest extends TestCase
+final class DateIntervalFactoryTest extends TestCase
 {
     /**
      * Ensure that the DateIntervalFactory implements the DateIntervalFactoryInterface.

@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package ArpTest\DateTime
  */
-class CurrentDateTimeProviderTest extends TestCase
+final class CurrentDateTimeProviderTest extends TestCase
 {
     /**
      * @var DateTimeFactoryInterface|MockObject
