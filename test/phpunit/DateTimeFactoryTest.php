@@ -10,7 +10,6 @@ use Arp\DateTime\DateTimeFactory;
 use Arp\DateTime\DateTimeFactoryInterface;
 use Arp\DateTime\Exception\DateIntervalFactoryException;
 use Arp\DateTime\Exception\DateTimeFactoryException;
-use Cassandra\Date;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
