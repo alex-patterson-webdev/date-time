@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace ArpTest\DateTime;
 
+use Arp\DateTime\DateFactoryInterface;
 use Arp\DateTime\DateIntervalFactoryInterface;
 use Arp\DateTime\DateTimeFactory;
 use Arp\DateTime\DateTimeFactoryInterface;
+use Arp\DateTime\Exception\DateIntervalFactoryException;
 use Arp\DateTime\Exception\DateTimeFactoryException;
+use Cassandra\Date;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -31,15 +34,39 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
+     * Ensure that the factory implements DateFactoryInterface.
+     *
+     * @covers \Arp\DateTime\DateTimeFactory
+     */
+    public function testImplementsDateFactoryInterface(): void
+    {
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
+
+        $this->assertInstanceOf(DateFactoryInterface::class, $factory);
+    }
+
+    /**
      * Ensure that the factory implements DateTimeFactoryInterface.
      *
      * @covers \Arp\DateTime\DateTimeFactory
      */
-    public function testImplementsDateTimeTimeFactoryInterface(): void
+    public function testImplementsDateTimeFactoryInterface(): void
     {
         $factory = new DateTimeFactory($this->dateIntervalFactory);
 
         $this->assertInstanceOf(DateTimeFactoryInterface::class, $factory);
+    }
+
+    /**
+     * Ensure that the factory implements DateIntervalFactoryInterface.
+     *
+     * @covers \Arp\DateTime\DateTimeFactory
+     */
+    public function testImplementsDateIntervalFactoryInterface(): void
+    {
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
+
+        $this->assertInstanceOf(DateIntervalFactoryInterface::class, $factory);
     }
 
     /**
@@ -92,13 +119,14 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * Ensure that if the DateTime cannot be create a new DateTimeFactoryException will be thrown.
+     * Ensure that if the DateTime cannot be created because the provided $spec is invalid, a new
+     * DateTimeFactoryException will be thrown.
      *
      * @covers \Arp\DateTime\DateTimeFactory::createDateTime
      *
      * @throws DateTimeFactoryException
      */
-    public function testCreateDateTimeWillThrowDateTimeFactoryException(): void
+    public function testCreateDateTimeWillThrowDateTimeFactoryExceptionForInvalidDateTimeSpec(): void
     {
         $factory = new DateTimeFactory($this->dateIntervalFactory);
 
@@ -123,19 +151,20 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * Ensure that a createFromFormat() will throw a DateTimeFactoryException if a \DateTime instance cannot be created.
+     * Assert that a DateTimeFactoryException will be thrown if providing an invalid $spec
+     * argument to createFromFormat().
      *
      * @param string                    $spec
      * @param string                    $format
      * @param \DateTimeZone|string|null $timeZone
      *
-     * @dataProvider getCreateFromFormatWillThrowDateTimeFactoryExceptionData
+     * @dataProvider getCreateFromFormatWillThrowDateTimeFactoryExceptionForInvalidDateTimeData
      *
      * @covers       \Arp\DateTime\DateTimeFactory::createFromFormat
      *
      * @throws DateTimeFactoryException
      */
-    public function testCreateFromFormatWillThrowDateTimeFactoryException(
+    public function testCreateFromFormatWillThrowDateTimeFactoryExceptionForInvalidDateTimeSpec(
         string $spec,
         string $format,
         $timeZone = null
@@ -157,7 +186,7 @@ final class DateTimeFactoryTest extends TestCase
     /**
      * @return array
      */
-    public function getCreateFromFormatWillThrowDateTimeFactoryExceptionData(): array
+    public function getCreateFromFormatWillThrowDateTimeFactoryExceptionForInvalidDateTimeData(): array
     {
         return [
             [
@@ -165,6 +194,36 @@ final class DateTimeFactoryTest extends TestCase
                 'Y-m-d',
             ],
         ];
+    }
+
+    /**
+     * Assert that a DateTimeFactoryException will be thrown when providing a invalid \DateTimeZone object to
+     * createDateTime().
+     *
+     * @covers \Arp\DateTime\DateTimeFactory::createDateTime
+     * @covers \Arp\DateTime\DateTimeFactory::resolveDateTimeZone
+     *
+     * @throws DateTimeFactoryException
+     */
+    public function testCreateDateTimeWillThrowDateTimeFactoryExceptionForInvalidDateTimeZone(): void
+    {
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
+
+        $spec = 'now';
+        $timeZone = new \stdClass();
+
+        $errorMessage = sprintf(
+            'The \'timeZone\' argument must be a \'string\''
+            . 'or an object of type \'%s\'; \'%s\' provided in \'%s\'',
+            \DateTimeZone::class,
+            is_object($timeZone) ? get_class($timeZone) : gettype($timeZone),
+            'resolveDateTimeZone'
+        );
+
+        $this->expectException(DateTimeFactoryException::class);
+        $this->expectExceptionMessage($errorMessage);
+
+        $factory->createDateTime($spec, $timeZone);
     }
 
     /**
@@ -325,9 +384,8 @@ final class DateTimeFactoryTest extends TestCase
      *
      * @param string $spec
      *
-     * @covers \Arp\DateTime\DateTimeFactory::createDateInterval
+     * @covers       \Arp\DateTime\DateTimeFactory::createDateInterval
      * @dataProvider getCreateDateIntervalWillReturnANewDateIntervalToSpecData
-     *
      *
      * @throws DateTimeFactoryException
      */
@@ -345,6 +403,9 @@ final class DateTimeFactoryTest extends TestCase
         $this->assertSame($dateInterval, $factory->createDateInterval($spec));
     }
 
+    /**
+     * @return array
+     */
     public function getCreateDateIntervalWillReturnANewDateIntervalToSpecData(): array
     {
         return [
@@ -353,5 +414,95 @@ final class DateTimeFactoryTest extends TestCase
             ['P2Y4DT6H8M'],
             ['P7Y8M'],
         ];
+    }
+
+    /**
+     * Assert that an invalid $spec passed to createDateInterval() will raise a DateTimeFactoryException.
+     *
+     * @covers \Arp\DateTime\DateTimeFactory::createDateInterval
+     *
+     * @throws DateTimeFactoryException
+     */
+    public function testDateIntervalWillThrowDateTimeFactoryExceptionIfUnableToCreateADateInterval(): void
+    {
+        $spec = 'Hello';
+
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
+
+        $exceptionCode = 123;
+        $exceptionMessage = 'This is a test exception message';
+        $exception = new DateIntervalFactoryException($exceptionMessage, $exceptionCode);
+
+        $this->dateIntervalFactory->expects($this->once())
+            ->method('createDateInterval')
+            ->willThrowException($exception);
+
+        $errorMessage = sprintf(
+            'Failed to create date interval \'%s\': %s',
+            $spec,
+            $exceptionMessage
+        );
+
+        $this->expectDeprecationMessage(DateTimeFactoryException::class);
+        $this->expectExceptionMessage($errorMessage);
+        $this->expectExceptionCode($exceptionCode);
+
+        $factory->createDateInterval($spec);
+    }
+
+    /**
+     * Assert that the calls to diff will return a valid DateInterval.
+     *
+     * @covers \Arp\DateTime\DateTimeFactory::diff
+     *
+     * @throws DateTimeFactoryException
+     */
+    public function testDiffWillReturnDateInterval(): void
+    {
+        // @todo Data provider
+        $origin = new \DateTime();
+        $target = new \DateTime();
+        $absolute = false;
+
+        $dateInterval = $origin->diff($target);
+
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
+
+        $this->dateIntervalFactory->expects($this->once())
+            ->method('diff')
+            ->with($origin, $target, $absolute)
+            ->willReturn($dateInterval);
+
+        $this->assertSame($dateInterval, $factory->diff($origin, $target, $absolute));
+    }
+
+    /**
+     * Assert that a DateTimeFactoryException is thrown when unable to diff the provided dates.
+     *
+     * @covers \Arp\DateTime\DateTimeFactory::diff
+     *
+     * @throws DateTimeFactoryException
+     */
+    public function testDateTimeFactoryExceptionWillBeThrownIfDiffFails(): void
+    {
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
+
+        $origin = new \DateTime();
+        $target = new \DateTime();
+
+        $exceptionCode = 123;
+        $exceptionMessage = 'This is a test exception message';
+        $exception = new DateIntervalFactoryException($exceptionMessage, $exceptionCode);
+
+        $this->dateIntervalFactory->expects($this->once())
+            ->method('diff')
+            ->with($origin, $target, false)
+            ->willThrowException($exception);
+
+        $this->expectException(DateTimeFactoryException::class);
+        $this->expectExceptionMessage(sprintf('Failed to perform date diff: %s', $exceptionMessage));
+        $this->expectExceptionCode($exceptionCode);
+
+        $factory->diff($origin, $target);
     }
 }
