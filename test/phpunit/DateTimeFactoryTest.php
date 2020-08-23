@@ -222,7 +222,7 @@ final class DateTimeFactoryTest extends TestCase
         $this->expectException(DateTimeFactoryException::class);
         $this->expectExceptionMessage($errorMessage);
 
-        $factory->createDateTime($spec, $timeZone);
+        $factory->createDateTime($spec, /** @scrutinizer ignore-type */$timeZone);
     }
 
     /**
