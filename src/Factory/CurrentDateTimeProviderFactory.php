@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Arp\DateTime\Factory;
 
 use Arp\DateTime\CurrentDateTimeProvider;
-use Arp\DateTime\DateTimeFactory;
-use Arp\DateTime\DateTimeProviderInterface;
+use Arp\DateTime\DateTimeFactoryInterface;
 use Arp\Factory\Exception\FactoryException;
 use Arp\Factory\FactoryInterface;
 
@@ -17,29 +16,33 @@ use Arp\Factory\FactoryInterface;
 class CurrentDateTimeProviderFactory implements FactoryInterface
 {
     /**
-     * Create a new DateTimeProviderInterface instance from the provided $config.
-     *
+     * @var FactoryInterface
+     */
+    private FactoryInterface $dateTimeFactoryFactory;
+
+    /**
+     * @param FactoryInterface|null $dateTimeFactoryFactory
+     */
+    public function __construct(FactoryInterface $dateTimeFactoryFactory = null)
+    {
+        $this->dateTimeFactoryFactory = $dateTimeFactoryFactory ?? new DateTimeFactoryFactory();
+    }
+
+    /**
      * @param array $config
      *
-     * @return DateTimeProviderInterface
+     * @return CurrentDateTimeProvider
      *
      * @throws FactoryException If the date time provider cannot be created.
      */
-    public function create(array $config = []): DateTimeProviderInterface
+    public function create(array $config = []): CurrentDateTimeProvider
     {
-        $factory = $config['factory'] ?? DateTimeFactory::class;
-
-        if (!is_a($factory, DateTimeFactory::class, true)) {
-            throw new FactoryException(
-                sprintf(
-                    'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
-                    DateTimeFactory::class,
-                    is_string($factory) ? $factory : gettype($factory),
-                    static::class
-                )
-            );
+        /** @var DateTimeFactoryInterface|array $dateTimeFactory */
+        $dateTimeFactory = $config['date_time_factory'] ?? [];
+        if (is_array($dateTimeFactory)) {
+            $dateTimeFactory = $this->dateTimeFactoryFactory->create($dateTimeFactory);
         }
 
-        return new CurrentDateTimeProvider(new $factory());
+        return new CurrentDateTimeProvider($dateTimeFactory);
     }
 }
