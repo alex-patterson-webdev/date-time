@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace ArpTest\DateTime\Factory;
 
-use Arp\DateTime\DateTimeFactory;
+use Arp\DateTime\DateTimeFactoryInterface;
 use Arp\DateTime\DateTimeProviderInterface;
 use Arp\DateTime\Factory\CurrentDateTimeProviderFactory;
 use Arp\Factory\Exception\FactoryException;
 use Arp\Factory\FactoryInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,43 +19,28 @@ use PHPUnit\Framework\TestCase;
 final class CurrentDateTimeProviderFactoryTest extends TestCase
 {
     /**
+     * @var FactoryInterface|MockObject
+     */
+    private $dateTimeFactoryFactory;
+
+    /**
+     * Set up the test case dependencies
+     */
+    public function setUp(): void
+    {
+        $this->dateTimeFactoryFactory = $this->createMock(FactoryInterface::class);
+    }
+
+    /**
      * Ensure that the CurrentDateTimeProviderFactory implements the FactoryInterface.
      *
      * @covers \Arp\DateTime\Factory\CurrentDateTimeProviderFactory
      */
     public function testImplementsFactoryInterface(): void
     {
-        $factory = new CurrentDateTimeProviderFactory();
+        $factory = new CurrentDateTimeProviderFactory($this->dateTimeFactoryFactory);
 
         $this->assertInstanceOf(FactoryInterface::class, $factory);
-    }
-
-    /**
-     * Assert that if provided with a 'factory' configuration option to create() a new FactoryException
-     * will be thrown.
-     *
-     * @covers \Arp\DateTime\Factory\CurrentDateTimeProviderFactory::create
-     */
-    public function testCreateWillThrowFactoryExceptionIfConfigIsNotAValidDateTimeFactory(): void
-    {
-        $factory = new CurrentDateTimeProviderFactory();
-
-        $factoryName = \stdClass::class;
-        $config = [
-            'factory' => $factoryName,
-        ];
-
-        $this->expectException(FactoryException::class);
-        $this->expectExceptionMessage(
-            sprintf(
-                'The factory argument must be a class that implements \'%s\'; \'%s\' provided in \'%s\'',
-                DateTimeFactory::class,
-                $factoryName,
-                CurrentDateTimeProviderFactory::class
-            )
-        );
-
-        $factory->create($config);
     }
 
     /**
@@ -62,14 +48,41 @@ final class CurrentDateTimeProviderFactoryTest extends TestCase
      *
      * @param array $config The optional test configuration.
      *
+     * @dataProvider getCreateWillReturnADateTimeProviderData
      * @covers \Arp\DateTime\Factory\CurrentDateTimeProviderFactory::create
+     *
+     * @throws FactoryException
      */
     public function testCreateWillReturnADateTimeProvider(array $config = []): void
     {
-        $factory = new CurrentDateTimeProviderFactory();
+        $factory = new CurrentDateTimeProviderFactory($this->dateTimeFactoryFactory);
 
-        $provider = $factory->create($config);
+        $dateTimeFactoryConfig = $config['date_time_factory'] ?? [];
+        if (is_array($dateTimeFactoryConfig)) {
+            /** @var DateTimeFactoryInterface|MockObject $dateTimeFactory */
+            $this->dateTimeFactoryFactory->expects($this->once())
+                ->method('create')
+                ->with($dateTimeFactoryConfig)
+                ->willReturn($this->createMock(DateTimeFactoryInterface::class));
+        }
 
-        $this->assertInstanceOf(DateTimeProviderInterface::class, $provider);
+        $this->assertInstanceOf(DateTimeProviderInterface::class, $factory->create($config));
+    }
+
+    /**
+     * @return array
+     */
+    public function getCreateWillReturnADateTimeProviderData(): array
+    {
+        return [
+            [
+                [],
+            ],
+            [
+                [
+                    'date_time_factory' => $this->createMock(DateTimeFactoryInterface::class)
+                ],
+            ],
+        ];
     }
 }
