@@ -37,7 +37,7 @@ final class DateTimeFactoryTest extends TestCase
      */
     public function testImplementsDateTimeTimeFactoryInterface(): void
     {
-        $factory = new DateTimeFactory();
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
 
         $this->assertInstanceOf(DateTimeFactoryInterface::class, $factory);
     }
@@ -57,7 +57,7 @@ final class DateTimeFactoryTest extends TestCase
      */
     public function testCreateDateTime(string $spec, $timeZone = null): void
     {
-        $factory = new DateTimeFactory();
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
 
         $dateTime = $factory->createDateTime($spec, $timeZone);
 
@@ -100,7 +100,7 @@ final class DateTimeFactoryTest extends TestCase
      */
     public function testCreateDateTimeWillThrowDateTimeFactoryException(): void
     {
-        $factory = new DateTimeFactory();
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
 
         $spec = 'foo'; // invalid argument
 
@@ -140,7 +140,7 @@ final class DateTimeFactoryTest extends TestCase
         string $format,
         $timeZone = null
     ): void {
-        $factory = new DateTimeFactory();
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
 
         $this->expectException(DateTimeFactoryException::class);
         $this->expectExceptionMessage(
@@ -236,7 +236,7 @@ final class DateTimeFactoryTest extends TestCase
      */
     public function testCreateDateTimeZone(string $spec): void
     {
-        $factory = new DateTimeFactory();
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
 
         $dateTimeZone = $factory->createDateTimeZone($spec);
 
@@ -286,7 +286,7 @@ final class DateTimeFactoryTest extends TestCase
      */
     public function testCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalid(string $spec): void
     {
-        $factory = new DateTimeFactory();
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
 
         $exceptionMessage = sprintf('DateTimeZone::__construct(): Unknown or bad timezone (%s)', $spec);
 
@@ -317,6 +317,41 @@ final class DateTimeFactoryTest extends TestCase
             [
                 'Europe/MyEmpire',
             ],
+        ];
+    }
+
+    /**
+     * Assert that calls to creatDateInterval() will return the expected DateInterval instance.
+     *
+     * @param string $spec
+     *
+     * @covers \Arp\DateTime\DateTimeFactory::createDateInterval
+     * @dataProvider getCreateDateIntervalWillReturnANewDateIntervalToSpecData
+     *
+     *
+     * @throws DateTimeFactoryException
+     */
+    public function testCreateDateIntervalWillReturnANewDateIntervalToSpec(string $spec): void
+    {
+        $factory = new DateTimeFactory($this->dateIntervalFactory);
+
+        /** @var \DateInterval|MockObject $dateInterval */
+        $dateInterval = $this->createMock(\DateInterval::class);
+
+        $this->dateIntervalFactory->expects($this->once())
+            ->method('createDateInterval')
+            ->willReturn($dateInterval);
+
+        $this->assertSame($dateInterval, $factory->createDateInterval($spec));
+    }
+
+    public function getCreateDateIntervalWillReturnANewDateIntervalToSpecData(): array
+    {
+        return [
+            ['P100D'],
+            ['P4Y1DT9H11M3S'],
+            ['P2Y4DT6H8M'],
+            ['P7Y8M'],
         ];
     }
 }

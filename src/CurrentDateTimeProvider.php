@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Arp\DateTime;
 
+use Arp\DateTime\Exception\DateTimeFactoryException;
 use Arp\DateTime\Exception\DateTimeProviderException;
 
 /**
@@ -38,9 +39,9 @@ final class CurrentDateTimeProvider implements DateTimeProviderInterface
     {
         try {
             return $this->factory->createDateTime();
-        } catch (\Throwable $e) {
+        } catch (DateTimeFactoryException $e) {
             throw new DateTimeProviderException(
-                $e->getMessage(),
+                sprintf('Failed to create the current \DateTime instance: %s', $e->getMessage()),
                 $e->getCode(),
                 $e
             );

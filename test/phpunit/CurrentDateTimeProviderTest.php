@@ -81,8 +81,13 @@ final class CurrentDateTimeProviderTest extends TestCase
             ->willThrowException($exception);
 
         $this->expectException(DateTimeProviderException::class);
-        $this->expectExceptionMessage($exceptionMessage);
         $this->expectExceptionCode($exception->getCode());
+        $this->expectExceptionMessage(
+            sprintf(
+                'Failed to create the current \DateTime instance: %s',
+                $exceptionMessage
+            )
+        );
 
         $provider->getDateTime();
     }

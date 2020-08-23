@@ -154,7 +154,7 @@ final class DateTimeFactory implements DateFactoryInterface
      *
      * @param string|null|\DateTimeZone $timeZone
      *
-     * @return \DateTimeZone|null
+     * @return \DateTimeZone|null|string
      *
      * @throws DateTimeFactoryException
      */
