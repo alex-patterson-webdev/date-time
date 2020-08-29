@@ -4,22 +4,21 @@
 
 # About
 
-The `Arp\DateTime` module is a general purpose date and time helper library. It provides components and interfaces that 
-are useful for the creation and manipulation of Date and Time objects in PHP.
+The `Arp\DateTime` module provides date and time abstractions for the built in PHP classes `DateTime`, `DateTimeImmutable` and `DateInterval`.
 
 # Installation
 
 Installation via [composer](https://getcomposer.org).
 
-    require alex-patterson-webdev/date-time ^1
+    require alex-patterson-webdev/date-time ^2
    
-## Components
+## DateTimeFactory
 
-The module provides the following components.
+The `Arp\DateTime\DateTimeFactory` can be used as a replacement for any calls that would normally require `new \DateTime()`.
 
-- `DateTimeFactory` Provides an abstraction of the creation of `DateTime` objects.
-- `DateIntervalFactory` Provides an abstract for the creation of `DateInterval` objects.
-- `CurrentDateTimeProvider` service class which will always return the current date and time.
+## DateIntervalFactory
+
+The `Arp\DateTime\DateIntervalFactory` can be used as a replacement for any calls that would normally require `new \DateInterval()`.
 
 ## Unit Tests
 
