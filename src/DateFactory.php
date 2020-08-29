@@ -49,11 +49,7 @@ final class DateFactory implements DateFactoryInterface
         try {
             return $this->dateTimeFactory->createDateTime($spec, $timeZone);
         } catch (DateTimeFactoryException $e) {
-            throw new DateFactoryException(
-                $e->getMessage(),
-                $e->getCode(),
-                $e
-            );
+            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -71,11 +67,7 @@ final class DateFactory implements DateFactoryInterface
         try {
             return $this->dateTimeFactory->createFromFormat($spec, $format, $timeZone);
         } catch (DateTimeFactoryException $e) {
-            throw new DateFactoryException(
-                $e->getMessage(),
-                $e->getCode(),
-                $e
-            );
+            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -91,11 +83,7 @@ final class DateFactory implements DateFactoryInterface
         try {
             return $this->dateTimeFactory->createDateTimeZone($spec);
         } catch (DateTimeFactoryException $e) {
-            throw new DateFactoryException(
-                $e->getMessage(),
-                $e->getCode(),
-                $e
-            );
+            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -111,11 +99,7 @@ final class DateFactory implements DateFactoryInterface
         try {
             return $this->dateIntervalFactory->createDateInterval($spec);
         } catch (DateIntervalFactoryException $e) {
-            throw new DateFactoryException(
-                sprintf('Failed to create date interval \'%s\': %s', $spec, $e->getMessage()),
-                $e->getCode(),
-                $e
-            );
+            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -135,11 +119,7 @@ final class DateFactory implements DateFactoryInterface
         try {
             return $this->dateIntervalFactory->diff($origin, $target, $absolute);
         } catch (DateIntervalFactoryException $e) {
-            throw new DateFactoryException(
-                sprintf('Failed to perform date diff: %s', $e->getMessage()),
-                $e->getCode(),
-                $e
-            );
+            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

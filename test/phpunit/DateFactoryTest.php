@@ -15,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers  \Arp\DateTime\DateTimeFactory
+ * @covers  \Arp\DateTime\DateFactory
  *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package ArpTest\DateTime
@@ -231,6 +231,101 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
+     * Assert that if providing an invalid $spec to createDateTimeZone() a DateFactoryException is thrown
+     *
+     * @param string $spec
+     *
+     * @dataProvider getCreateDateTimeZoneWillThrowDateFactoryExceptionIfSpecIsInvalidData
+     *
+     * @throws DateFactoryException
+     */
+    public function testCreateDateTimeZoneWillThrowDateFactoryExceptionIfSpecIsInvalid(string $spec): void
+    {
+        $factory = new DateFactory($this->dateTimeFactory, $this->dateIntervalFactory);
+
+        $exceptionCode = 456;
+        $exceptionMessage = 'This is a test exception message';
+        $exception = new DateTimeFactoryException($exceptionMessage, $exceptionCode);
+
+        $this->dateTimeFactory->expects($this->once())
+            ->method('createDateTimeZone')
+            ->with($spec)
+            ->willThrowException($exception);
+
+        $this->expectException(DateFactoryException::class);
+        $this->expectExceptionMessage($exceptionMessage);
+        $this->expectExceptionCode($exceptionCode);
+
+        $factory->createDateTimeZone($spec);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCreateDateTimeZoneWillThrowDateFactoryExceptionIfSpecIsInvalidData(): array
+    {
+        return [
+            [
+                'foo',
+            ],
+            [
+                '123',
+            ]
+        ];
+    }
+
+    /**
+     * @param string $spec
+     *
+     * @dataProvider getCreateDateTimeZoneData
+     *
+     * @throws DateFactoryException
+     */
+    public function testCreateDateTimeZone(string $spec): void
+    {
+        $factory = new DateFactory($this->dateTimeFactory, $this->dateIntervalFactory);
+
+        $dateTimeZone = new \DateTimeZone($spec);
+
+        $this->dateTimeFactory->expects($this->once())
+            ->method('createDateTimeZone')
+            ->with($spec)
+            ->willReturn($dateTimeZone);
+
+        $this->assertSame($dateTimeZone, $factory->createDateTimeZone($spec));
+    }
+
+    /**
+     * @return array
+     */
+    public function getCreateDateTimeZoneData(): array
+    {
+        return [
+            [
+                'UTC',
+            ],
+            [
+                'Europe/London',
+            ],
+            [
+                'Europe/Amsterdam',
+            ],
+            [
+                'Europe/Rome',
+            ],
+            [
+                'Atlantic/Bermuda',
+            ],
+            [
+                'Atlantic/Azores',
+            ],
+            [
+                'Antarctica/DumontDUrville',
+            ],
+        ];
+    }
+
+    /**
      * Assert that calls to creatDateInterval() will return the expected DateInterval instance
      *
      * @param string $spec
@@ -285,14 +380,8 @@ final class DateFactoryTest extends TestCase
             ->method('createDateInterval')
             ->willThrowException($exception);
 
-        $errorMessage = sprintf(
-            'Failed to create date interval \'%s\': %s',
-            $spec,
-            $exceptionMessage
-        );
-
         $this->expectDeprecationMessage(DateTimeFactoryException::class);
-        $this->expectExceptionMessage($errorMessage);
+        $this->expectExceptionMessage($exceptionMessage);
         $this->expectExceptionCode($exceptionCode);
 
         $factory->createDateInterval($spec);
@@ -344,7 +433,7 @@ final class DateFactoryTest extends TestCase
             ->willThrowException($exception);
 
         $this->expectException(DateFactoryException::class);
-        $this->expectExceptionMessage(sprintf('Failed to perform date diff: %s', $exceptionMessage));
+        $this->expectExceptionMessage($exceptionMessage);
         $this->expectExceptionCode($exceptionCode);
 
         $factory->diff($origin, $target);

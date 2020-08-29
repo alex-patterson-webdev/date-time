@@ -368,6 +368,9 @@ final class DateTimeFactoryTest extends TestCase
     {
         return [
             [
+                'UTC',
+            ],
+            [
                 'Europe/London',
             ],
             [

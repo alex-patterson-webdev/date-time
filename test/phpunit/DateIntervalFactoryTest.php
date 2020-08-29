@@ -11,15 +11,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Arp\DateTime\DateIntervalFactory
+ *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package ArpTest\DateTime
  */
 final class DateIntervalFactoryTest extends TestCase
 {
     /**
-     * Ensure that the DateIntervalFactory implements the DateIntervalFactoryInterface.
-     *
-     * @covers \Arp\DateTime\DateIntervalFactory
+     * Ensure that the DateIntervalFactory implements the DateIntervalFactoryInterface
      */
     public function testImplementsDateIntervalFactoryInterface(): void
     {
@@ -29,13 +29,11 @@ final class DateIntervalFactoryTest extends TestCase
     }
 
     /**
-     * Ensure that the DateInterval is created in accordance with the provided $spec.
+     * Ensure that the DateInterval is created in accordance with the provided $spec
      *
-     * @param string $spec The \DateInterval specification.
+     * @param string $spec The \DateInterval specification
      *
      * @dataProvider getCreateDateIntervalData
-     *
-     * @covers       \Arp\DateTime\DateIntervalFactory::createDateInterval
      *
      * @throws DateIntervalFactoryException
      */
@@ -71,11 +69,10 @@ final class DateIntervalFactoryTest extends TestCase
     }
 
     /**
-     * Ensure that createDateInterval() will throw a DateIntervalFactoryException if the provided $spec is invalid.
+     * Ensure that createDateInterval() will throw a DateIntervalFactoryException if the provided $spec is invalid
      *
      * @param string $spec
      *
-     * @covers       \Arp\DateTime\DateIntervalFactory::createDateInterval
      * @dataProvider getCreateDateIntervalWillThrowDateIntervalFactoryExceptionData
      *
      * @throws DateIntervalFactoryException
@@ -112,8 +109,6 @@ final class DateIntervalFactoryTest extends TestCase
     /**
      * Assert that a DateIntervalFactoryException is thrown when the date diff fails
      *
-     * @covers \Arp\DateTime\DateIntervalFactory::diff
-     *
      * @throws DateIntervalFactoryException
      */
     public function testDiffWillThrowDateIntervalFactoryExceptionIfDateIntervalCannotBeCreated(): void
@@ -138,9 +133,7 @@ final class DateIntervalFactoryTest extends TestCase
     }
 
     /**
-     * Assert that a valid \DateInterval is returned from the calls to diff().
-     *
-     * @covers \Arp\DateTime\DateIntervalFactory::diff
+     * Assert that a valid \DateInterval is returned from the calls to diff()
      *
      * @throws DateIntervalFactoryException
      */
