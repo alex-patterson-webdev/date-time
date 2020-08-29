@@ -8,6 +8,7 @@ use Arp\DateTime\DateFactoryInterface;
 use Arp\DateTime\DateIntervalFactoryInterface;
 use Arp\DateTime\DateTimeFactoryInterface;
 use Arp\DateTime\Factory\DateFactoryFactory;
+use Arp\Factory\Exception\FactoryException;
 use Arp\Factory\FactoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -48,6 +49,59 @@ final class DateFactoryFactoryTest extends TestCase
         $factory = new DateFactoryFactory($this->dateTimeFactoryFactory, $this->dateIntervalFactoryFactory);
 
         $this->assertInstanceOf(FactoryInterface::class, $factory);
+    }
+
+    /**
+     * Assert that a FactoryException is thrown then providing invalid 'date_time_factory' configuration.
+     *
+     * @throws FactoryException
+     */
+    public function testCreateWillThrowFactoryExceptionIfDateTimeFactoryConfigIsInvalid(): void
+    {
+        $factory = new DateFactoryFactory($this->dateTimeFactoryFactory, $this->dateIntervalFactoryFactory);
+
+        $config = [
+            'date_time_factory' => new \stdClass(),
+        ];
+
+        $this->expectException(FactoryException::class);
+        $this->expectExceptionMessage(
+            sprintf(
+                'The \'date_time_factory\' argument could not be resolved to an object of type \'%s\'',
+                DateTimeFactoryInterface::class
+            )
+        );
+
+        $factory->create($config);
+    }
+
+    /**
+     * Assert that a FactoryException is thrown then providing invalid 'date_interval_factory' configuration.
+     *
+     * @throws FactoryException
+     */
+    public function testCreateWillThrowFactoryExceptionIfDateIntervalFactoryConfigIsInvalid(): void
+    {
+        $factory = new DateFactoryFactory($this->dateTimeFactoryFactory, $this->dateIntervalFactoryFactory);
+
+        $config = [
+            'date_interval_factory' => new \stdClass(),
+        ];
+
+        $this->dateTimeFactoryFactory->expects($this->once())
+            ->method('create')
+            ->with([])
+            ->willReturn($this->createMock(DateTimeFactoryInterface::class));
+
+        $this->expectException(FactoryException::class);
+        $this->expectExceptionMessage(
+            sprintf(
+                'The \'date_interval_factory\' argument could not be resolved to an object of type \'%s\'',
+                DateIntervalFactoryInterface::class
+            )
+        );
+
+        $factory->create($config);
     }
 
     /**
@@ -98,7 +152,13 @@ final class DateFactoryFactoryTest extends TestCase
             ],
             [
                 [
-                    'date_time_factory' => []
+                    'date_interval_factory' => []
+                ],
+            ],
+            [
+                [
+                    'date_time_factory' => [],
+                    'date_interval_factory' => []
                 ],
             ],
         ];
