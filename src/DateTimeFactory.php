@@ -13,6 +13,52 @@ use Arp\DateTime\Exception\DateTimeFactoryException;
 final class DateTimeFactory implements DateTimeFactoryInterface
 {
     /**
+     * @var string
+     */
+    private string $dateTimeClassName;
+
+    /**
+     * @var string
+     */
+    private string $dateTimeZoneClassName;
+
+    /**
+     * @param string|null $dateTimeClassName
+     * @param string|null $dateTimeZoneClassName
+     *
+     * @throws DateTimeFactoryException
+     */
+    public function __construct(string $dateTimeClassName = null, string $dateTimeZoneClassName = null)
+    {
+        $dateTimeClassName ??= \DateTime::class;
+        if (!is_a($dateTimeClassName, \DateTimeInterface::class, true)) {
+            throw new DateTimeFactoryException(
+                sprintf(
+                    'The \'dateTimeClassName\' must the fully qualified class name'
+                    . ' of a class that implements \'%s\'; \'%s\' provided',
+                    \DateTimeInterface::class,
+                    $dateTimeClassName
+                )
+            );
+        }
+
+        $dateTimeZoneClassName ??= \DateTimeZone::class;
+        if (!is_a($dateTimeZoneClassName, \DateTimeZone::class, true)) {
+            throw new DateTimeFactoryException(
+                sprintf(
+                    'The \'dateTimeZoneClassName\' must the fully qualified class name'
+                    . ' of a class that implements \'%s\'; \'%s\' provided',
+                    \DateTimeZone::class,
+                    $dateTimeZoneClassName
+                )
+            );
+        }
+
+        $this->dateTimeClassName = $dateTimeClassName;
+        $this->dateTimeZoneClassName = $dateTimeZoneClassName;
+    }
+
+    /**
      * @param null|string               $spec     The date and time specification.
      * @param string|\DateTimeZone|null $timeZone The date time zone. If omitted or null the PHP default will be used.
      *
@@ -23,7 +69,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     public function createDateTime(string $spec = null, $timeZone = null): \DateTimeInterface
     {
         try {
-            return new \DateTime($spec ?? 'now', $this->resolveDateTimeZone($timeZone));
+            return (new $this->dateTimeClassName($spec ?? 'now', $this->resolveDateTimeZone($timeZone)));
         } catch (\Throwable $e) {
             throw new DateTimeFactoryException(
                 sprintf(
@@ -38,8 +84,6 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * Create a new \DateTime instance using the provided format.
-     *
      * @param string                    $spec     The date and time specification.
      * @param string                    $format   The date and time format.
      * @param string|\DateTimeZone|null $timeZone The date time zone. If omitted or null the PHP default will be used.
@@ -50,7 +94,12 @@ final class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function createFromFormat(string $spec, string $format, $timeZone = null): \DateTimeInterface
     {
-        $dateTime = \DateTime::createFromFormat($format, $spec, $this->resolveDateTimeZone($timeZone));
+        $dateTime = call_user_func(
+            [$this->dateTimeClassName, 'createFromFormat'],
+            $format,
+            $spec,
+            $this->resolveDateTimeZone($timeZone)
+        );
 
         if (false === $dateTime || !$dateTime instanceof \DateTimeInterface) {
             throw new DateTimeFactoryException(
@@ -66,8 +115,6 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * Create a new \DateTimeZone instance using the provided specification.
-     *
      * @param string $spec The date time zone specification.
      *
      * @return \DateTimeZone
@@ -77,7 +124,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     public function createDateTimeZone(string $spec): \DateTimeZone
     {
         try {
-            return new \DateTimeZone($spec);
+            return (new $this->dateTimeZoneClassName($spec));
         } catch (\Throwable $e) {
             throw new DateTimeFactoryException(
                 sprintf(
@@ -92,8 +139,6 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * Resolve a date time zone from the provided $timeZone argument.
-     *
      * @param string|null|\DateTimeZone $timeZone
      *
      * @return \DateTimeZone|null|string

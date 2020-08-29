@@ -35,7 +35,9 @@ final class DateIntervalFactoryTest extends TestCase
      *
      * @dataProvider getCreateDateIntervalData
      *
-     * @covers \Arp\DateTime\DateIntervalFactory::createDateInterval
+     * @covers       \Arp\DateTime\DateIntervalFactory::createDateInterval
+     *
+     * @throws DateIntervalFactoryException
      */
     public function testCreateDateInterval(string $spec): void
     {
@@ -73,9 +75,10 @@ final class DateIntervalFactoryTest extends TestCase
      *
      * @param string $spec
      *
+     * @covers       \Arp\DateTime\DateIntervalFactory::createDateInterval
      * @dataProvider getCreateDateIntervalWillThrowDateIntervalFactoryExceptionData
      *
-     * @covers \Arp\DateTime\DateIntervalFactory::createDateInterval
+     * @throws DateIntervalFactoryException
      */
     public function testCreateDateIntervalWillThrowDateIntervalFactoryException(string $spec): void
     {
@@ -128,10 +131,37 @@ final class DateIntervalFactoryTest extends TestCase
             ->with($target, false)
             ->willReturn(false);
 
-
         $this->expectException(DateIntervalFactoryException::class);
         $this->expectExceptionMessage('Failed to create valid \DateInterval while performing date diff');
 
         $factory->diff($origin, $target);
+    }
+
+    /**
+     * Assert that a valid \DateInterval is returned from the calls to diff().
+     *
+     * @covers \Arp\DateTime\DateIntervalFactory::diff
+     *
+     * @throws DateIntervalFactoryException
+     */
+    public function testDiffWillReturnValidDateInterval(): void
+    {
+        $factory = new DateIntervalFactory();
+
+        /** @var \DateTime|MockObject $target */
+        $target = $this->createMock(\DateTime::class);
+
+        /** @var \DateTime|MockObject $origin */
+        $origin = $this->createMock(\DateTime::class);
+
+        /** @var \DateInterval|MockObject $dateInterval */
+        $dateInterval = $this->createMock(\DateInterval::class);
+
+        $origin->expects($this->once())
+            ->method('diff')
+            ->with($target, false)
+            ->willReturn($dateInterval);
+
+        $this->assertSame($dateInterval, $factory->diff($origin, $target));
     }
 }
