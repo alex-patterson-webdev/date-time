@@ -28,11 +28,12 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
         try {
             return new \DateInterval($spec);
         } catch (\Throwable $e) {
-            throw new DateIntervalFactoryException(
-                sprintf('Failed to create a valid \DateInterval instance using \'%s\': %s', $spec, $e->getMessage()),
-                $e->getCode(),
-                $e
+            $exceptionMessage = sprintf(
+                'Failed to create a valid \DateInterval instance using \'%s\': %s',
+                $spec,
+                $e->getMessage()
             );
+            throw new DateIntervalFactoryException($exceptionMessage, $e->getCode(), $e);
         }
     }
 
@@ -52,9 +53,7 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
         $dateInterval = $origin->diff($target, $absolute);
 
         if (false === $dateInterval || !$dateInterval instanceof \DateInterval) {
-            throw new DateIntervalFactoryException(
-                'Failed to create valid \DateInterval while performing date diff'
-            );
+            throw new DateIntervalFactoryException('Failed to create valid \DateInterval while performing date diff');
         }
 
         return $dateInterval;
