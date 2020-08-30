@@ -87,10 +87,6 @@ final class DateTimeFactoryTest extends TestCase
     {
         $factory = new DateTimeFactory();
 
-        if (is_string($timeZone)) {
-            $timeZone ??= new \DateTimeZone($timeZone);
-        }
-
         $expectedDateTime = new \DateTime(
             $spec ?? 'now',
             is_string($timeZone) ? new \DateTimeZone($timeZone) : $timeZone
@@ -98,22 +94,7 @@ final class DateTimeFactoryTest extends TestCase
 
         $dateTime = $factory->createDateTime($spec, $timeZone);
 
-        $this->assertSame($expectedDateTime->format('Y'), $dateTime->format('Y'), 'Years do not match');
-        $this->assertSame($expectedDateTime->format('M'), $dateTime->format('M'), 'Months do not match');
-        $this->assertSame($expectedDateTime->format('d'), $dateTime->format('d'), 'Days do not match');
-        $this->assertSame($expectedDateTime->format('H'), $dateTime->format('H'), 'Hours do not match');
-        $this->assertSame($expectedDateTime->format('i'), $dateTime->format('i'), 'Minuets do not match');
-
-        if (null === $spec || 'now' === $spec) {
-            // Assert with 1 second delta
-            $this->assertEqualsWithDelta($expectedDateTime->format('s'), $dateTime->format('s'), 1.0);
-            $this->assertEqualsWithDelta($expectedDateTime->format('f'), $dateTime->format('f'), 1000.0);
-        } else {
-            $this->assertSame($expectedDateTime->format('s'), $dateTime->format('s'));
-            $this->assertSame($expectedDateTime->format('f'), $dateTime->format('f'));
-        }
-
-        $this->assertSame($expectedDateTime->getTimezone()->getName(), $dateTime->getTimezone()->getName());
+        $this->assertDateTime($expectedDateTime, $dateTime);
     }
 
     /**
@@ -280,36 +261,7 @@ final class DateTimeFactoryTest extends TestCase
 
         $dateTime = $factory->createFromFormat($spec, $format, $timeZone);
 
-        $this->assertSame($expectedDateTime->format('Y'), $dateTime->format('Y'), 'Years do not match');
-        $this->assertSame($expectedDateTime->format('M'), $dateTime->format('M'), 'Months do not match');
-        $this->assertSame($expectedDateTime->format('d'), $dateTime->format('d'), 'Days do not match');
-        $this->assertSame($expectedDateTime->format('H'), $dateTime->format('H'), 'Hours do not match');
-        $this->assertSame($expectedDateTime->format('i'), $dateTime->format('i'), 'Minuets do not match');
-
-        if (null === $spec || 'now' === $spec) {
-            $this->assertEqualsWithDelta(
-                $expectedDateTime->format('f'),
-                $dateTime->format('f'),
-                1.0,
-                'Milliseconds exceed acceptable delta',
-            );
-
-            $this->assertEqualsWithDelta(
-                $expectedDateTime->format('sf'),
-                $dateTime->format('f'),
-                1000.0,
-                'Milliseconds exceed acceptable delta'
-            );
-        } else {
-            $this->assertSame($expectedDateTime->format('s'), $dateTime->format('s'), 'Seconds do not match');
-            $this->assertSame($expectedDateTime->format('f'), $dateTime->format('f'), 'Milliseconds do not match');
-        }
-
-        $this->assertSame(
-            $expectedDateTime->getTimezone()->getName(),
-            $dateTime->getTimezone()->getName(),
-            'Timezones do not match'
-        );
+        $this->assertDateTime($expectedDateTime, $dateTime);
     }
 
     /**
@@ -435,5 +387,26 @@ final class DateTimeFactoryTest extends TestCase
                 'Europe/MyEmpire',
             ],
         ];
+    }
+
+    /**
+     * @param \DateTimeInterface $expectedDateTime
+     * @param \DateTimeInterface $dateTime
+     */
+    private function assertDateTime(\DateTimeInterface $expectedDateTime, \DateTimeInterface $dateTime): void
+    {
+        $this->assertSame($expectedDateTime->format('Y'), $dateTime->format('Y'), 'Years do not match');
+        $this->assertSame($expectedDateTime->format('M'), $dateTime->format('M'), 'Months do not match');
+        $this->assertSame($expectedDateTime->format('d'), $dateTime->format('d'), 'Days do not match');
+        $this->assertSame($expectedDateTime->format('H'), $dateTime->format('H'), 'Hours do not match');
+        $this->assertSame($expectedDateTime->format('i'), $dateTime->format('i'), 'Minuets do not match');
+        $this->assertSame($expectedDateTime->format('s'), $dateTime->format('s'), 'Seconds do not match');
+        $this->assertSame($expectedDateTime->format('f'), $dateTime->format('f'), 'Milliseconds do not match');
+
+        $this->assertSame(
+            $expectedDateTime->getTimezone()->getName(),
+            $dateTime->getTimezone()->getName(),
+            'Timezones do not match'
+        );
     }
 }

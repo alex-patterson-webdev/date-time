@@ -43,7 +43,7 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
-     * Ensure that the factory implements DateFactoryInterface.
+     * Ensure that the factory implements DateFactoryInterface
      *
      * @covers \Arp\DateTime\DateFactory
      */
@@ -76,10 +76,10 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
-     * Ensure that calls to createDateTime() will return the valid configured \DateTime instance.
+     * Ensure that calls to createDateTime() will return the valid configured \DateTime instance
      *
-     * @param string|null               $spec     The date and time specification.
-     * @param \DateTimeZone|string|null $timeZone The optional date time zone to test.
+     * @param string|null               $spec     The date and time specification
+     * @param \DateTimeZone|string|null $timeZone The optional date time zone to test
      *
      * @dataProvider getCreateDateTimeData
      *
