@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 final class DateIntervalFactoryExceptionTest extends TestCase
 {
     /**
-     * Assert that the exception class implements \Exception.
+     * Assert that the exception class implements \Exception
      */
     public function testImplementsException(): void
     {
@@ -27,7 +27,7 @@ final class DateIntervalFactoryExceptionTest extends TestCase
     }
 
     /**
-     * Assert that the exception class implements DateTimeException.
+     * Assert that the exception class implements DateTimeException
      */
     public function testImplementsDateTimeException(): void
     {

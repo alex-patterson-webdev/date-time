@@ -11,7 +11,7 @@ use Arp\Factory\FactoryInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Arp\DateTime\Factory\DateTimeFactoryFactory
+ * @covers  \Arp\DateTime\Factory\DateTimeFactoryFactory
  *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package ArpTest\DateTime\Factory
@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 final class DateTimeFactoryFactoryTest extends TestCase
 {
     /**
-     * Assert that the factory implements FactoryInterface.
+     * Assert that the factory implements FactoryInterface
      */
     public function testImplementsFactoryInterface(): void
     {
@@ -29,7 +29,7 @@ final class DateTimeFactoryFactoryTest extends TestCase
     }
 
     /**
-     * Assert that FactoryException are thrown when providing invalid $config to create().
+     * Assert that FactoryException are thrown when providing invalid $config to create()
      *
      * @param array $config
      *
@@ -67,7 +67,7 @@ final class DateTimeFactoryFactoryTest extends TestCase
     }
 
     /**
-     * Assert that the factory will return a DateTimeFactory instance when calling create().
+     * Assert that the factory will return a DateTimeFactory instance when calling create()
      *
      * @param array $config
      *
@@ -89,22 +89,22 @@ final class DateTimeFactoryFactoryTest extends TestCase
     {
         return [
             [
-                []
+                [],
             ],
             [
                 [
                     'date_class_name' => \DateTime::class,
-                ]
+                ],
             ],
             [
                 [
                     'date_class_name' => \DateTimeImmutable::class,
-                ]
+                ],
             ],
             [
                 [
                     'time_zone_class_name' => \DateTimeZone::class,
-                ]
+                ],
             ],
         ];
     }

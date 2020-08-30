@@ -52,7 +52,7 @@ final class DateFactoryFactoryTest extends TestCase
     }
 
     /**
-     * Assert that a FactoryException is thrown then providing invalid 'date_time_factory' configuration.
+     * Assert that a FactoryException is thrown then providing invalid 'date_time_factory' configuration
      *
      * @throws FactoryException
      */
@@ -76,7 +76,7 @@ final class DateFactoryFactoryTest extends TestCase
     }
 
     /**
-     * Assert that a FactoryException is thrown then providing invalid 'date_interval_factory' configuration.
+     * Assert that a FactoryException is thrown then providing invalid 'date_interval_factory' configuration
      *
      * @throws FactoryException
      */
@@ -105,11 +105,13 @@ final class DateFactoryFactoryTest extends TestCase
     }
 
     /**
+     * Assert that a DateTimeFactory instance and be create by calling create() with configuration options
+     *
      * @param array $config
      *
      * @dataProvider getCreateData
      *
-     * @throws \Arp\Factory\Exception\FactoryException
+     * @throws FactoryException
      */
     public function testCreate(array $config): void
     {
@@ -157,8 +159,23 @@ final class DateFactoryFactoryTest extends TestCase
             ],
             [
                 [
-                    'date_time_factory' => [],
-                    'date_interval_factory' => []
+                    'date_time_factory' => [
+                        'hello' => 'world',
+                    ],
+                    'date_interval_factory' => [
+                        'foo' => 'bar',
+                        'test' => 123,
+                    ]
+                ],
+            ],
+            [
+                [
+                    'date_time_factory' => $this->createMock(DateTimeFactoryInterface::class),
+                ],
+            ],
+            [
+                [
+                    'date_interval_factory' => $this->createMock(DateIntervalFactoryInterface::class),
                 ],
             ],
         ];

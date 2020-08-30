@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 final class DateTimeExceptionTest extends TestCase
 {
     /**
-     * Assert that the exception class implements \Exception.
+     * Assert that the exception class implements \Exception
      */
     public function testImplementsException(): void
     {
