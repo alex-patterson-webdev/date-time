@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace ArpTest\DateTime\Exception;
 
-use Arp\DateTime\Exception\DateIntervalFactoryException;
+use Arp\DateTime\Exception\DateFactoryException;
 use Arp\DateTime\Exception\DateTimeException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers  \Arp\DateTime\Exception\DateIntervalFactoryException
+ * @covers \Arp\DateTime\Exception\DateFactoryException
  *
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package ArpTest\DateTime\Exception
  */
-final class DateIntervalFactoryExceptionTest extends TestCase
+final class DateFactoryExceptionTest extends TestCase
 {
     /**
      * Assert that the exception class implements \Exception
      */
     public function testImplementsException(): void
     {
-        $exception = new DateIntervalFactoryException();
+        $exception = new DateFactoryException();
 
         $this->assertInstanceOf(\Exception::class, $exception);
     }
@@ -31,7 +31,7 @@ final class DateIntervalFactoryExceptionTest extends TestCase
      */
     public function testImplementsDateTimeException(): void
     {
-        $exception = new DateIntervalFactoryException();
+        $exception = new DateFactoryException();
 
         $this->assertInstanceOf(DateTimeException::class, $exception);
     }

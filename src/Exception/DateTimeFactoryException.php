@@ -8,7 +8,7 @@ namespace Arp\DateTime\Exception;
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime\Exception
  */
-class DateTimeFactoryException extends DateTimeException
+final class DateTimeFactoryException extends DateTimeException
 {
 
 }
