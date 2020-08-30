@@ -13,22 +13,22 @@ use Arp\DateTime\Exception\DateIntervalFactoryException;
 interface DateIntervalFactoryInterface
 {
     /**
-     * Create a new DateInterval instance using the provided $spec.
+     * Create a new DateInterval instance using the provided $spec
      *
-     * @param string $spec The specification of the interval.
+     * @param string $spec The specification of the interval
      *
      * @return \DateInterval
      *
-     * @throws DateIntervalFactoryException  If the date interval cannot be created.
+     * @throws DateIntervalFactoryException  If the date interval cannot be created
      */
     public function createDateInterval(string $spec): \DateInterval;
 
     /**
      * Perform a diff of two dates and return the \DateInterval
      *
-     * @param \DateTimeInterface $origin    The origin date
-     * @param \DateTimeInterface $target    The date to compare to
-     * @param bool               $absolute  If the interval is negative, should it be forced to be a positive value?
+     * @param \DateTimeInterface $origin   The origin date
+     * @param \DateTimeInterface $target   The date to compare to
+     * @param bool               $absolute If the interval is negative force it to be a positive value
      *
      * @return \DateInterval
      *

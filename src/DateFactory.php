@@ -37,8 +37,8 @@ final class DateFactory implements DateFactoryInterface
     }
 
     /**
-     * @param string|null $spec
-     * @param null        $timeZone
+     * @param null|string               $spec
+     * @param string|\DateTimeZone|null $timeZone
      *
      * @return \DateTimeInterface
      *
@@ -54,9 +54,9 @@ final class DateFactory implements DateFactoryInterface
     }
 
     /**
-     * @param string $spec
-     * @param string $format
-     * @param null   $timeZone
+     * @param string                    $spec
+     * @param string                    $format
+     * @param string|\DateTimeZone|null $timeZone
      *
      * @return \DateTimeInterface
      *
@@ -104,15 +104,13 @@ final class DateFactory implements DateFactoryInterface
     }
 
     /**
-     * Perform a diff of two dates and return the \DateInterval
-     *
-     * @param \DateTimeInterface $origin   The origin date
-     * @param \DateTimeInterface $target   The date to compare to
-     * @param bool               $absolute If the interval is negative, should it be forced to be a positive value?
+     * @param \DateTimeInterface $origin
+     * @param \DateTimeInterface $target
+     * @param bool               $absolute
      *
      * @return \DateInterval
      *
-     * @throws DateFactoryException If the date diff cannot be performed
+     * @throws DateFactoryException
      */
     public function diff(\DateTimeInterface $origin, \DateTimeInterface $target, bool $absolute = false): \DateInterval
     {

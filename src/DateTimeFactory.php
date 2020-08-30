@@ -59,8 +59,8 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param null|string               $spec     The date and time specification.
-     * @param string|\DateTimeZone|null $timeZone The date time zone. If omitted or null the PHP default will be used.
+     * @param null|string               $spec     The date and time specification
+     * @param string|\DateTimeZone|null $timeZone The date time zone; if omitted or null the PHP default will be used
      *
      * @return \DateTimeInterface
      *
@@ -84,9 +84,9 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param string                    $spec     The date and time specification.
-     * @param string                    $format   The date and time format.
-     * @param string|\DateTimeZone|null $timeZone The date time zone. If omitted or null the PHP default will be used.
+     * @param string                    $spec     The date and time specification
+     * @param string                    $format   The date and time format
+     * @param string|\DateTimeZone|null $timeZone The date time zone; if omitted or null the PHP default will be used
      *
      * @return \DateTimeInterface
      *
@@ -115,11 +115,11 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param string $spec The date time zone specification.
+     * @param string $spec The date time zone specification
      *
      * @return \DateTimeZone
      *
-     * @throws DateTimeFactoryException If the \DateTimeZone cannot be created.
+     * @throws DateTimeFactoryException If the \DateTimeZone cannot be created
      */
     public function createDateTimeZone(string $spec): \DateTimeZone
     {
