@@ -1,5 +1,6 @@
 {
   "name": "alex-patterson-webdev/date-time",
+  "description": "Components for creating PHP DateTime objects",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "license": "MIT",

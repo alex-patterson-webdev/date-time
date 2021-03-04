@@ -66,7 +66,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException If the \DateTime instance cannot be created.
      */
-    public function createDateTime(string $spec = null, $timeZone = null): \DateTimeInterface
+    public function createDateTime(?string $spec = null, $timeZone = null): \DateTimeInterface
     {
         try {
             return (new $this->dateTimeClassName($spec ?? 'now', $this->resolveDateTimeZone($timeZone)));

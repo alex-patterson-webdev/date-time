@@ -22,7 +22,7 @@ interface DateTimeFactoryInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
      */
-    public function createDateTime(string $spec = null, $timeZone = null): \DateTimeInterface;
+    public function createDateTime(?string $spec = null, $timeZone = null): \DateTimeInterface;
 
     /**
      * Create a new \DateTime instance using the provided format.
