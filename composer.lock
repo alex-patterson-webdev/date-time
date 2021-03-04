@@ -4,27 +4,27 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "658c0f3c4cdb2c081853bbe69e568b13",
+    "content-hash": "bf4817fc40e8e9ced2193e23d59fe18d",
     "packages": [
         {
             "name": "alex-patterson-webdev/factory",
-            "version": "1.0.0",
+            "version": "dev-feature/2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alex-patterson-webdev/factory.git",
-                "reference": "59815fc82ffe88e91e3ad45c93b6b3e0af9df1c0"
+                "reference": "eff3e647cae0f39dda5a98e98e9e03804cbc3883"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alex-patterson-webdev/factory/zipball/59815fc82ffe88e91e3ad45c93b6b3e0af9df1c0",
-                "reference": "59815fc82ffe88e91e3ad45c93b6b3e0af9df1c0",
+                "url": "https://api.github.com/repos/alex-patterson-webdev/factory/zipball/eff3e647cae0f39dda5a98e98e9e03804cbc3883",
+                "reference": "eff3e647cae0f39dda5a98e98e9e03804cbc3883",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2"
+                "php": ">=7.4 || >=8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8"
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "autoload": {
@@ -33,13 +33,17 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Alex Patterson",
                     "email": "alex.patterson.webdev@gmail.com"
                 }
             ],
-            "time": "2020-02-09T19:17:23+00:00"
+            "description": "Generic interfaces and classes for creating other services",
+            "time": "2021-03-04T00:11:29+00:00"
         }
     ],
     "packages-dev": [
@@ -1997,7 +2001,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "alex-patterson-webdev/factory": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
