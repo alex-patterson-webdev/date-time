@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf4817fc40e8e9ced2193e23d59fe18d",
+    "content-hash": "4cee1008ca53ab39103c5b7794d75faa",
     "packages": [
         {
             "name": "alex-patterson-webdev/factory",
@@ -12,19 +12,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/alex-patterson-webdev/factory.git",
-                "reference": "eff3e647cae0f39dda5a98e98e9e03804cbc3883"
+                "reference": "ef254538f72ca0fc5fd2e5b0760264b81c6e92b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alex-patterson-webdev/factory/zipball/eff3e647cae0f39dda5a98e98e9e03804cbc3883",
-                "reference": "eff3e647cae0f39dda5a98e98e9e03804cbc3883",
+                "url": "https://api.github.com/repos/alex-patterson-webdev/factory/zipball/ef254538f72ca0fc5fd2e5b0760264b81c6e92b6",
+                "reference": "ef254538f72ca0fc5fd2e5b0760264b81c6e92b6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4 || >=8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5"
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
             "autoload": {
@@ -43,7 +43,7 @@
                 }
             ],
             "description": "Generic interfaces and classes for creating other services",
-            "time": "2021-03-04T00:11:29+00:00"
+            "time": "2021-03-04T21:47:13+00:00"
         }
     ],
     "packages-dev": [
@@ -1828,6 +1828,57 @@
             "time": "2020-09-28T06:39:44+00:00"
         },
         {
+            "name": "squizlabs/php_codesniffer",
+            "version": "3.5.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "9d583721a7157ee997f235f327de038e7ea6dac4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/9d583721a7157ee997f235f327de038e7ea6dac4",
+                "reference": "9d583721a7157ee997f235f327de038e7ea6dac4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
+            },
+            "bin": [
+                "bin/phpcs",
+                "bin/phpcbf"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Sherwood",
+                    "role": "lead"
+                }
+            ],
+            "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
+            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
+            "keywords": [
+                "phpcs",
+                "standards"
+            ],
+            "time": "2020-10-23T02:01:07+00:00"
+        },
+        {
             "name": "symfony/polyfill-ctype",
             "version": "v1.22.1",
             "source": {
@@ -2007,7 +2058,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4"
+        "php": ">=7.4 || >=8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
