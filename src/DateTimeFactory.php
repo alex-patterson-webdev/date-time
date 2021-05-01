@@ -94,12 +94,8 @@ final class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function createFromFormat(string $spec, string $format, $timeZone = null): \DateTimeInterface
     {
+        /** @var callable $factory */
         $factory = [$this->dateTimeClassName, 'createFromFormat'];
-        if (!is_callable($factory)) {
-            throw new DateTimeFactoryException(
-                sprintf('The method \'%s::%s\' is not callable', $this->dateTimeClassName, 'createFromFormat')
-            );
-        }
 
         $dateTime = $factory($format, $spec, $this->resolveDateTimeZone($timeZone));
 
