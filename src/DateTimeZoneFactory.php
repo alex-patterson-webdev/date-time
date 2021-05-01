@@ -59,36 +59,4 @@ final class DateTimeZoneFactory implements DateTimeZoneFactoryInterface
             );
         }
     }
-
-    /**
-     * @param string|null|\DateTimeZone $timeZone
-     *
-     * @return \DateTimeZone|null
-     *
-     * @throws DateTimeZoneFactoryException
-     */
-    public function resolveDateTimeZone($timeZone): ?\DateTimeZone
-    {
-        if (null === $timeZone || empty($timeZone)) {
-            return null;
-        }
-
-        if (is_string($timeZone)) {
-            $timeZone = $this->createDateTimeZone($timeZone);
-        }
-
-        if (!$timeZone instanceof \DateTimeZone) {
-            throw new DateTimeZoneFactoryException(
-                sprintf(
-                    'The \'timeZone\' argument must be a \'string\''
-                    . 'or an object of type \'%s\'; \'%s\' provided in \'%s\'',
-                    \DateTimeZone::class,
-                    get_class($timeZone),
-                    __FUNCTION__
-                )
-            );
-        }
-
-        return $timeZone;
-    }
 }

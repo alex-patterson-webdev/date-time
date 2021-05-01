@@ -59,10 +59,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     public function createDateTime(?string $spec = null, $timeZone = null): \DateTimeInterface
     {
         try {
-            return new $this->dateTimeClassName(
-                $spec ?? 'now',
-                $this->dateTimeZoneFactory->resolveDateTimeZone($timeZone)
-            );
+            return new $this->dateTimeClassName($spec ?? 'now', $this->resolveDateTimeZone($timeZone));
         } catch (\Exception $e) {
             throw new DateTimeFactoryException(
                 sprintf(
@@ -91,11 +88,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
         $factory = [$this->dateTimeClassName, 'createFromFormat'];
 
         try {
-            $dateTime = $factory(
-                $format,
-                $spec,
-                $this->dateTimeZoneFactory->resolveDateTimeZone($timeZone)
-            );
+            $dateTime = $factory($format, $spec, $this->resolveDateTimeZone($timeZone));
         } catch (\Exception $e) {
             throw new DateTimeFactoryException(
                 sprintf(
@@ -120,5 +113,31 @@ final class DateTimeFactory implements DateTimeFactoryInterface
         }
 
         return $dateTime;
+    }
+
+    /**
+     * @param mixed|string|\DateTimeZone|null $timeZone
+     *
+     * @return \DateTimeZone|null
+     *
+     * @throws DateTimeFactoryException
+     */
+    private function resolveDateTimeZone($timeZone): ?\DateTimeZone
+    {
+        if (empty($timeZone) || (!is_string($timeZone) && !$timeZone instanceof \DateTimeZone)) {
+            return null;
+        }
+
+        try {
+            return is_string($timeZone)
+                ? $this->dateTimeZoneFactory->createDateTimeZone($timeZone)
+                : $timeZone;
+        } catch (DateTimeZoneFactoryException $e) {
+            throw new DateTimeFactoryException(
+                sprintf('Failed to create date time zone: %s', $e->getMessage()),
+                $e->getCode(),
+                $e
+            );
+        }
     }
 }

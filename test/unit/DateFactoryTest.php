@@ -128,27 +128,6 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
-     * Assert the calls to resolveDateTimeZone() will proxy to the internal DateTimeZoneFactory
-     *
-     * @throws DateTimeZoneFactoryException
-     * @throws DateTimeFactoryException
-     */
-    public function testResolveDateTimeZoneWillProxyToDateTimeZoneFactory(): void
-    {
-        $factory = new DateFactory($this->dateTimeFactory, $this->dateTimeZoneFactory, $this->dateIntervalFactory);
-
-        $spec = 'UTC';
-        $timeZone = new \DateTimeZone($spec);
-
-        $this->dateTimeZoneFactory->expects($this->once())
-            ->method('resolveDateTimeZone')
-            ->with($spec)
-            ->willReturn($timeZone);
-
-        $this->assertSame($timeZone, $factory->resolveDateTimeZone($spec));
-    }
-
-    /**
      * Assert the calls to createDateInterval() will proxy to the internal DateTimeIntervalFactory
      *
      * @throws DateIntervalFactoryException

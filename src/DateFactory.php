@@ -86,18 +86,6 @@ final class DateFactory implements DateFactoryInterface
     }
 
     /**
-     * @param \DateTimeZone|string|null $timeZone
-     *
-     * @return \DateTimeZone|null
-     *
-     * @throws DateTimeZoneFactoryException
-     */
-    public function resolveDateTimeZone($timeZone): ?\DateTimeZone
-    {
-        return $this->dateTimeZoneFactory->resolveDateTimeZone($timeZone);
-    }
-
-    /**
      * @param string $spec
      *
      * @return \DateInterval

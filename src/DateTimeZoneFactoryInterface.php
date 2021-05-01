@@ -22,13 +22,4 @@ interface DateTimeZoneFactoryInterface
      * @throws DateTimeZoneFactoryException If the \DateTimeZone cannot be created.
      */
     public function createDateTimeZone(string $spec): \DateTimeZone;
-
-    /**
-     * @param string|null|\DateTimeZone $timeZone
-     *
-     * @return \DateTimeZone|null
-     *
-     * @throws DateTimeZoneFactoryException
-     */
-    public function resolveDateTimeZone($timeZone): ?\DateTimeZone;
 }
