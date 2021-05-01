@@ -74,33 +74,20 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param string                    $spec     The date and time specification
      * @param string                    $format   The date and time format
+     * @param string                    $spec     The date and time specification
      * @param string|\DateTimeZone|null $timeZone The date time zone; if omitted or null the PHP default will be used
      *
      * @return \DateTimeInterface
      *
      * @throws DateTimeFactoryException  If the \DateTime instance cannot be created
      */
-    public function createFromFormat(string $spec, string $format, $timeZone = null): \DateTimeInterface
+    public function createFromFormat(string $format, string $spec, $timeZone = null): \DateTimeInterface
     {
         /** @var callable $factory */
         $factory = [$this->dateTimeClassName, 'createFromFormat'];
 
-        try {
-            $dateTime = $factory($format, $spec, $this->resolveDateTimeZone($timeZone));
-        } catch (\Exception $e) {
-            throw new DateTimeFactoryException(
-                sprintf(
-                    'Failed to create a valid \DateTime instance from format \'%s\' using \'%s\': %s',
-                    $format,
-                    $spec,
-                    $e->getMessage()
-                ),
-                $e->getCode(),
-                $e
-            );
-        }
+        $dateTime = $factory($spec, $format, $this->resolveDateTimeZone($timeZone));
 
         if (false === $dateTime || !$dateTime instanceof \DateTimeInterface) {
             throw new DateTimeFactoryException(

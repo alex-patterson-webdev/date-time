@@ -60,17 +60,17 @@ final class DateFactory implements DateFactoryInterface
     }
 
     /**
-     * @param string                    $spec
      * @param string                    $format
+     * @param string                    $spec
      * @param string|\DateTimeZone|null $timeZone
      *
      * @return \DateTimeInterface
      *
      * @throws DateTimeFactoryException
      */
-    public function createFromFormat(string $spec, string $format, $timeZone = null): \DateTimeInterface
+    public function createFromFormat(string $format, string $spec, $timeZone = null): \DateTimeInterface
     {
-        return $this->dateTimeFactory->createFromFormat($spec, $format, $timeZone);
+        return $this->dateTimeFactory->createFromFormat($format, $spec, $timeZone);
     }
 
     /**

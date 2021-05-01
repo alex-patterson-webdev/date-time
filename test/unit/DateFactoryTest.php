@@ -100,10 +100,10 @@ final class DateFactoryTest extends TestCase
 
         $this->dateTimeFactory->expects($this->once())
             ->method('createFromFormat')
-            ->with($spec, $format, $timeZone)
+            ->with($format, $spec, $timeZone)
             ->willReturn($dateTime);
 
-        $this->assertSame($dateTime, $factory->createFromFormat($spec, $format, $timeZone));
+        $this->assertSame($dateTime, $factory->createFromFormat($format, $spec, $timeZone));
     }
 
     /**

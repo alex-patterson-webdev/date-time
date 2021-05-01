@@ -160,6 +160,38 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
+     * Assert that a DateTimeFactoryException will be thrown when providing a invalid \DateTimeZone object to
+     * createFromFormat()
+     *
+     * @throws DateTimeFactoryException
+     */
+    public function testCreateFromFormatWillCatchAndReThrowException(): void
+    {
+        $factory = new DateTimeFactory($this->dateTimeZoneFactory);
+
+        $spec = '2021-05-01 23:38:12';
+        $format = 'Y-m-d H:i:s';
+        $timeZone = 'UTC';
+
+        $exceptionMessage = 'This is a test exception';
+        $exceptionCode = 123;
+        $exception = new DateTimeZoneFactoryException($exceptionMessage, $exceptionCode);
+
+        $this->dateTimeZoneFactory->expects($this->once())
+            ->method('createDateTimeZone')
+            ->with($timeZone)
+            ->willThrowException($exception);
+
+        $this->expectException(DateTimeFactoryException::class);
+        $this->expectExceptionCode($exceptionCode);
+        $this->expectExceptionMessage(
+            sprintf('Failed to create date time zone: %s', $exceptionMessage),
+        );
+
+        $factory->createFromFormat($format, $spec, $timeZone);
+    }
+
+    /**
      * Assert that a DateTimeFactoryException will be thrown if providing an invalid $spec
      * argument to createFromFormat().
      *
@@ -187,7 +219,7 @@ final class DateTimeFactoryTest extends TestCase
             )
         );
 
-        $factory->createFromFormat($spec, $format, $timeZone);
+        $factory->createFromFormat($format, $spec, $timeZone);
     }
 
     /**
