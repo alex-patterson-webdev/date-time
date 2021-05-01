@@ -52,7 +52,7 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
     {
         $dateInterval = $origin->diff($target, $absolute);
 
-        if (false === $dateInterval || !$dateInterval instanceof \DateInterval) {
+        if (!$dateInterval instanceof \DateInterval) {
             throw new DateIntervalFactoryException('Failed to create valid \DateInterval while performing date diff');
         }
 

@@ -82,6 +82,7 @@ final class DateTimeFactoryTest extends TestCase
      * @dataProvider getCreateDateTimeData
      *
      * @throws DateTimeFactoryException
+     * @throws \Exception
      */
     public function testCreateDateTime(?string $spec, $timeZone = null): void
     {
@@ -98,7 +99,7 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array<array>
      */
     public function getCreateDateTimeData(): array
     {
@@ -199,7 +200,7 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array<array>
      */
     public function getCreateFromFormatWillThrowDateTimeFactoryExceptionForInvalidDateTimeData(): array
     {
@@ -228,13 +229,14 @@ final class DateTimeFactoryTest extends TestCase
             'The \'timeZone\' argument must be a \'string\''
             . 'or an object of type \'%s\'; \'%s\' provided in \'%s\'',
             \DateTimeZone::class,
-            is_object($timeZone) ? get_class($timeZone) : gettype($timeZone),
+            get_class($timeZone),
             'resolveDateTimeZone'
         );
 
         $this->expectException(DateTimeFactoryException::class);
         $this->expectExceptionMessage($errorMessage);
 
+        /** @phpstan-ignore-next-line */
         $factory->createDateTime($spec, /** @scrutinizer ignore-type */ $timeZone);
     }
 
@@ -253,6 +255,7 @@ final class DateTimeFactoryTest extends TestCase
     {
         $factory = new DateTimeFactory();
 
+        /** @var \DateTimeInterface $expectedDateTime */
         $expectedDateTime = \DateTime::createFromFormat(
             $format,
             $spec ?? 'now',
@@ -267,7 +270,7 @@ final class DateTimeFactoryTest extends TestCase
     /**
      * @see https://www.php.net/manual/en/timezones.europe.php
      *
-     * @return array
+     * @return array<array>
      */
     public function getCreateFromFormatData(): array
     {
@@ -314,7 +317,7 @@ final class DateTimeFactoryTest extends TestCase
     /**
      * @see https://www.php.net/manual/en/timezones.europe.php
      *
-     * @return array
+     * @return array<array>
      */
     public function getCreateDateTimeZoneData(): array
     {
@@ -372,7 +375,7 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array<array>
      */
     public function getCreateDateTimeZoneWillThrowDateTimeFactoryExceptionIfSpecIsInvalidData(): array
     {

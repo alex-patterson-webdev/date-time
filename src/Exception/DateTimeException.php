@@ -10,5 +10,4 @@ namespace Arp\DateTime\Exception;
  */
 class DateTimeException extends \Exception
 {
-
 }

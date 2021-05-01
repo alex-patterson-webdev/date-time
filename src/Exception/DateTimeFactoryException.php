@@ -10,5 +10,4 @@ namespace Arp\DateTime\Exception;
  */
 final class DateTimeFactoryException extends DateTimeException
 {
-
 }

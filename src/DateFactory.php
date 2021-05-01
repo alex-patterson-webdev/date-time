@@ -44,7 +44,7 @@ final class DateFactory implements DateFactoryInterface
      *
      * @throws DateFactoryException
      */
-    public function createDateTime(string $spec = null, $timeZone = null): \DateTimeInterface
+    public function createDateTime(?string $spec = null, $timeZone = null): \DateTimeInterface
     {
         try {
             return $this->dateTimeFactory->createDateTime($spec, $timeZone);
