@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Arp\DateTime;
 
 use Arp\DateTime\Exception\DateTimeFactoryException;
+use Arp\DateTime\Exception\DateTimeZoneFactoryException;
 
 /**
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
@@ -13,49 +14,38 @@ use Arp\DateTime\Exception\DateTimeFactoryException;
 final class DateTimeFactory implements DateTimeFactoryInterface
 {
     /**
+     * @var DateTimeZoneFactoryInterface
+     */
+    private DateTimeZoneFactoryInterface $dateTimeZoneFactory;
+
+    /**
      * @var string
      */
     private string $dateTimeClassName;
 
     /**
-     * @var string
-     */
-    private string $dateTimeZoneClassName;
-
-    /**
-     * @param string|null $dateTimeClassName
-     * @param string|null $dateTimeZoneClassName
+     * @param DateTimeZoneFactoryInterface|null $dateTimeZoneFactory
+     * @param string|null                       $dateTimeClassName
      *
      * @throws DateTimeFactoryException
      */
-    public function __construct(string $dateTimeClassName = null, string $dateTimeZoneClassName = null)
-    {
+    public function __construct(
+        DateTimeZoneFactoryInterface $dateTimeZoneFactory = null,
+        string $dateTimeClassName = null
+    ) {
+        $this->dateTimeZoneFactory = $dateTimeZoneFactory ?? new DateTimeZoneFactory();
+
         $dateTimeClassName ??= \DateTime::class;
         if (!is_a($dateTimeClassName, \DateTimeInterface::class, true)) {
             throw new DateTimeFactoryException(
                 sprintf(
-                    'The \'dateTimeClassName\' must the fully qualified class name'
-                    . ' of a class that implements \'%s\'; \'%s\' provided',
-                    \DateTimeInterface::class,
-                    $dateTimeClassName
-                )
-            );
-        }
-
-        $dateTimeZoneClassName ??= \DateTimeZone::class;
-        if (!is_a($dateTimeZoneClassName, \DateTimeZone::class, true)) {
-            throw new DateTimeFactoryException(
-                sprintf(
-                    'The \'dateTimeZoneClassName\' must the fully qualified class name'
-                    . ' of a class that implements \'%s\'; \'%s\' provided',
-                    \DateTimeZone::class,
-                    $dateTimeZoneClassName
+                    'The \'dateTimeClassName\' parameter must be a class name that implements \'%s\'',
+                    \DateTimeInterface::class
                 )
             );
         }
 
         $this->dateTimeClassName = $dateTimeClassName;
-        $this->dateTimeZoneClassName = $dateTimeZoneClassName;
     }
 
     /**
@@ -69,8 +59,11 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     public function createDateTime(?string $spec = null, $timeZone = null): \DateTimeInterface
     {
         try {
-            return (new $this->dateTimeClassName($spec ?? 'now', $this->resolveDateTimeZone($timeZone)));
-        } catch (\Throwable $e) {
+            return new $this->dateTimeClassName(
+                $spec ?? 'now',
+                $this->dateTimeZoneFactory->resolveDateTimeZone($timeZone)
+            );
+        } catch (\Exception $e) {
             throw new DateTimeFactoryException(
                 sprintf(
                     'Failed to create a valid \DateTime instance using \'%s\': %s',
@@ -90,14 +83,31 @@ final class DateTimeFactory implements DateTimeFactoryInterface
      *
      * @return \DateTimeInterface
      *
-     * @throws DateTimeFactoryException  If the \DateTime instance cannot be created.
+     * @throws DateTimeFactoryException  If the \DateTime instance cannot be created
      */
     public function createFromFormat(string $spec, string $format, $timeZone = null): \DateTimeInterface
     {
         /** @var callable $factory */
         $factory = [$this->dateTimeClassName, 'createFromFormat'];
 
-        $dateTime = $factory($format, $spec, $this->resolveDateTimeZone($timeZone));
+        try {
+            $dateTime = $factory(
+                $format,
+                $spec,
+                $this->dateTimeZoneFactory->resolveDateTimeZone($timeZone)
+            );
+        } catch (\Exception $e) {
+            throw new DateTimeFactoryException(
+                sprintf(
+                    'Failed to create a valid \DateTime instance from format \'%s\' using \'%s\': %s',
+                    $format,
+                    $spec,
+                    $e->getMessage()
+                ),
+                $e->getCode(),
+                $e
+            );
+        }
 
         if (false === $dateTime || !$dateTime instanceof \DateTimeInterface) {
             throw new DateTimeFactoryException(
@@ -110,61 +120,5 @@ final class DateTimeFactory implements DateTimeFactoryInterface
         }
 
         return $dateTime;
-    }
-
-    /**
-     * @param string $spec The date time zone specification
-     *
-     * @return \DateTimeZone
-     *
-     * @throws DateTimeFactoryException If the \DateTimeZone cannot be created
-     */
-    public function createDateTimeZone(string $spec): \DateTimeZone
-    {
-        try {
-            return (new $this->dateTimeZoneClassName($spec));
-        } catch (\Throwable $e) {
-            throw new DateTimeFactoryException(
-                sprintf(
-                    'Failed to create a valid \DateTimeZone instance using \'%s\': %s',
-                    $spec,
-                    $e->getMessage()
-                ),
-                $e->getCode(),
-                $e
-            );
-        }
-    }
-
-    /**
-     * @param string|null|\DateTimeZone $timeZone
-     *
-     * @return \DateTimeZone|null
-     *
-     * @throws DateTimeFactoryException
-     */
-    private function resolveDateTimeZone($timeZone): ?\DateTimeZone
-    {
-        if (null === $timeZone || empty($timeZone)) {
-            return null;
-        }
-
-        if (is_string($timeZone)) {
-            $timeZone = $this->createDateTimeZone($timeZone);
-        }
-
-        if (!$timeZone instanceof \DateTimeZone) {
-            throw new DateTimeFactoryException(
-                sprintf(
-                    'The \'timeZone\' argument must be a \'string\''
-                    . 'or an object of type \'%s\'; \'%s\' provided in \'%s\'',
-                    \DateTimeZone::class,
-                    get_class($timeZone),
-                    __FUNCTION__
-                )
-            );
-        }
-
-        return $timeZone;
     }
 }

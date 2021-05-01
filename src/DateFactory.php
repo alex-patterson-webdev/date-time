@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Arp\DateTime;
 
-use Arp\DateTime\Exception\DateFactoryException;
 use Arp\DateTime\Exception\DateIntervalFactoryException;
 use Arp\DateTime\Exception\DateTimeFactoryException;
+use Arp\DateTime\Exception\DateTimeZoneFactoryException;
 
 /**
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
@@ -20,19 +20,29 @@ final class DateFactory implements DateFactoryInterface
     private DateTimeFactoryInterface $dateTimeFactory;
 
     /**
+     * @var DateTimeZoneFactoryInterface
+     */
+    private DateTimeZoneFactoryInterface $dateTimeZoneFactory;
+
+    /**
      * @var DateIntervalFactoryInterface
      */
     private DateIntervalFactoryInterface $dateIntervalFactory;
 
     /**
-     * @param DateTimeFactoryInterface          $dateTimeFactory
+     * @param DateTimeFactoryInterface|null     $dateTimeFactory
+     * @param DateTimeZoneFactoryInterface|null $dateTimeZoneFactory
      * @param DateIntervalFactoryInterface|null $dateIntervalFactory
+     *
+     * @throws DateTimeFactoryException
      */
     public function __construct(
-        DateTimeFactoryInterface $dateTimeFactory,
-        DateIntervalFactoryInterface $dateIntervalFactory = null
+        ?DateTimeFactoryInterface $dateTimeFactory = null,
+        ?DateTimeZoneFactoryInterface $dateTimeZoneFactory = null,
+        ?DateIntervalFactoryInterface $dateIntervalFactory = null
     ) {
-        $this->dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory();
+        $this->dateTimeZoneFactory = $dateTimeZoneFactory ?? new DateTimeZoneFactory();
+        $this->dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory($this->dateTimeZoneFactory);
         $this->dateIntervalFactory = $dateIntervalFactory ?? new DateIntervalFactory();
     }
 
@@ -42,15 +52,11 @@ final class DateFactory implements DateFactoryInterface
      *
      * @return \DateTimeInterface
      *
-     * @throws DateFactoryException
+     * @throws DateTimeFactoryException
      */
     public function createDateTime(?string $spec = null, $timeZone = null): \DateTimeInterface
     {
-        try {
-            return $this->dateTimeFactory->createDateTime($spec, $timeZone);
-        } catch (DateTimeFactoryException $e) {
-            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->dateTimeFactory->createDateTime($spec, $timeZone);
     }
 
     /**
@@ -60,15 +66,11 @@ final class DateFactory implements DateFactoryInterface
      *
      * @return \DateTimeInterface
      *
-     * @throws DateFactoryException
+     * @throws DateTimeFactoryException
      */
     public function createFromFormat(string $spec, string $format, $timeZone = null): \DateTimeInterface
     {
-        try {
-            return $this->dateTimeFactory->createFromFormat($spec, $format, $timeZone);
-        } catch (DateTimeFactoryException $e) {
-            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->dateTimeFactory->createFromFormat($spec, $format, $timeZone);
     }
 
     /**
@@ -76,15 +78,23 @@ final class DateFactory implements DateFactoryInterface
      *
      * @return \DateTimeZone
      *
-     * @throws DateFactoryException
+     * @throws DateTimeZoneFactoryException
      */
     public function createDateTimeZone(string $spec): \DateTimeZone
     {
-        try {
-            return $this->dateTimeFactory->createDateTimeZone($spec);
-        } catch (DateTimeFactoryException $e) {
-            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->dateTimeZoneFactory->createDateTimeZone($spec);
+    }
+
+    /**
+     * @param \DateTimeZone|string|null $timeZone
+     *
+     * @return \DateTimeZone|null
+     *
+     * @throws DateTimeZoneFactoryException
+     */
+    public function resolveDateTimeZone($timeZone): ?\DateTimeZone
+    {
+        return $this->dateTimeZoneFactory->resolveDateTimeZone($timeZone);
     }
 
     /**
@@ -92,15 +102,11 @@ final class DateFactory implements DateFactoryInterface
      *
      * @return \DateInterval
      *
-     * @throws DateFactoryException
+     * @throws DateIntervalFactoryException
      */
     public function createDateInterval(string $spec): \DateInterval
     {
-        try {
-            return $this->dateIntervalFactory->createDateInterval($spec);
-        } catch (DateIntervalFactoryException $e) {
-            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->dateIntervalFactory->createDateInterval($spec);
     }
 
     /**
@@ -110,14 +116,10 @@ final class DateFactory implements DateFactoryInterface
      *
      * @return \DateInterval
      *
-     * @throws DateFactoryException
+     * @throws DateIntervalFactoryException
      */
     public function diff(\DateTimeInterface $origin, \DateTimeInterface $target, bool $absolute = false): \DateInterval
     {
-        try {
-            return $this->dateIntervalFactory->diff($origin, $target, $absolute);
-        } catch (DateIntervalFactoryException $e) {
-            throw new DateFactoryException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $this->dateIntervalFactory->diff($origin, $target, $absolute);
     }
 }
