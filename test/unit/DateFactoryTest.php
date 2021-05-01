@@ -23,12 +23,12 @@ use PHPUnit\Framework\TestCase;
 final class DateFactoryTest extends TestCase
 {
     /**
-     * @var DateTimeFactoryInterface|MockObject
+     * @var DateTimeFactoryInterface&MockObject
      */
     private $dateTimeFactory;
 
     /**
-     * @var DateIntervalFactoryInterface|MockObject
+     * @var DateIntervalFactoryInterface&MockObject
      */
     private $dateIntervalFactory;
 
@@ -44,8 +44,6 @@ final class DateFactoryTest extends TestCase
 
     /**
      * Ensure that the factory implements DateFactoryInterface
-     *
-     * @covers \Arp\DateTime\DateFactory
      */
     public function testImplementsDateFactoryInterface(): void
     {
@@ -84,11 +82,13 @@ final class DateFactoryTest extends TestCase
      * @dataProvider getCreateDateTimeData
      *
      * @throws DateFactoryException
+     * @throws \Exception
      */
     public function testCreateDateTime(?string $spec, $timeZone = null): void
     {
         $factory = new DateFactory($this->dateTimeFactory, $this->dateIntervalFactory);
 
+        /** @var \DateTimeInterface $expectedDateTime */
         $expectedDateTime = new \DateTime(
             $spec ?? 'now',
             is_string($timeZone) ? new \DateTimeZone($timeZone) : $timeZone
@@ -105,7 +105,7 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function getCreateDateTimeData(): array
     {
@@ -180,7 +180,7 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function getCreateFromFormatWillThrowDateFactoryExceptionIfNotAbleToCreateADateTimeData(): array
     {
@@ -222,7 +222,7 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function getCreateDateTimeZoneWillThrowDateFactoryExceptionIfSpecIsInvalidData(): array
     {
@@ -258,7 +258,7 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function getCreateDateTimeZoneData(): array
     {
@@ -311,7 +311,7 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function getCreateDateIntervalWillReturnANewDateIntervalToSpecData(): array
     {
@@ -375,7 +375,7 @@ final class DateFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function getDiffWillReturnDateIntervalData(): array
     {
@@ -432,7 +432,7 @@ final class DateFactoryTest extends TestCase
      */
     private function createMockForCreateDateTime(string $exceptionMessage): DateTimeFactoryInterface
     {
-        return new class($exceptionMessage) implements DateTimeFactoryInterface {
+        return new class ($exceptionMessage) implements DateTimeFactoryInterface {
             private string $exceptionMessage;
 
             public function __construct(string $exceptionMessage)
@@ -442,6 +442,7 @@ final class DateFactoryTest extends TestCase
 
             public function createFromFormat(string $spec, string $format, $timeZone = null): \DateTimeInterface
             {
+                /** @phpstan-ignore-next-line */
                 return \DateTime::createFromFormat($spec, $format);
             }
 
@@ -464,7 +465,7 @@ final class DateFactoryTest extends TestCase
      */
     private function createMockForCreateFromFormat(string $exceptionMessage): DateTimeFactoryInterface
     {
-        return new class($exceptionMessage) implements DateTimeFactoryInterface {
+        return new class ($exceptionMessage) implements DateTimeFactoryInterface {
             private string $exceptionMessage;
 
             public function __construct(string $exceptionMessage)
@@ -484,6 +485,7 @@ final class DateFactoryTest extends TestCase
 
             public function createDateTime(string $spec = null, $timeZone = null): \DateTimeInterface
             {
+                /** @phpstan-ignore-next-line */
                 return new \DateTime($spec, $timeZone);
             }
         };

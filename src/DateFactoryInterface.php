@@ -10,5 +10,4 @@ namespace Arp\DateTime;
  */
 interface DateFactoryInterface extends DateTimeFactoryInterface, DateIntervalFactoryInterface
 {
-
 }

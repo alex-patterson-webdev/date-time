@@ -94,12 +94,14 @@ final class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function createFromFormat(string $spec, string $format, $timeZone = null): \DateTimeInterface
     {
-        $dateTime = call_user_func(
-            [$this->dateTimeClassName, 'createFromFormat'],
-            $format,
-            $spec,
-            $this->resolveDateTimeZone($timeZone)
-        );
+        $factory = [$this->dateTimeClassName, 'createFromFormat'];
+        if (!is_callable($factory)) {
+            throw new DateTimeFactoryException(
+                sprintf('The method \'%s::%s\' is not callable', $this->dateTimeClassName, 'createFromFormat')
+            );
+        }
+
+        $dateTime = $factory($format, $spec, $this->resolveDateTimeZone($timeZone));
 
         if (false === $dateTime || !$dateTime instanceof \DateTimeInterface) {
             throw new DateTimeFactoryException(
@@ -141,7 +143,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     /**
      * @param string|null|\DateTimeZone $timeZone
      *
-     * @return \DateTimeZone|null|string
+     * @return \DateTimeZone|null
      *
      * @throws DateTimeFactoryException
      */
@@ -161,7 +163,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
                     'The \'timeZone\' argument must be a \'string\''
                     . 'or an object of type \'%s\'; \'%s\' provided in \'%s\'',
                     \DateTimeZone::class,
-                    is_object($timeZone) ? get_class($timeZone) : gettype($timeZone),
+                    get_class($timeZone),
                     __FUNCTION__
                 )
             );

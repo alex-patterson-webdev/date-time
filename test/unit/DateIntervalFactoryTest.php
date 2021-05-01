@@ -36,6 +36,7 @@ final class DateIntervalFactoryTest extends TestCase
      * @dataProvider getCreateDateIntervalData
      *
      * @throws DateIntervalFactoryException
+     * @throws \Exception
      */
     public function testCreateDateInterval(string $spec): void
     {
@@ -56,7 +57,7 @@ final class DateIntervalFactoryTest extends TestCase
     /**
      * @see https://www.php.net/manual/en/class.dateinterval.php
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getCreateDateIntervalData(): array
     {
@@ -96,7 +97,7 @@ final class DateIntervalFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getCreateDateIntervalWillThrowDateIntervalFactoryExceptionData(): array
     {
@@ -115,10 +116,10 @@ final class DateIntervalFactoryTest extends TestCase
     {
         $factory = new DateIntervalFactory();
 
-        /** @var \DateTime|MockObject $target */
+        /** @var \DateTime&MockObject $target */
         $target = $this->createMock(\DateTime::class);
 
-        /** @var \DateTime|MockObject $origin */
+        /** @var \DateTime&MockObject $origin */
         $origin = $this->createMock(\DateTime::class);
 
         $origin->expects($this->once())
@@ -141,13 +142,13 @@ final class DateIntervalFactoryTest extends TestCase
     {
         $factory = new DateIntervalFactory();
 
-        /** @var \DateTime|MockObject $target */
+        /** @var \DateTime&MockObject $target */
         $target = $this->createMock(\DateTime::class);
 
-        /** @var \DateTime|MockObject $origin */
+        /** @var \DateTime&MockObject $origin */
         $origin = $this->createMock(\DateTime::class);
 
-        /** @var \DateInterval|MockObject $dateInterval */
+        /** @var \DateInterval&MockObject $dateInterval */
         $dateInterval = $this->createMock(\DateInterval::class);
 
         $origin->expects($this->once())
