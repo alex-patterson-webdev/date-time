@@ -56,17 +56,17 @@ final class DateTimeImmutableFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param string                    $spec
      * @param string                    $format
+     * @param string                    $spec
      * @param null|string|\DateTimeZone $timeZone
      *
      * @return \DateTimeImmutable&\DateTimeInterface
      *
      * @throws DateTimeFactoryException
      */
-    public function createFromFormat(string $spec, string $format, $timeZone = null): \DateTimeInterface
+    public function createFromFormat(string $format, string $spec, $timeZone = null): \DateTimeInterface
     {
         /** @phpstan-ignore-next-line */
-        return $this->dateTimeFactory->createDateTime($spec, $timeZone);
+        return $this->dateTimeFactory->createFromFormat($format, $spec, $timeZone);
     }
 }
