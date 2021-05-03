@@ -87,7 +87,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
         /** @var callable $factory */
         $factory = [$this->dateTimeClassName, 'createFromFormat'];
 
-        $dateTime = $factory($spec, $format, $this->resolveDateTimeZone($timeZone));
+        $dateTime = $factory($format, $spec, $this->resolveDateTimeZone($timeZone));
 
         if (false === $dateTime || !$dateTime instanceof \DateTimeInterface) {
             throw new DateTimeFactoryException(

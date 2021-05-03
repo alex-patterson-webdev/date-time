@@ -195,8 +195,8 @@ final class DateTimeFactoryTest extends TestCase
      * Assert that a DateTimeFactoryException will be thrown if providing an invalid $spec
      * argument to createFromFormat().
      *
-     * @param string                    $spec
      * @param string                    $format
+     * @param string                    $spec
      * @param \DateTimeZone|string|null $timeZone
      *
      * @dataProvider getCreateFromFormatWillThrowDateTimeFactoryExceptionForInvalidDateTimeData
@@ -204,8 +204,8 @@ final class DateTimeFactoryTest extends TestCase
      * @throws DateTimeFactoryException
      */
     public function testCreateFromFormatWillThrowDateTimeFactoryExceptionForInvalidDateTimeSpec(
-        string $spec,
         string $format,
+        string $spec,
         $timeZone = null
     ): void {
         $factory = new DateTimeFactory($this->dateTimeZoneFactory);
@@ -269,19 +269,27 @@ final class DateTimeFactoryTest extends TestCase
     /**
      * Ensure that a \DateTime instance can be created from the provided format
      *
-     * @param string                    $spec
      * @param string                    $format
+     * @param string                    $spec
      * @param string|\DateTimeZone|null $timeZone
      *
      * @dataProvider getCreateFromFormatData
      *
      * @throws DateTimeFactoryException
      */
-    public function testCreateFromFormat(string $spec, string $format, $timeZone = null): void
+    public function testCreateFromFormat(string $format, string $spec, $timeZone = null): void
     {
         $factory = new DateTimeFactory($this->dateTimeZoneFactory);
 
         $dateTimeZone = is_string($timeZone) ? new \DateTimeZone($timeZone) : $timeZone;
+
+        if (is_string($timeZone)) {
+            $dateTimeZone = new \DateTimeZone($timeZone);
+            $this->dateTimeZoneFactory->expects($this->once())
+                ->method('createDateTimeZone')
+                ->with($timeZone)
+                ->willReturn($dateTimeZone);
+        }
 
         /** @var \DateTimeInterface $expectedDateTime */
         $expectedDateTime = \DateTime::createFromFormat(
@@ -290,7 +298,7 @@ final class DateTimeFactoryTest extends TestCase
             $dateTimeZone
         );
 
-        $this->assertDateTime($expectedDateTime, $factory->createFromFormat($spec, $format, $timeZone));
+        $this->assertDateTime($expectedDateTime, $factory->createFromFormat($format, $spec, $timeZone));
     }
 
     /**
@@ -301,22 +309,22 @@ final class DateTimeFactoryTest extends TestCase
     public function getCreateFromFormatData(): array
     {
         return [
+//            [
+//                'Y-m-d',
+//                '2019-04-01',
+//            ],
+//            [
+//                'Y/m/d',
+//                '1976/01/14',
+//            ],
             [
-                '2019-04-01',
-                'Y-m-d',
+                'Y-m-d H:i:s',
+                '2019-08-14 17:34:55',
+                'UTC',
             ],
 //            [
-//                '1976/01/14',
-//                'Y/m/d',
-//            ],
-//            [
-//                '2019-08-14 17:34:55',
 //                'Y-m-d H:i:s',
-//                'UTC',
-//            ],
-//            [
 //                '2010-10-26 11:19:32',
-//                'Y-m-d H:i:s',
 //                'Europe/London',
 //            ],
         ];

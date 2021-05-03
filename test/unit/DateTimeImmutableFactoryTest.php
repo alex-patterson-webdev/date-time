@@ -79,8 +79,42 @@ final class DateTimeImmutableFactoryTest extends TestCase
                 'UTC',
             ],
             [
-                '2021-05-01'
-            ]
+                '2021-05-01',
+            ],
+        ];
+    }
+
+    /**
+     * @param string                    $format
+     * @param string                    $spec
+     * @param string|\DateTimeZone|null $timeZone
+     *
+     * @dataProvider getCreatFromFormatWillReturnDateTimeImmutableData
+     *
+     * @throws DateTimeFactoryException
+     */
+    public function testCreatFromFormatWillReturnDateTimeImmutable(string $format, string $spec, $timeZone = null): void
+    {
+        $factory = new DateTimeImmutableFactory();
+
+        $this->assertInstanceOf(\DateTimeImmutable::class, $factory->createFromFormat($format, $spec, $timeZone));
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getCreatFromFormatWillReturnDateTimeImmutableData(): array
+    {
+        return [
+            [
+                'Y/m/d H:i:s',
+                '2021/05/03 14:36:47',
+            ],
+            [
+                'Y-d-m H:i:s',
+                '1999-01-12 11:06:01',
+                'UTC',
+            ],
         ];
     }
 }
