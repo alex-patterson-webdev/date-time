@@ -112,20 +112,20 @@ final class DateTimeFactoryTest extends TestCase
                 '2019-05-14 12:33:00',
             ],
 
-//            [
-//                '2019-08-14 17:34:55',
-//                'UTC',
-//            ],
+            [
+                '2019-08-14 17:34:55',
+                'UTC',
+            ],
 
-//            [
-//                '2020-08-22 14:43:12',
-//                null,
-//            ],
-//
-//            [
-//                '2020-08-22 14:44:37',
-//                new \DateTimeZone('Europe/London'),
-//            ],
+            [
+                '2020-08-22 14:43:12',
+                null,
+            ],
+
+            [
+                '2020-08-22 14:44:37',
+                new \DateTimeZone('Europe/London'),
+            ],
         ];
     }
 
@@ -309,24 +309,24 @@ final class DateTimeFactoryTest extends TestCase
     public function getCreateFromFormatData(): array
     {
         return [
-//            [
-//                'Y-m-d',
-//                '2019-04-01',
-//            ],
-//            [
-//                'Y/m/d',
-//                '1976/01/14',
-//            ],
+            [
+                'Y-m-d',
+                '2019-04-01',
+            ],
+            [
+                'Y/m/d',
+                '1976/01/14',
+            ],
             [
                 'Y-m-d H:i:s',
                 '2019-08-14 17:34:55',
                 'UTC',
             ],
-//            [
-//                'Y-m-d H:i:s',
-//                '2010-10-26 11:19:32',
-//                'Europe/London',
-//            ],
+            [
+                'Y-m-d H:i:s',
+                '2010-10-26 11:19:32',
+                'Europe/London',
+            ],
         ];
     }
 
