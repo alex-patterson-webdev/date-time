@@ -54,13 +54,10 @@ The approach has a number of notable benefits
 - Unit testing and asserting date time values becomes very easy as we can now mock the return value of `$this->dateTimeFactory->createDateTime()`.
 - Rather than returning a boolean `false` when unable to create date objects, the factory classes will instead throw a `DateTimeException`.
 
-## Date Creation
+## DateTimeFactoryInterface
 
 The `DateTimeFactoryInterface` exposes two public methods, `createDateTime()` and `createFromFormat()`. The method signatures are
-similar the PHP `\DateTime` methods. 
-
-The  `DateTimeFactoryInterface::createDateTime()` method can replace uses of [\DateTime::__construct](https://www.php.net/manual/en/datetime.construct.php).
-The `DateTimeFactoryInterface::createFromFormat()` method can replace uses of [\DateTime::createFromFormat()](https://www.php.net/manual/en/datetime.createfromformat.php).
+similar to the PHP `\DateTime` methods. 
 
     interface DateTimeFactoryInterface
     {
@@ -75,49 +72,54 @@ The `DateTimeFactoryInterface::createFromFormat()` method can replace uses of [\
         public function createFromFormat(string $format, string $spec, $timeZone = null): \DateTimeInterface;
     }
 
-If you use the factory as a replacement to manually creating PHP object via `new \DateTime()`, or `\DateTime::createFromFormat()`, 
-there are a number of differences to consider.
+The `createDateTime()` method can replace uses of [\DateTime::__construct](https://www.php.net/manual/en/datetime.construct.php).
+The `createFromFormat()` method can replace uses of [\DateTime::createFromFormat()](https://www.php.net/manual/en/datetime.createfromformat.php).
 
-- The methods of the interface are defined as non-static and require a factory instance to invoke them
-- A `DateTimeFactoryException` will be thrown if the `\DateTime` instance cannot be created
-- The `$spec` parameter of `createDateTime()` accepts `null`. Passing `null` is equivalent to using the current date and time, i.e. `now`
-- The `$timeZone` parameter accepts `string` or `\DateTimeZone` instance. If a [supported `DateTimeZone` string](https://www.php.net/manual/en/timezones.php) 
-  is provided, the `\DateTimeZone` instance will be created internally
+There are however a number of differences to consider.
+
+- The methods of the interface are defined as non-static and require a factory instance to invoke them.
+- A `DateTimeFactoryException` will be thrown if the `\DateTime` instance cannot be created.
+- The `$spec` parameter of `createDateTime()` accepts `null`. Passing `null` is equivalent to using the current date and time, i.e. `now`.
+- The `$timeZone` can be either a `string` or `\DateTimeZone` instance. If a [supported `DateTimeZone` string](https://www.php.net/manual/en/timezones.php) 
+  is provided, the `\DateTimeZone` instance will be created internally; otherwise a `DateTimeFactoryException` will be thrown.
   
 ### Implementations
 
-The package provides two default implementations of the `DateTimeFactoryInterface`, depending on the type of date time instance you wish to create.
+The package provides two default implementations of the `DateTimeFactoryInterface`.
 
 - `DateTimeFactory` can be used to create `\DateTime` instances.
 - `DateTimeImmutableFactory` can be used to create `\DateTimeImmutible` instances
 
-Because both classes implement the `\DateTimeFactoryInterface`, they can be used in the same way.
+Because both classes implement the `DateTimeFactoryInterface`, they can be used in the same way.
 
     $dateTimeFactory = new \Arp\DateTime\DateTimeFactory();
     $dateTimeImmutableFactory = new \Arp\DateTime\DateTimeImmutableFactory();
 
     try {
-        /** @var \DateTime $dateTimeZone **/
+        /** @var \DateTime $dateTime **/
         $dateTime = $dateTimeFactory->createDateTime();
 
-        /** @var \DateTimeImmutable $dateTimeZone **/
+        /** @var \DateTimeImmutable $dateTimeImmutable **/
         $dateTimeImmutable = $dateTimeImmutableFactory->createDateTime();
     } catch (\DateTimeFactoryException $e) {
-        // If the date times cannot be created
+        // if the date creation fails
     }
 
 ### DateTimeZoneFactory
 
-`\DateTimeZone` instances can be created by a class implementing `DateTimeZoneFactoryInterface`.
+`\DateTimeZone` instances can be created using any class that implements `Arp\DateTime\DateTimeZoneFactoryInterface`.
 
+    /*
+     * @throws DateTimeZoneFactoryException
+     */
     public function createDateTimeZone(string $spec): \DateTimeZone;
 
-The default implementation of the interface provided is `Arp\DateTime\DateTimeZoneFactory`.
+The default implementation of the interface is `Arp\DateTime\DateTimeZoneFactory`.
 
     $dateTimeZoneFactory = new \Arp\DateTime\DateTimeZoneFactory();
-    /** @var \DateTimeZone $dateTimeZone **/
 
     try { 
+        /** @var \DateTimeZone $dateTimeZone **/
         $dateTimeZone = $dateTimeZoneFactory->createDateTimeZone('UTC');
     } catch (\DateTimeZoneFactoryException $e) {
         // The \DateTimeZone() could not be created
