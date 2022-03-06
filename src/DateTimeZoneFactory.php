@@ -46,7 +46,11 @@ final class DateTimeZoneFactory implements DateTimeZoneFactoryInterface
     public function createDateTimeZone(string $spec): \DateTimeZone
     {
         try {
-            return new $this->dateTimeZoneClassName($spec);
+            /** @var \DateTimeZone $dateTimeZone */
+            /** @noinspection PhpUnnecessaryLocalVariableInspection */
+            /** @noinspection OneTimeUseVariablesInspection */
+            $dateTimeZone = new $this->dateTimeZoneClassName($spec);
+            return $dateTimeZone;
         } catch (\Exception $e) {
             throw new DateTimeZoneFactoryException(
                 sprintf(

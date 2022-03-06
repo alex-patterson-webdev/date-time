@@ -58,8 +58,14 @@ final class DateTimeFactory implements DateTimeFactoryInterface
      */
     public function createDateTime(?string $spec = null, $timeZone = null): \DateTimeInterface
     {
+        $dateTimeZone = $this->resolveDateTimeZone($timeZone);
+
         try {
-            return new $this->dateTimeClassName($spec ?? 'now', $this->resolveDateTimeZone($timeZone));
+            /** @var \DateTimeInterface $dateTime */
+            /** @noinspection PhpUnnecessaryLocalVariableInspection */
+            /** @noinspection OneTimeUseVariablesInspection */
+            $dateTime = new $this->dateTimeClassName($spec ?? 'now', $dateTimeZone);
+            return $dateTime;
         } catch (\Exception $e) {
             throw new DateTimeFactoryException(
                 sprintf(
@@ -89,7 +95,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
 
         $dateTime = $factory($format, $spec, $this->resolveDateTimeZone($timeZone));
 
-        if (false === $dateTime || !$dateTime instanceof \DateTimeInterface) {
+        if (!$dateTime instanceof \DateTimeInterface) {
             throw new DateTimeFactoryException(
                 sprintf(
                     'Failed to create a valid \DateTime instance using \'%s\' and format \'%s\'',
