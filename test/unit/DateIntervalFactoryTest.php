@@ -7,7 +7,6 @@ namespace ArpTest\DateTime;
 use Arp\DateTime\DateIntervalFactory;
 use Arp\DateTime\DateIntervalFactoryInterface;
 use Arp\DateTime\Exception\DateIntervalFactoryException;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -82,14 +81,11 @@ final class DateIntervalFactoryTest extends TestCase
     {
         $factory = new DateIntervalFactory();
 
-        $exceptionMessage = sprintf('DateInterval::__construct(): Unknown or bad format (%s)', $spec);
-
         $this->expectException(DateIntervalFactoryException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'Failed to create a valid \DateInterval instance using \'%s\': %s',
-                $spec,
-                $exceptionMessage
+                'Failed to create a valid \DateInterval instance using \'%s\':',
+                $spec
             )
         );
 
@@ -105,57 +101,5 @@ final class DateIntervalFactoryTest extends TestCase
             ['test'],
             ['invalid'],
         ];
-    }
-
-    /**
-     * Assert that a DateIntervalFactoryException is thrown when the date diff fails
-     *
-     * @throws DateIntervalFactoryException
-     */
-    public function testDiffWillThrowDateIntervalFactoryExceptionIfDateIntervalCannotBeCreated(): void
-    {
-        $factory = new DateIntervalFactory();
-
-        /** @var \DateTime&MockObject $target */
-        $target = $this->createMock(\DateTime::class);
-
-        /** @var \DateTime&MockObject $origin */
-        $origin = $this->createMock(\DateTime::class);
-
-        $origin->expects($this->once())
-            ->method('diff')
-            ->with($target, false)
-            ->willReturn(false);
-
-        $this->expectException(DateIntervalFactoryException::class);
-        $this->expectExceptionMessage('Failed to create valid \DateInterval while performing date diff');
-
-        $factory->diff($origin, $target);
-    }
-
-    /**
-     * Assert that a valid \DateInterval is returned from the calls to diff()
-     *
-     * @throws DateIntervalFactoryException
-     */
-    public function testDiffWillReturnValidDateInterval(): void
-    {
-        $factory = new DateIntervalFactory();
-
-        /** @var \DateTime&MockObject $target */
-        $target = $this->createMock(\DateTime::class);
-
-        /** @var \DateTime&MockObject $origin */
-        $origin = $this->createMock(\DateTime::class);
-
-        /** @var \DateInterval&MockObject $dateInterval */
-        $dateInterval = $this->createMock(\DateInterval::class);
-
-        $origin->expects($this->once())
-            ->method('diff')
-            ->with($target, false)
-            ->willReturn($dateInterval);
-
-        $this->assertSame($dateInterval, $factory->diff($origin, $target));
     }
 }

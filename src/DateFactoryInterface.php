@@ -8,6 +8,9 @@ namespace Arp\DateTime;
  * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
  * @package Arp\DateTime
  */
-interface DateFactoryInterface extends DateTimeFactoryInterface, DateIntervalFactoryInterface
+interface DateFactoryInterface extends
+    DateTimeFactoryInterface,
+    DateTimeZoneFactoryInterface,
+    DateIntervalFactoryInterface
 {
 }

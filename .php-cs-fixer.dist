@@ -6,7 +6,6 @@ use PhpCsFixer\Finder;
 
 $rules = [
     '@PSR12' => true,
-    'class_definition' => false,
 ];
 
 /** @var iterable<string> $finder */
