@@ -27,7 +27,7 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
     {
         try {
             return new \DateInterval($spec);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             $exceptionMessage = sprintf(
                 'Failed to create a valid \DateInterval instance using \'%s\': %s',
                 $spec,
@@ -35,27 +35,5 @@ class DateIntervalFactory implements DateIntervalFactoryInterface
             );
             throw new DateIntervalFactoryException($exceptionMessage, $e->getCode(), $e);
         }
-    }
-
-    /**
-     * Perform a diff of two dates and return the \DateInterval
-     *
-     * @param \DateTimeInterface $origin   The origin date
-     * @param \DateTimeInterface $target   The date to compare to
-     * @param bool               $absolute If the interval is negative force it to be a positive value
-     *
-     * @return \DateInterval
-     *
-     * @throws DateIntervalFactoryException If the date diff cannot be performed
-     */
-    public function diff(\DateTimeInterface $origin, \DateTimeInterface $target, bool $absolute = false): \DateInterval
-    {
-        $dateInterval = $origin->diff($target, $absolute);
-
-        if (!$dateInterval instanceof \DateInterval) {
-            throw new DateIntervalFactoryException('Failed to create valid \DateInterval while performing date diff');
-        }
-
-        return $dateInterval;
     }
 }

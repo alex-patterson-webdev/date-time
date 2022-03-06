@@ -96,18 +96,4 @@ final class DateFactory implements DateFactoryInterface
     {
         return $this->dateIntervalFactory->createDateInterval($spec);
     }
-
-    /**
-     * @param \DateTimeInterface $origin
-     * @param \DateTimeInterface $target
-     * @param bool               $absolute
-     *
-     * @return \DateInterval
-     *
-     * @throws DateIntervalFactoryException
-     */
-    public function diff(\DateTimeInterface $origin, \DateTimeInterface $target, bool $absolute = false): \DateInterval
-    {
-        return $this->dateIntervalFactory->diff($origin, $target, $absolute);
-    }
 }

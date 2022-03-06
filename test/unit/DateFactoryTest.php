@@ -147,28 +147,4 @@ final class DateFactoryTest extends TestCase
 
         $this->assertSame($dateInterval, $factory->createDateInterval($spec));
     }
-
-    /**
-     * Assert the calls to diff() will proxy to the internal DateTimeIntervalFactory
-     *
-     * @throws DateIntervalFactoryException
-     * @throws DateTimeFactoryException
-     */
-    public function testDiffWillProxyToDateTimeIntervalFactory(): void
-    {
-        $factory = new DateFactory($this->dateTimeFactory, $this->dateTimeZoneFactory, $this->dateIntervalFactory);
-
-        $origin = new \DateTime('2021-01-01');
-        $target = new \DateTime('2021-01-10 13:14:15');
-        $absolute = false;
-
-        $dateDiff = $origin->diff($target, $absolute);
-
-        $this->dateIntervalFactory->expects($this->once())
-            ->method('diff')
-            ->with($origin, $target, $absolute)
-            ->willReturn($dateDiff);
-
-        $this->assertSame($dateDiff, $factory->diff($origin, $target, $absolute));
-    }
 }
