@@ -141,18 +141,11 @@ final class DateTimeFactoryTest extends TestCase
 
         $spec = 'foo'; // invalid argument
 
-        $exceptionMessage = sprintf(
-            'DateTime::__construct(): Failed to parse time string (%s) at position 0 (%s)',
-            $spec,
-            $spec[0]
-        );
-
         $this->expectException(DateTimeFactoryException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'Failed to create a valid \DateTime instance using \'%s\': %s',
-                $spec,
-                $exceptionMessage
+                'Failed to create a valid \DateTime instance using \'%s\':',
+                $spec
             )
         );
 
