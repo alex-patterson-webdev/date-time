@@ -6,14 +6,14 @@
 
 ## About
 
-The library provides a number of factory interfaces which abstracts the creation of native PHP DateTime objects and 
-implementations of the [PSR-20 Clock](https://www.php-fig.org/psr/psr-20/) `ClockInterface`.
+The library provides implementations of the [PSR-20 Clock](https://www.php-fig.org/psr/psr-20/) `ClockInterface` and a 
+number of factories which abstract the creation of native PHP DateTime objects.
 
 ## Installation
 
 Installation via [composer](https://getcomposer.org).
 
-    require alex-patterson-webdev/date-time ^0.5
+    require alex-patterson-webdev/date-time ^0.6
 
 ## Theory
 
