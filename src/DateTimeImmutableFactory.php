@@ -6,21 +6,11 @@ namespace Arp\DateTime;
 
 use Arp\DateTime\Exception\DateTimeFactoryException;
 
-/**
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\DateTime
- */
-final class DateTimeImmutableFactory implements DateTimeFactoryInterface
+class DateTimeImmutableFactory implements DateTimeFactoryInterface
 {
-    /**
-     * @var DateTimeFactory
-     */
     private DateTimeFactory $dateTimeFactory;
 
     /**
-     * @param string|null                       $dateTimeClassName
-     * @param DateTimeZoneFactoryInterface|null $dateTimeZoneFactory
-     *
      * @throws DateTimeFactoryException
      */
     public function __construct(
@@ -42,31 +32,31 @@ final class DateTimeImmutableFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param string|null               $spec
-     * @param null|string|\DateTimeZone $timeZone
-     *
-     * @return \DateTimeImmutable&\DateTimeInterface
-     *
      * @throws DateTimeFactoryException
      */
-    public function createDateTime(?string $spec = null, $timeZone = null): \DateTimeInterface
-    {
-        /** @phpstan-ignore-next-line */
+    public function createDateTime(
+        ?string $spec = null,
+        string|\DateTimeZone|null $timeZone = null
+    ): \DateTimeImmutable {
+        /**
+         * @phpstan-ignore-next-line
+         * @noinspection PhpIncompatibleReturnTypeInspection
+         */
         return $this->dateTimeFactory->createDateTime($spec, $timeZone);
     }
 
     /**
-     * @param string                    $format
-     * @param string                    $spec
-     * @param null|string|\DateTimeZone $timeZone
-     *
-     * @return \DateTimeImmutable&\DateTimeInterface
-     *
      * @throws DateTimeFactoryException
      */
-    public function createFromFormat(string $format, string $spec, $timeZone = null): \DateTimeInterface
-    {
-        /** @phpstan-ignore-next-line */
+    public function createFromFormat(
+        string $format,
+        string $spec,
+        string|\DateTimeZone|null $timeZone = null
+    ): \DateTimeImmutable {
+        /**
+         * @phpstan-ignore-next-line
+         * @noinspection PhpIncompatibleReturnTypeInspection
+         */
         return $this->dateTimeFactory->createFromFormat($format, $spec, $timeZone);
     }
 }

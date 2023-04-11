@@ -6,34 +6,21 @@ namespace Arp\DateTime;
 
 use Arp\DateTime\Exception\DateIntervalFactoryException;
 
-/**
- * Factory class used as a service to create \DateInterval instances.
- *
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\DateTime
- */
-class DateIntervalFactory implements DateIntervalFactoryInterface
+final class DateIntervalFactory implements DateIntervalFactoryInterface
 {
     /**
-     * Create a new DateInterval instance using the provided $spec
-     *
-     * @param string $spec The specification of the interval
-     *
-     * @return \DateInterval
-     *
-     * @throws DateIntervalFactoryException  If the date interval cannot be created
+     * @throws DateIntervalFactoryException
      */
     public function createDateInterval(string $spec): \DateInterval
     {
         try {
             return new \DateInterval($spec);
         } catch (\Exception $e) {
-            $exceptionMessage = sprintf(
-                'Failed to create a valid \DateInterval instance using \'%s\': %s',
-                $spec,
-                $e->getMessage()
+            throw new DateIntervalFactoryException(
+                sprintf('Failed to create a valid \DateInterval instance using \'%s\'', $spec),
+                $e->getCode(),
+                $e,
             );
-            throw new DateIntervalFactoryException($exceptionMessage, $e->getCode(), $e);
         }
     }
 }

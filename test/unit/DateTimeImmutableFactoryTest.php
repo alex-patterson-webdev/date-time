@@ -10,10 +10,7 @@ use Arp\DateTime\Exception\DateTimeFactoryException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers  \Arp\DateTime\DateTimeImmutableFactory
- *
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package ArpTest\DateTime
+ * @covers \Arp\DateTime\DateTimeImmutableFactory
  */
 final class DateTimeImmutableFactoryTest extends TestCase
 {
@@ -29,7 +26,7 @@ final class DateTimeImmutableFactoryTest extends TestCase
 
     /**
      * Assert that an exception will be thrown if the provided $dateTimeClassName option is a class that does not
-     * implement \DateTimeInterface.
+     * implement \DateTimeInterface
      */
     public function testCreateDateTimeWillThrowDateTimeFactoryExceptionIfDateTimeClassNameIsNotDateTimeImmutable(): void
     {
@@ -45,19 +42,18 @@ final class DateTimeImmutableFactoryTest extends TestCase
     }
 
     /**
-     * Assert that calls to createDateTime() will return a DateTimeImmutable instance,
-     * matching the provided $spec and $timeZone
-     *
-     * @param string|null               $spec
-     * @param \DateTimeZone|string|null $timeZone
+     * Assert that calls to createDateTime() will return a DateTimeImmutable instance, matching the
+     * provided $spec and $timeZone
      *
      * @dataProvider getCreatDateTimeWillReturnDateTimeImmutableData
      *
      * @throws DateTimeFactoryException
      * @throws \Exception
      */
-    public function testCreatDateTimeWillReturnDateTimeImmutable(?string $spec, $timeZone = null): void
-    {
+    public function testCreatDateTimeWillReturnDateTimeImmutable(
+        ?string $spec,
+        string|\DateTimeZone|null $timeZone = null
+    ): void {
         $factory = new DateTimeImmutableFactory();
 
         $immutableDateTime = $factory->createDateTime($spec, $timeZone);
@@ -85,16 +81,15 @@ final class DateTimeImmutableFactoryTest extends TestCase
     }
 
     /**
-     * @param string                    $format
-     * @param string                    $spec
-     * @param string|\DateTimeZone|null $timeZone
-     *
      * @dataProvider getCreatFromFormatWillReturnDateTimeImmutableData
      *
      * @throws DateTimeFactoryException
      */
-    public function testCreatFromFormatWillReturnDateTimeImmutable(string $format, string $spec, $timeZone = null): void
-    {
+    public function testCreatFromFormatWillReturnDateTimeImmutable(
+        string $format,
+        string $spec,
+        string|\DateTimeZone|null $timeZone = null
+    ): void {
         $factory = new DateTimeImmutableFactory();
 
         $this->assertInstanceOf(\DateTimeImmutable::class, $factory->createFromFormat($format, $spec, $timeZone));

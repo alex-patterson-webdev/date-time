@@ -9,10 +9,7 @@ use Arp\DateTime\Exception\DateTimeException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers  \Arp\DateTime\Exception\DateIntervalFactoryException
- *
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package ArpTest\DateTime\Exception
+ * @covers \Arp\DateTime\Exception\DateIntervalFactoryException
  */
 final class DateIntervalFactoryExceptionTest extends TestCase
 {

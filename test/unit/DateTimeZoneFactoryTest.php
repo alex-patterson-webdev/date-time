@@ -10,10 +10,7 @@ use Arp\DateTime\Exception\DateTimeZoneFactoryException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers  \Arp\DateTime\DateTimeZoneFactory
- *
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package ArpTest\DateTime
+ * @covers \Arp\DateTime\DateTimeZoneFactory
  */
 final class DateTimeZoneFactoryTest extends TestCase
 {
@@ -51,8 +48,6 @@ final class DateTimeZoneFactoryTest extends TestCase
     /**
      * Assert that if providing an invalid $spec to createDateTimeZone() a DateTimeZoneFactoryException is thrown
      *
-     * @param string $spec
-     *
      * @dataProvider getCreateDateTimeZoneWillThrowDateTimeZoneFactoryExceptionIfSpecIsInvalidData
      *
      * @throws DateTimeZoneFactoryException
@@ -61,23 +56,17 @@ final class DateTimeZoneFactoryTest extends TestCase
     {
         $factory = new DateTimeZoneFactory();
 
-        $exceptionMessage = '';
         $exceptionCode = 123;
         try {
             new \DateTimeZone($spec);
         } catch (\Exception $e) {
-            $exceptionMessage = $e->getMessage();
             $exceptionCode = $e->getCode();
         }
 
         $this->expectException(DateTimeZoneFactoryException::class);
         $this->expectExceptionCode($exceptionCode);
         $this->expectExceptionMessage(
-            sprintf(
-                'Failed to create a valid \DateTimeZone instance using \'%s\': %s',
-                $spec,
-                $exceptionMessage
-            )
+            sprintf('Failed to create a valid \DateTimeZone instance using \'%s\'', $spec)
         );
 
         $factory->createDateTimeZone($spec);
@@ -100,8 +89,6 @@ final class DateTimeZoneFactoryTest extends TestCase
 
     /**
      * Ensure a \DateTimeZone instance is returned according to the provided $spec
-     *
-     * @param string $spec
      *
      * @dataProvider getCreateDateTimeZoneData
      *
