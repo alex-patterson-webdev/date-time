@@ -6,8 +6,8 @@
 
 ## About
 
-The library provides a number of factory interfaces which abstracts the creation of native PHP DateTime classes, 
-`\DateTime`, `\DateTimeImmutible`, `\DateInterval` and `\DateTimeZone`.
+The library provides a number of factory interfaces which abstracts the creation of native PHP DateTime objects and 
+implementations of the [PSR-20 Clock](https://www.php-fig.org/psr/psr-20/) `ClockInterface`.
 
 ## Installation
 
@@ -124,6 +124,34 @@ The default implementation of the interface is `Arp\DateTime\DateTimeZoneFactory
     } catch (\DateTimeZoneFactoryException $e) {
         // The \DateTimeZone() could not be created
     }
+
+### PSR-20 ClockInterface
+
+Using the PSR standards provides implementing projects interoperability between other packages by creating a standard way of accessing 
+the current time.
+
+The package provides a number of implementations of the [PSR-20 Clock](https://www.php-fig.org/psr/psr-20/) interface.
+
+- `Arp\DateTime\Psr\Clock` A default implementation of `Psr\Clock\ClockInterface` where a desired DateTimeZone can be provided.
+- `Arp\DateTime\Psr\SystemClock` An implementation of `Psr\Clock\ClockInterface` that will always provide the current time using the configured system timezone.
+- `Arp\DateTime\Psr\FixedClock` An implementation of `Psr\Clock\ClockInterface` that will always return a fixed `\DateTimeImmutable`; which can be useful in testing. 
+
+Example usages
+
+    use Arp\DateTime\DateTimeImmutableFactory;
+    use Arp\DateTime\Psr\SystemClock;
+    
+    // Fetch the current time using the UTC timezone
+    $clock = new Clock(new DateTimeImmutableFactory(), 'UTC');
+    $utcTime = $clock->now();
+
+    // Fetch the current time using the systems configured timezone
+    $clock = new SystemClock(new DateTimeImmutableFactory());
+    $systemTime = $clock->now();
+    
+    // Calls to FixedClock::now() will always return the same time provided in the constructor 
+    $clock = new FixedClock(new \DateTimeImmutable());
+    $fixedTime = $clock->now();
 
 ## Unit tests
 
