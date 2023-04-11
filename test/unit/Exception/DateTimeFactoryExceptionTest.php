@@ -10,9 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Arp\DateTime\Exception\DateTimeFactoryException
- *
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package ArpTest\DateTime\Exception
  */
 final class DateTimeFactoryExceptionTest extends TestCase
 {

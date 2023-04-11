@@ -11,9 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Arp\DateTime\DateIntervalFactory
- *
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package ArpTest\DateTime
  */
 final class DateIntervalFactoryTest extends TestCase
 {
@@ -29,8 +26,6 @@ final class DateIntervalFactoryTest extends TestCase
 
     /**
      * Ensure that the DateInterval is created in accordance with the provided $spec
-     *
-     * @param string $spec The \DateInterval specification
      *
      * @dataProvider getCreateDateIntervalData
      *
@@ -71,8 +66,6 @@ final class DateIntervalFactoryTest extends TestCase
     /**
      * Ensure that createDateInterval() will throw a DateIntervalFactoryException if the provided $spec is invalid
      *
-     * @param string $spec
-     *
      * @dataProvider getCreateDateIntervalWillThrowDateIntervalFactoryExceptionData
      *
      * @throws DateIntervalFactoryException
@@ -84,7 +77,7 @@ final class DateIntervalFactoryTest extends TestCase
         $this->expectException(DateIntervalFactoryException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'Failed to create a valid \DateInterval instance using \'%s\':',
+                'Failed to create a valid \DateInterval instance using \'%s\'',
                 $spec
             )
         );

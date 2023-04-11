@@ -16,31 +16,25 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers  \Arp\DateTime\DateFactory
- *
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package ArpTest\DateTime
+ * @covers \Arp\DateTime\DateFactory
  */
 final class DateFactoryTest extends TestCase
 {
     /**
      * @var DateTimeFactoryInterface&MockObject
      */
-    private $dateTimeFactory;
+    private DateTimeFactoryInterface $dateTimeFactory;
 
     /**
      * @var DateTimeZoneFactoryInterface&MockObject
      */
-    private $dateTimeZoneFactory;
+    private DateTimeZoneFactoryInterface $dateTimeZoneFactory;
 
     /**
      * @var DateIntervalFactoryInterface&MockObject
      */
-    private $dateIntervalFactory;
+    private DateIntervalFactoryInterface $dateIntervalFactory;
 
-    /**
-     * Set up the test case dependencies
-     */
     public function setUp(): void
     {
         $this->dateTimeFactory = $this->createMock(DateTimeFactoryInterface::class);
@@ -111,6 +105,7 @@ final class DateFactoryTest extends TestCase
      *
      * @throws DateTimeZoneFactoryException
      * @throws DateTimeFactoryException
+     * @throws \Exception
      */
     public function testCreateDateTimeZoneWillProxyToDateTimeZoneFactory(): void
     {

@@ -7,31 +7,21 @@ namespace Arp\DateTime;
 use Arp\DateTime\Exception\DateTimeFactoryException;
 use Arp\DateTime\Exception\DateTimeZoneFactoryException;
 
-/**
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\DateTime
- */
 final class DateTimeFactory implements DateTimeFactoryInterface
 {
     /**
-     * @var DateTimeZoneFactoryInterface
-     */
-    private DateTimeZoneFactoryInterface $dateTimeZoneFactory;
-
-    /**
-     * @var string
+     * @var class-string<\DateTimeInterface>
      */
     private string $dateTimeClassName;
 
     /**
-     * @param DateTimeZoneFactoryInterface|null $dateTimeZoneFactory
-     * @param string|null                       $dateTimeClassName
+     * @param class-string<\DateTimeInterface>|null $dateTimeClassName
      *
      * @throws DateTimeFactoryException
      */
     public function __construct(
-        DateTimeZoneFactoryInterface $dateTimeZoneFactory = null,
-        string $dateTimeClassName = null
+        private ?DateTimeZoneFactoryInterface $dateTimeZoneFactory = null,
+        ?string $dateTimeClassName = null
     ) {
         $this->dateTimeZoneFactory = $dateTimeZoneFactory ?? new DateTimeZoneFactory();
 
@@ -39,7 +29,7 @@ final class DateTimeFactory implements DateTimeFactoryInterface
         if (!is_a($dateTimeClassName, \DateTimeInterface::class, true)) {
             throw new DateTimeFactoryException(
                 sprintf(
-                    'The \'dateTimeClassName\' parameter must be a class name that implements \'%s\'',
+                    'The \'dateTimeClassName\' parameter must be a class that implements \'%s\'',
                     \DateTimeInterface::class
                 )
             );
@@ -49,30 +39,18 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param null|string               $spec     The date and time specification
-     * @param string|\DateTimeZone|null $timeZone The date time zone; if omitted or null the PHP default will be used
-     *
-     * @return \DateTimeInterface
-     *
-     * @throws DateTimeFactoryException If the \DateTime instance cannot be created.
+     * @throws DateTimeFactoryException
      */
-    public function createDateTime(?string $spec = null, $timeZone = null): \DateTimeInterface
+    public function createDateTime(?string $spec = null, string|\DateTimeZone|null $timeZone = null): \DateTimeInterface
     {
         $dateTimeZone = $this->resolveDateTimeZone($timeZone);
 
         try {
-            /** @var \DateTimeInterface $dateTime */
-            /** @noinspection PhpUnnecessaryLocalVariableInspection */
-            /** @noinspection OneTimeUseVariablesInspection */
-            $dateTime = new $this->dateTimeClassName($spec ?? 'now', $dateTimeZone);
-            return $dateTime;
+            /** @throws \Exception */
+            return new $this->dateTimeClassName($spec ?? 'now', $dateTimeZone);
         } catch (\Exception $e) {
             throw new DateTimeFactoryException(
-                sprintf(
-                    'Failed to create a valid \DateTime instance using \'%s\': %s',
-                    $spec,
-                    $e->getMessage()
-                ),
+                sprintf('Failed to create a valid \DateTime instance using \'%s\'', $spec),
                 $e->getCode(),
                 $e
             );
@@ -80,16 +58,13 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param string                    $format   The date and time format
-     * @param string                    $spec     The date and time specification
-     * @param string|\DateTimeZone|null $timeZone The date time zone; if omitted or null the PHP default will be used
-     *
-     * @return \DateTimeInterface
-     *
-     * @throws DateTimeFactoryException  If the \DateTime instance cannot be created
+     * @throws DateTimeFactoryException
      */
-    public function createFromFormat(string $format, string $spec, $timeZone = null): \DateTimeInterface
-    {
+    public function createFromFormat(
+        string $format,
+        string $spec,
+        string|\DateTimeZone|null $timeZone = null
+    ): \DateTimeInterface {
         /** @var callable $factory */
         $factory = [$this->dateTimeClassName, 'createFromFormat'];
 
@@ -109,28 +84,16 @@ final class DateTimeFactory implements DateTimeFactoryInterface
     }
 
     /**
-     * @param mixed|string|\DateTimeZone|null $timeZone
-     *
-     * @return \DateTimeZone|null
-     *
      * @throws DateTimeFactoryException
      */
-    private function resolveDateTimeZone($timeZone): ?\DateTimeZone
+    private function resolveDateTimeZone(string|\DateTimeZone|null $timeZone): ?\DateTimeZone
     {
-        if (empty($timeZone) || (!is_string($timeZone) && !$timeZone instanceof \DateTimeZone)) {
-            return null;
-        }
-
         try {
             return is_string($timeZone)
                 ? $this->dateTimeZoneFactory->createDateTimeZone($timeZone)
                 : $timeZone;
         } catch (DateTimeZoneFactoryException $e) {
-            throw new DateTimeFactoryException(
-                sprintf('Failed to create date time zone: %s', $e->getMessage()),
-                $e->getCode(),
-                $e
-            );
+            throw new DateTimeFactoryException('Failed to create date time zone', $e->getCode(), $e);
         }
     }
 }

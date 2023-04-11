@@ -6,20 +6,14 @@ namespace Arp\DateTime;
 
 use Arp\DateTime\Exception\DateTimeZoneFactoryException;
 
-/**
- * @author  Alex Patterson <alex.patterson.webdev@gmail.com>
- * @package Arp\DateTime
- */
 final class DateTimeZoneFactory implements DateTimeZoneFactoryInterface
 {
     /**
-     * @var string
+     * @var class-string<\DateTimeZone>
      */
     private string $dateTimeZoneClassName;
 
     /**
-     * @param string|null $dateTimeZoneClassName
-     *
      * @throws DateTimeZoneFactoryException
      */
     public function __construct(string $dateTimeZoneClassName = null)
@@ -37,27 +31,16 @@ final class DateTimeZoneFactory implements DateTimeZoneFactoryInterface
     }
 
     /**
-     * @param string $spec The date time zone specification
-     *
-     * @return \DateTimeZone
-     *
-     * @throws DateTimeZoneFactoryException If the \DateTimeZone cannot be created
+     * @throws DateTimeZoneFactoryException
      */
     public function createDateTimeZone(string $spec): \DateTimeZone
     {
         try {
-            /** @var \DateTimeZone $dateTimeZone */
-            /** @noinspection PhpUnnecessaryLocalVariableInspection */
-            /** @noinspection OneTimeUseVariablesInspection */
-            $dateTimeZone = new $this->dateTimeZoneClassName($spec);
-            return $dateTimeZone;
+            /** @throws \Exception */
+            return new $this->dateTimeZoneClassName($spec);
         } catch (\Exception $e) {
             throw new DateTimeZoneFactoryException(
-                sprintf(
-                    'Failed to create a valid \DateTimeZone instance using \'%s\': %s',
-                    $spec,
-                    $e->getMessage()
-                ),
+                sprintf('Failed to create a valid \DateTimeZone instance using \'%s\'', $spec),
                 $e->getCode(),
                 $e
             );
