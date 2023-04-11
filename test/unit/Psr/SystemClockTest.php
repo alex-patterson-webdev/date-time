@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ArpTest\DateTime\Psr;
 
-use _PHPStan_950705577\React\Http\Io\Clock;
 use Arp\DateTime\DateTimeImmutableFactory;
 use Arp\DateTime\Psr\SystemClock;
 use PHPUnit\Framework\MockObject\MockObject;

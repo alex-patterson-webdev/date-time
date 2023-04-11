@@ -142,7 +142,7 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * Assert that a DateTimeFactoryException will be thrown when providing a invalid \DateTimeZone object to
+     * Assert that a DateTimeFactoryException will be thrown when providing an invalid \DateTimeZone object to
      * createFromFormat()
      *
      * @throws DateTimeFactoryException
@@ -207,7 +207,7 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * Assert that a DateTimeFactoryException will be thrown when providing a invalid \DateTimeZone object to
+     * Assert that a DateTimeFactoryException will be thrown when providing an invalid \DateTimeZone object to
      * createDateTime()
      *
      * @throws DateTimeFactoryException
